@@ -1,21 +1,26 @@
-# Nepal Map
+# Janaganana
 
-The Nepal instance of [Wazimap](https://github.com/Code4SA/wazimap), a Django application for exploring census and other similar data.
+The Indian instance of [Wazimap](https://github.com/Code4SA/wazimap), a Django application for exploring census and other similar data.
 
 # Local development
 
 1. clone the repo
-2. ``cd nepalmap``
-2. ``mkvirtualenv nepalmap``
+2. ``cd janaganana``
+2. ``virtualenv env``
 3. ``pip install -r requirements.txt``
 
 You will need a Postgres database:
 
+
 ```
+createuser -P factlyin
+createdb -O factlyin factlyin
+
 psql -U postgres
-create user wazimap_np with password 'wazimap_np';
-create database wazimap_np;
-grant all privileges on database wazimap_np to wazimap_np;
+grant all privileges on database factlyin to factlyin;
+
+
+
 ```
 
 Run migrations to keep Django happy:
@@ -25,7 +30,7 @@ python manage.py migrate
 
 Import the data into the new database (will overwrite some tables created by Django, but that's ok).
 ```
-cat sql/*.sql | psql -U wazimap_np -W wazimap_np
+cat sql/*.sql | psql -U factlyin -W factlyin
 ```
 
 Start the server:
@@ -36,4 +41,4 @@ python manage.py runserver
 
 # License
 
-NepalMap code is licensed under the MIT License.
+Janaganana code is licensed under the MIT License.
