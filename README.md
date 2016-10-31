@@ -4,9 +4,10 @@ The Indian instance of [Wazimap](https://github.com/Code4SA/wazimap), a Django a
 
 # Local development
 
-1. clone the repo
+1. clone the repo : `` git clone https://github.com/mthipparthi/janaganana.git``
 2. ``cd janaganana``
-2. ``virtualenv env``
+3. ``virtualenv env``
+4. ``source env/bin/activate``
 3. ``pip install -r requirements.txt``
 
 You will need a Postgres database:
