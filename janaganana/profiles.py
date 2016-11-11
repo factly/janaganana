@@ -377,7 +377,7 @@ def get_education_profile(geo_code, geo_level, session):
 
 
 
-RURAL_POPULATION_RECODES = OrderedDict([
+POPULATION_SEX_RECODES = OrderedDict([
     ('FEMALE', 'Female'),
     ('MALE', 'Male')
 ])
@@ -387,54 +387,53 @@ POPULATION_AREA_RECODES = OrderedDict([
     ('URBAN', 'Urban')
 ])
 
+
+LITERACY_RECODES = OrderedDict([
+    ('LITERATE', 'Literate'),
+    ('ILLITERATE', 'Illiterate')
+])
+
 def get_demographics_profile(geo_code, geo_level, session):
 
-    # sex_dist_data, total_pop = get_stat_data(
-    #     'rural population', geo_level, geo_code, session,
-    #     recode=dict(RURAL_POPULATION_RECODES),
-    #     key_order=RURAL_POPULATION_RECODES.values(),
-    #     table_name="ruralpopulation")
-
-    # key_order = {'sex': ['Female', 'Male']}
-
-    # model_ruralpopulation = get_model_from_fields(None, geo_level, table_name="ruralpopulation")
-    # objects = get_objects_by_geo(model_ruralpopulation, geo_code, geo_level, session)
-
-    sex_dist_data, _ = get_stat_data(
-        'sex', geo_level, geo_code, session,
-        recode=dict(POPULATION_AREA_RECODES),
-        key_order=POPULATION_AREA_RECODES.values(),
-        table_name="area_sex")
-
-    area_dist_data, total_population_by_area = get_stat_data(
+    population_by_area_dist_data, total_population_by_area = get_stat_data(
         'area', geo_level, geo_code, session,
         recode=dict(POPULATION_AREA_RECODES),
         key_order=POPULATION_AREA_RECODES.values(),
-        table_name="area_sex")
+        table_fields=['area', 'sex'])
 
+    population_by_sex_dist_data, _ = get_stat_data(
+        'sex', geo_level, geo_code, session,
+        recode=dict(POPULATION_SEX_RECODES),
+        key_order=POPULATION_SEX_RECODES.values(),
+        table_fields=['area', 'sex'])
+
+    literacy_dist_data, _ = get_stat_data(
+        'literacy', geo_level, geo_code, session,
+        recode=dict(LITERACY_RECODES),
+        key_order=LITERACY_RECODES.values(),
+        table_fields=['area', 'literacy', 'sex'])
 
     literacy_by_sex, t_lit = get_stat_data(
-        ['area', 'sex'], geo_level, geo_code, session,
+        ['sex', 'literacy'], geo_level, geo_code, session,
+        table_fields=['area', 'literacy', 'sex'],
+        recode={'literacy': dict(LITERACY_RECODES)},
+        key_order={'literacy': LITERACY_RECODES.values()},
+        percent_grouping=['sex'])
+
+    literacy_by_area, t_lit = get_stat_data(
+        ['area', 'literacy'], geo_level, geo_code, session,
+        table_fields=['area', 'literacy', 'sex'],
         recode={'area': dict(POPULATION_AREA_RECODES)},
-        key_order={
-            'area': POPULATION_AREA_RECODES.values(),
-            'sex': ['Female', 'Male']},
+        key_order={'area': POPULATION_AREA_RECODES.values()},
         percent_grouping=['area'])
 
-    # literacy_distribution, _ = get_stat_data(
-    #     ['area', 'sex'], geo_level, geo_code, session,
-    #     recode=dict(POPULATION_AREA_RECODES),
-    #     key_order=POPULATION_AREA_RECODES.values(),
-    #     table_name="area_sex")
-
-
-    # area_dist_data, total_population_by_area = get_stat_data(
-    #     'area', geo_level, geo_code, session)
-
     final_data = {
-        'sex_ratio': sex_dist_data,
-        'area_ratio': area_dist_data,
+        # 'sex_ratio': sex_dist_data,
+        'population_area_ratio': population_by_area_dist_data,
+        'population_sex_ratio': population_by_sex_dist_data,
         'literacy_by_sex_distribution': literacy_by_sex,
+        'literacy_ratio': literacy_dist_data,
+        'literacy_by_area_distribution': literacy_by_area,
         'disability_ratio': 123,
         'total_population': {
             "name": "People",

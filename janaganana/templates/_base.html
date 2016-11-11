@@ -25,7 +25,7 @@
             {% block nav_tools %}
             <div id="menu" class="tool-set clearfix">
                 <div class="tool-group">
-                    <input name="geography_select" id="geography-select" type="text" placeholder="Start typing a place name or address..." autocomplete="off">
+                    <input name="geography_select" id="geography-select" type="text" placeholder="Start typing a State/District name" autocomplete="off">
                 </div>
                 {% if not hide_nav_compare %}
                 {% comment %}
@@ -70,7 +70,7 @@
 <div class="column-quarter">
     <ul class="ul-icon-list">
         <li>
-            <i class="fa fa-th-list"></i> <a href="http://www.codefornepal.org" target="_blank">Code For Nepal</a>
+            <i class="fa fa-th-list"></i> <a href="http://www.factly.in" target="_blank">Factly</a>
         </li>
         <li>
             <i class="fa fa-envelope"></i> <a href="mailto:{{ WAZIMAP.email }}">Email us</a>
@@ -80,7 +80,7 @@
 <div class="column-quarter">
     <ul class="ul-icon-list">
         <li>
-            <i class="fa fa-github"></i> <a href="{{ WAZIMAP.github }}" target="_blank">NepalMap on Github</a>
+            <i class="fa fa-github"></i> <a href="{{ WAZIMAP.github }}" target="_blank">JanaGanana on Github</a>
         </li>
         <li>
             <i class="fa fa-github"></i> Built on <a href="http://censusreporter.org" target="_blank">CensusReporter.org</a>
@@ -91,7 +91,7 @@
     <ul class="ul-icon-list">
         {% block footer_branding %}
         <li>
-            <a href="http://www.factly.in/" target="_blank"><img src="{% static 'img/codefornepal-logo-small.png' %}"></a>
+            <a href="http://www.factly.in/" target="_blank"></a>
         </li>
         {% endblock %}
     </ul>

@@ -8,6 +8,7 @@ from geojson import FeatureCollection
 
 name_list = []
 def format_output_json(feature , static_data, area):
+    name2 = ""
     if area == "district":
         name = feature.properties.get('NAME_2').replace(' and ' , ' & ').lower()
         name2 = feature.properties.get('VARNAME_2', None)

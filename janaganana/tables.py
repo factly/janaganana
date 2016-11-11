@@ -37,3 +37,5 @@ FieldTable(['disability', 'sex'], universe='Population', table_per_level=False)
 FieldTable(['rural population'], universe='Population', table_per_level=False)
 
 FieldTable(['area', 'sex'], universe='Population', table_per_level=False)
+
+FieldTable(['area', 'sex', 'literacy'], universe='Population', table_per_level=False)

@@ -90,3 +90,5 @@ ENV/
 
 data/pandas-refrence
 .idea
+
+static

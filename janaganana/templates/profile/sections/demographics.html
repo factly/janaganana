@@ -10,14 +10,20 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=demographics.total_population stat_type='number' %}
             </div>
 
-            <div class="column-quarter" id="chart-pie-demographics-sex_ratio" data-stat-type="percentage" data-chart-title="Sex"></div>
-            <div class="column-quarter" id="chart-pie-demographics-area_ratio" data-stat-type="percentage" data-chart-title="Area"></div>
+            <div class="column-third" id="chart-pie-demographics-population_sex_ratio" data-stat-type="percentage" data-chart-title="Sex"></div>
+            <div class="column-third" id="chart-pie-demographics-population_area_ratio" data-stat-type="percentage" data-chart-title="Area"></div>
+
         </section>
-       <section class="clearfix stat-row">
-            <div class="column-two-thirds"
-                 id="chart-grouped_column-demographics-literacy_by_sex_distribution"
-                 data-stat-type="scaled-percentage" data-chart-title="Area by sex"
-                 data-qualifier="Universe: {{ demographics.literacy_by_sex_distribution.metadata.universe }}"></div>
+
+        <section class="clearfix stat-row">
+
+          <h2><a class="permalink" href="#literacy-by-area" id="literacy-by-area">Literacy <i class="fa fa-link"></i></a></h2>
+            <div class="column-third" id="chart-pie-demographics-literacy_ratio" data-stat-type="percentage" data-chart-title="Literacy"></div>
+
+            <div class="column-third" id="chart-grouped_column-demographics-literacy_by_area_distribution" data-stat-type="scaled-percentage" data-chart-title="Literacy rate by area" data-qualifier="Universe: {{ demographics.literacy_by_sex_distribution.metadata.universe }}"></div>
+
+            <div class="column-third" id="chart-grouped_column-demographics-literacy_by_sex_distribution" data-stat-type="scaled-percentage" data-chart-title="Literacy rate by sex" data-qualifier="Universe: {{ demographics.literacy_by_sex_distribution.metadata.universe }}"></div>
+
         </section>
 
     </div>
