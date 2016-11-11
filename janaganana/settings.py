@@ -55,19 +55,3 @@ WAZIMAP['tagline'] = 'Make sense of Indian census data'
 STATICFILES_DIRS = (
     os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static'),
 )
-
-# import os
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# # Additional locations of static files
-#
-#
-# # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static'),
-# ]
-#
-# # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
-# STATICFILES_FINDERS = [
-#     'django.contrib.staticfiles.finders.FileSystemFinder',
-#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-# ]
