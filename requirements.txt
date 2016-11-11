@@ -29,3 +29,6 @@ wazimap==0.5.2
 wheel==0.24.0
 whitenoise==3.2.2
 xlrd==1.0.0
+gevent==1.0.1
+greenlet==0.4.6
+newrelic==2.40.0.34
