@@ -1,0 +1,207 @@
+    1  cls
+    2  clear
+    3  ls -ltr
+    4  sudo apt-get update
+    5  git
+    6  cls
+    7  ls -ltr
+    8  pwd
+    9  git clone https://github.com/mthipparthi/janaganana.git
+   10  cls
+   11  alias cls='clear'
+   12  cls
+   13  ls -ltr
+   14  sudo apt install -y libgdal-dev postgresql-server-dev-9.5
+   15  cls
+   16  ls -ltr
+   17  python -v
+   18  python
+   19  python3
+   20  cls
+   21  sudo apt-get install python2.7
+   22  sudo apt-get uninstall python2.7
+   23  cls
+   24  python
+   25  virtualenv
+   26  cls
+   27  pwd
+   28  python
+   29  echo $PYTHON_PATH
+   30  echo $PYTHONPATH
+   31  echo $PATH
+   32  sudo apt-get install python2.7
+   33  python
+   34  sudo apt-get remove python3 python-minimal
+   35  cls
+   36  ls -ltr
+   37  python
+   38  sudo apt-get install python2.7
+   39  echo $PYTHONPATH
+   40  cls
+   41  cd /usr/local/
+   42  ls -ltr
+   43  cd bin
+   44  ls -ltr
+   45  cd //
+   46  cd
+   47  cls
+   48  ls -ltr
+   49  wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py
+   50  ls -ltr
+   51  mkdir tools
+   52  mv get-pip.py ./tools/
+   53  cd tools/
+   54  cls
+   55  ls -ltr
+   56  sudo python get-pip.py
+   57  cd
+   58  cd $PATH
+   59  echo $PATH
+   60  sudo apt-get remove python2.7
+   61  cls
+   62  wget http://www.python.org/ftp/python/2.7.10/Python-2.7.10.tgz
+   63  pwd
+   64  ls -ltr
+   65  mv  Python-2.7.10.tgz ./tools/
+   66  cd tools/
+   67  cls
+   68  ls -ltr
+   69  gunzip Python-2.7.10.tgz
+   70  cls
+   71  ls -ltr
+   72  tar -xvf Python-2.7.10.tar
+   73  cls
+   74  ls -ltr
+   75  cd Python-2.7.10/
+   76  cls
+   77  ls -ltr
+   78  ./configure,make;make install
+   79  cls
+   80  ls -ltr
+   81  ./configure
+   82  make;make install
+   83  make
+   84  sudo make install
+   85  cd /usr/local/bin
+   86  ls -ltr
+   87  cd
+   88  pwd
+   89  cls
+   90  ls -ltr
+   91  cd tools/
+   92  cls
+   93  ls -ltr
+   94  python
+   95  cls
+   96  ls -ltr
+   97  pip install requests
+   98  python get-pip.py
+   99  wget https://bootstrap.pypa.io/get-pip.py
+  100  cls
+  101  ls -ltr
+  102  mv get-pip.py.1 get-pip_2.py
+  103  python get-pip_2.py
+  104  sudo python get-pip_2.py
+  105  cls
+  106  pip
+  107  cls
+  108  ls -ltr
+  109  sudo pip install virtualenv
+  110  cd ../
+  111  cls
+  112  ls -ltr
+  113  virtualenv venv
+  114  source venv/bin/activate
+  115  cls
+  116  ls -ltr
+  117  cd janaganana/
+  118  ls -ltr
+  119  sudo apt-get install libpq-dev python-dev
+  120  cls
+  121  ls -ltr
+  122  sudo apt install -y libgdal-dev postgresql-server-dev-9.5
+  123  pip install -r requirements.txt
+  124  export C_INCLUDE_PATH=/usr/include/gdal
+  125  export CPLUS_INCLUDE_PATH=/usr/include/gdal
+  126  pip install -r requirements.txt
+  127  which psql
+  128  sudo su — postgres
+  129  cls
+  130  sudo postgres
+  131  createdb
+  132  postgres --version
+  133  which psql
+  134  psql --version
+  135  sudo apt-get install postgresql-client-9.5
+  136  cls
+  137  ls -ltr
+  138  createdb
+  139  initdb /usr/local/var/postgres -E utf8
+  140  sudo apt-get install nginx
+  141  cls
+  142  pip install gunicorn
+  143  sudo /etc/init.d/postgresql restart
+  144  history -10000
+  145  history -1000
+  146  history
+
+
+  buntu@ip-172-31-12-202:/usr/local/etc$ sudo su - postgres
+postgres@ip-172-31-12-202:~$ createdb factlyin
+postgres@ip-172-31-12-202:~$ createuser -P factlyin
+Enter password for new role:
+Enter it again:
+postgres@ip-172-31-12-202:~$ psql
+psql (9.5.5)
+Type "help" for help.
+
+postgres=# GRANT ALL PRIVILEGES ON DATABASE factlyin to postgres;
+GRANT
+postgres=# GRANT ALL PRIVILEGES ON DATABASE factlyin to ubuntu;
+ERROR:  role "ubuntu" does not exist
+postgres=# GRANT ALL PRIVILEGES ON DATABASE factlyin to factlyin;
+GRANT
+postgres=# ^C
+postgres=# \q
+postgres@ip-172-31-12-202:~$ createuser -P ubuntu
+Enter password for new role:
+Enter it again:
+postgres@ip-172-31-12-202:~$ psql
+psql (9.5.5)
+Type "help" for help.
+
+postgres=# GRANT ALL PRIVILEGES ON DATABASE factlyin to ubuntu;
+GRANT
+postgres=# \q
+postgres@ip-172-31-12-202:~$ psql -U factlyin
+psql: FATAL:  Peer authentication failed for user "factlyin"
+postgres@ip-172-31-12-202:~$ logot
+-su: logot: command not found
+postgres@ip-172-31-12-202:~$ logout
+
+http://stackoverflow.com/questions/17443379/psql-fatal-peer-authentication-failed-for-user-dev
+
+psql -U factlyin -d factlyin -h localhost -a -f rural_population.sql
+
+/home/ubuntu/janaganana/static
+
+
+gunicorn --worker-class gevent wazimap.wsgi:application -t 120 --bind localhost:8001
+
+
+gunicorn_django --workers=3 --user=nobody --bind localhost:8001
+
+
+(venv) ubuntu@ip-172-31-12-202:/etc/nginx/sites-available$ gunicorn --worker-class gevent janaganana.wsgi:application -t 120 --bind localhost:8001^C
+(venv) ubuntu@ip-172-31-12-202:/etc/nginx/sites-available$ ^C
+(venv) ubuntu@ip-172-31-12-202:/etc/nginx/sites-available$ ps -ef |grep "nginx"
+root     22400     1  0 12:43 ?        00:00:00 nginx: master process /usr/sbin/nginx -g daemon on; master_process on;
+www-data 22401 22400  0 12:43 ?        00:00:00 nginx: worker process
+ubuntu   22595 21721  0 13:08 pts/1    00:00:00 grep --color=auto nginx
+(venv) ubuntu@ip-172-31-12-202:/etc/nginx/sites-available$ sudo service nginx restart;
+(venv) ubuntu@ip-172-31-12-202:/etc/nginx/sites-available$ ps -ef |grep "nginx"
+root     22618     1  0 13:08 ?        00:00:00 nginx: master process /usr/sbin/nginx -g daemon on; master_process on;
+www-data 22619 22618  0 13:08 ?        00:00:00 nginx: worker process
+ubuntu   22621 21721  0 13:08 pts/1    00:00:00 grep --color=auto nginx
+(venv) ubuntu@ip-172-31-12-202:/etc/nginx/sites-available$ logout
+Connection to ec2-54-206-125-121.ap-southeast-2.compute.amazonaws.com closed.
