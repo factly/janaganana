@@ -39,3 +39,7 @@ FieldTable(['rural population'], universe='Population', table_per_level=False)
 FieldTable(['area', 'sex'], universe='Population', table_per_level=False)
 
 FieldTable(['area', 'sex', 'literacy'], universe='Population', table_per_level=False)
+
+FieldTable(['religion', 'area', 'sex'], universe='Religion', table_per_level=False)
+
+FieldTable(['age', 'area', 'sex'], universe='Age', table_per_level=False)

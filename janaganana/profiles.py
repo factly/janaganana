@@ -10,7 +10,8 @@ import janaganana.tables  # noqa
 
 PROFILE_SECTIONS = (
     'demographics',
-    'chumma'
+    'religion',
+    'age'
 )
 
 # Household recodes
@@ -377,12 +378,12 @@ def get_education_profile(geo_code, geo_level, session):
 
 
 
-POPULATION_SEX_RECODES = OrderedDict([
+SEX_RECODES = OrderedDict([
     ('FEMALE', 'Female'),
     ('MALE', 'Male')
 ])
 
-POPULATION_AREA_RECODES = OrderedDict([
+AREA_RECODES = OrderedDict([
     ('RURAL', 'Rural'),
     ('URBAN', 'Urban')
 ])
@@ -397,14 +398,14 @@ def get_demographics_profile(geo_code, geo_level, session):
 
     population_by_area_dist_data, total_population_by_area = get_stat_data(
         'area', geo_level, geo_code, session,
-        recode=dict(POPULATION_AREA_RECODES),
-        key_order=POPULATION_AREA_RECODES.values(),
+        recode=dict(AREA_RECODES),
+        key_order=AREA_RECODES.values(),
         table_fields=['area', 'sex'])
 
     population_by_sex_dist_data, _ = get_stat_data(
         'sex', geo_level, geo_code, session,
-        recode=dict(POPULATION_SEX_RECODES),
-        key_order=POPULATION_SEX_RECODES.values(),
+        recode=dict(SEX_RECODES),
+        key_order=SEX_RECODES.values(),
         table_fields=['area', 'sex'])
 
     literacy_dist_data, _ = get_stat_data(
@@ -423,8 +424,8 @@ def get_demographics_profile(geo_code, geo_level, session):
     literacy_by_area, t_lit = get_stat_data(
         ['area', 'literacy'], geo_level, geo_code, session,
         table_fields=['area', 'literacy', 'sex'],
-        recode={'area': dict(POPULATION_AREA_RECODES)},
-        key_order={'area': POPULATION_AREA_RECODES.values()},
+        recode={'area': dict(AREA_RECODES)},
+        key_order={'area': AREA_RECODES.values()},
         percent_grouping=['area'])
 
     final_data = {
@@ -448,6 +449,75 @@ def get_demographics_profile(geo_code, geo_level, session):
 
     return final_data
 
-def get_chumma_profile(geo_code, geo_level, session):
-    final_data = {}
+def get_religion_profile(geo_code, geo_level, session):
+
+    religion_dist_data, _ = get_stat_data(
+        'religion', geo_level, geo_code, session,
+        # recode=dict(LITERACY_RECODES),
+        # key_order=LITERACY_RECODES.values(),
+        table_fields=['area', 'religion', 'sex'])
+
+    religion_by_sex, t_lit = get_stat_data(
+        ['sex', 'religion'], geo_level, geo_code, session,
+        table_fields=['area', 'religion', 'sex'],
+        # recode={'religion': dict(LITERACY_RECODES)},
+        # key_order={'religion': LITERACY_RECODES.values()},
+        percent_grouping=['sex'])
+
+    religion_by_area, t_lit = get_stat_data(
+        ['area', 'religion'], geo_level, geo_code, session,
+        table_fields=['area', 'religion', 'sex'],
+        recode={'area': dict(AREA_RECODES)},
+        key_order={'area': AREA_RECODES.values()},
+        percent_grouping=['area'])
+
+    total_population_by_area=10000000000
+
+    final_data = {
+        'religion_ratio': religion_dist_data,
+        'religion_by_area_distribution': religion_by_area,
+        'religion_by_sex_distribution':religion_by_sex,
+        'disability_ratio': 123,
+        'total_population': {
+            "name": "People",
+            "values": {"this": t_lit}
+        }
+    }
+
+    return final_data
+
+def get_age_profile(geo_code, geo_level, session):
+    age_dist_data, _ = get_stat_data(
+        'age', geo_level, geo_code, session,
+        # recode=dict(LITERACY_RECODES),
+        # key_order=LITERACY_RECODES.values(),
+        table_fields=['area', 'age', 'sex'])
+
+    age_by_sex, t_lit = get_stat_data(
+        ['sex', 'age'], geo_level, geo_code, session,
+        table_fields=['area', 'age', 'sex'],
+        # recode={'religion': dict(LITERACY_RECODES)},
+        # key_order={'religion': LITERACY_RECODES.values()},
+        percent_grouping=['sex'])
+
+    age_by_area, t_lit = get_stat_data(
+        ['area', 'age'], geo_level, geo_code, session,
+        table_fields=['area', 'age', 'sex'],
+        recode={'area': dict(AREA_RECODES)},
+        key_order={'area': AREA_RECODES.values()},
+        percent_grouping=['area'])
+
+    total_population_by_area=10000000000
+
+    final_data = {
+        'age_ratio': age_dist_data,
+        'age_by_area_distribution': age_by_area,
+        'age_by_sex_distribution': age_by_sex,
+        'disability_ratio': 123,
+        'total_population': {
+            "name": "People",
+            "values": {"this": t_lit}
+        }
+    }
+
     return final_data
