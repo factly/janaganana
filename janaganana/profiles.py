@@ -394,6 +394,16 @@ LITERACY_RECODES = OrderedDict([
     ('ILLITERATE', 'Illiterate')
 ])
 
+RELIGION_RECODES = OrderedDict([
+    ('HINDU', 'Hindu'),
+    ('MUSLIM', 'Muslim'),
+    ('CHRISTIAN', 'Christian'),
+    ('SIKH', 'Sikh'),
+    ('JAIN', 'Jain'),
+    ('BUDDHIST', 'Buddhist'),
+    ('OTHERS', 'Other')
+])
+
 def get_demographics_profile(geo_code, geo_level, session):
 
     population_by_area_dist_data, total_population_by_area = get_stat_data(
@@ -453,15 +463,15 @@ def get_religion_profile(geo_code, geo_level, session):
 
     religion_dist_data, _ = get_stat_data(
         'religion', geo_level, geo_code, session,
-        # recode=dict(LITERACY_RECODES),
-        # key_order=LITERACY_RECODES.values(),
+        # recode=dict(RELIGION_RECODES),
+        # key_order=RELIGION_RECODES.values(),
         table_fields=['area', 'religion', 'sex'])
 
     religion_by_sex, t_lit = get_stat_data(
         ['sex', 'religion'], geo_level, geo_code, session,
         table_fields=['area', 'religion', 'sex'],
-        # recode={'religion': dict(LITERACY_RECODES)},
-        # key_order={'religion': LITERACY_RECODES.values()},
+        # recode={'religion': dict(RELIGION_RECODES)},
+        # key_order={'religion': RELIGION_RECODES.values()},
         percent_grouping=['sex'])
 
     religion_by_area, t_lit = get_stat_data(
@@ -487,23 +497,80 @@ def get_religion_profile(geo_code, geo_level, session):
     return final_data
 
 def get_age_profile(geo_code, geo_level, session):
+
+    # age category
+    def age_cat_recode(f, x):
+
+        if x.endswith('+'):
+            age = 80
+        elif x == 'Age not stated':
+            age = 65
+        else:
+            age = int(x.split('-')[0])
+
+        if age < 18:
+            return 'Under 18'
+        elif age >= 65:
+            return '65 and over'
+        elif age >= 40:
+            return '40 and 65'
+        else:
+            return '18 to 40'
+
+
+
+    # age in 10 year groups
+    def age_recode(f, x):
+        if x.endswith('+'):
+            age = int(x.replace('+', ''))
+        elif x == 'Age not stated':
+            return x
+        else:
+            age = int(x.split('-')[0])
+        if age >= 80:
+            return '80+'
+        bucket = 10 * (age / 10)
+        return '%d-%d' % (bucket, bucket + 9)
+
+    # age in 10 year groups
+    def age_recode_2(f, x):
+
+        if f in ('sex', 'area'):
+            return x
+
+        if x.endswith('+'):
+            age = int(x.replace('+', ''))
+        elif x == 'Age not stated':
+            return x
+        else:
+            age = int(x.split('-')[0])
+
+        if age >= 80:
+            return '80+'
+        bucket = 10 * (age / 10)
+        return '%d-%d' % (bucket, bucket + 9)
+
     age_dist_data, _ = get_stat_data(
         'age', geo_level, geo_code, session,
-        # recode=dict(LITERACY_RECODES),
-        # key_order=LITERACY_RECODES.values(),
-        table_fields=['area', 'age', 'sex'])
+        table_fields=['area', 'age', 'sex'],
+        recode=age_cat_recode)
+
+    # age_dist_data, _ = get_stat_data(
+    #     'age', geo_level, geo_code, session,
+    #     # recode=dict(LITERACY_RECODES),
+    #     # key_order=LITERACY_RECODES.values(),
+    #     table_fields=['area', 'age', 'sex'])
 
     age_by_sex, t_lit = get_stat_data(
-        ['sex', 'age'], geo_level, geo_code, session,
+        ['age', 'sex'], geo_level, geo_code, session,
         table_fields=['area', 'age', 'sex'],
-        # recode={'religion': dict(LITERACY_RECODES)},
-        # key_order={'religion': LITERACY_RECODES.values()},
+        recode=age_recode_2,
         percent_grouping=['sex'])
 
     age_by_area, t_lit = get_stat_data(
-        ['area', 'age'], geo_level, geo_code, session,
+        ['age', 'area'], geo_level, geo_code, session,
         table_fields=['area', 'age', 'sex'],
-        recode={'area': dict(AREA_RECODES)},
+        recode=age_recode_2,
         key_order={'area': AREA_RECODES.values()},
         percent_grouping=['area'])
 
