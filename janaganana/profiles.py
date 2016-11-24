@@ -131,6 +131,14 @@ SCHOOL_ATTENDANCE_RECODES = OrderedDict([
 ])
 
 
+def sort_first_order_od(ip):
+    metadata = ip['metadata']
+    del ip['metadata']
+    sorted_od = sorted(ip.values(), key=lambda x: x['numerators']['this'], reverse=True)
+    rv = OrderedDict([(i['name'], i) for i in sorted_od])
+    rv['metadata'] = metadata
+    return rv
+
 def get_census_profile(geo_code, geo_level, profile_name=None):
     session = get_session()
 
@@ -152,230 +160,6 @@ def get_census_profile(geo_code, geo_level, profile_name=None):
 
     finally:
         session.close()
-
-def get_households_profile(geo_code, geo_level, session):
-
-    # cooking fuel
-    cooking_fuel_dict, total_households = get_stat_data(
-        'main type of cooking fuel', geo_level, geo_code, session,
-        recode=dict(COOKING_FUEL_RECODES),
-        key_order=COOKING_FUEL_RECODES.values())
-    total_wood = cooking_fuel_dict['Wood']['numerators']['this']
-
-    # foundation type
-    foundation_type_dict, _ = get_stat_data(
-        'foundation type', geo_level, geo_code, session,
-        recode=dict(FOUNDATION_TYPE_RECODES),
-        key_order=FOUNDATION_TYPE_RECODES.values())
-    total_mud_bonded_foundation = \
-        foundation_type_dict['Mud Bonded']['numerators']['this']
-
-    # outer wall type
-    outer_wall_type_dict, _ = get_stat_data(
-        'outer wall type', geo_level, geo_code, session,
-        recode=dict(OUTER_WALL_TYPE_RECODES),
-        key_order=OUTER_WALL_TYPE_RECODES.values())
-    total_mud_bonded_wall = \
-        outer_wall_type_dict['Mud Bonded']['numerators']['this']
-
-    # roof type
-    roof_type_dict, _ = get_stat_data(
-        'roof type', geo_level, geo_code, session,
-        recode=dict(ROOF_TYPE_RECODES),
-        key_order=ROOF_TYPE_RECODES.values())
-    total_galvanized_roof =\
-        roof_type_dict['Galvanized Iron']['numerators']['this']
-
-    # toilet type
-    toilet_type_dict, _ = get_stat_data(
-        'toilet type', geo_level, geo_code, session,
-        recode=dict(TOILET_TYPE_RECODES),
-        key_order=TOILET_TYPE_RECODES.values())
-    total_flush_toilet = toilet_type_dict['Flush']['numerators']['this']
-
-    # drinking water source
-    drinking_water_dict, _ = get_stat_data(
-        'drinking water source', geo_level, geo_code, session,
-        recode=dict(DRINKING_WATER_RECODES),
-        key_order=DRINKING_WATER_RECODES.values())
-    total_piped_tap = drinking_water_dict['Piped Tap']['numerators']['this']
-
-    # lighting fuel
-    lighting_fuel_dict, _ = get_stat_data(
-        'lighting fuel', geo_level, geo_code, session,
-        recode=dict(LIGHTING_FUEL_RECODES),
-        key_order=LIGHTING_FUEL_RECODES.values())
-    total_electricity = lighting_fuel_dict['Electricity']['numerators']['this']
-
-    # home ownership
-    home_ownership_dict, _ = get_stat_data(
-        'home ownership', geo_level, geo_code, session,
-        recode=dict(HOME_OWNERSHIP_RECODES),
-        key_order=HOME_OWNERSHIP_RECODES.values())
-    total_own_home = home_ownership_dict['Owned']['numerators']['this']
-
-    return {
-        'total_households': {
-            'name': 'Households',
-            'values': {'this': total_households}
-        },
-        'cooking_fuel_distribution': cooking_fuel_dict,
-        'cooking_wood': {
-            'name': 'Use wood for cooking',
-            'numerators': {'this': total_wood},
-            'values': {'this': round(total_wood / total_households * 100, 2)},
-        },
-        'foundation_type_distribution': foundation_type_dict,
-        'mud_bonded_foundation': {
-            'name': 'Have a mud-bonded foundation',
-            'numerators': {'this': total_mud_bonded_foundation},
-            'values':
-                {'this': round(
-                    total_mud_bonded_foundation / total_households * 100, 2)},
-        },
-        'outer_wall_type_distribution': outer_wall_type_dict,
-        'mud_bonded_wall': {
-            'name': 'Have mud-bonded walls',
-            'numerators': {'this': total_mud_bonded_wall},
-            'values':
-                {'this': round(
-                    total_mud_bonded_wall / total_households * 100, 2)},
-        },
-        'roof_type_distribution': roof_type_dict,
-        'galvanized_roof': {
-            'name': 'Have a galvanized iron roof',
-            'numerators': {'this': total_galvanized_roof},
-            'values':
-                {'this': round(
-                    total_galvanized_roof / total_households * 100, 2)},
-        },
-        'toilet_type_distribution': toilet_type_dict,
-        'flush_toilet': {
-            'name': 'Have a flush toilet',
-            'numerators': {'this': total_flush_toilet},
-            'values':
-                {'this': round(
-                    total_flush_toilet / total_households * 100, 2)},
-        },
-        'drinking_water_distribution': drinking_water_dict,
-        'piped_tap': {
-            'name': 'Use piped tap water for drinking',
-            'numerators': {'this': total_piped_tap},
-            'values':
-                {'this': round(
-                    total_piped_tap / total_households * 100, 2)},
-        },
-        'lighting_fuel_distribution': lighting_fuel_dict,
-        'lighting_electricity': {
-            'name': 'Use electricity for lighting',
-            'numerators': {'this': total_electricity},
-            'values':
-                {'this': round(
-                    total_electricity / total_households * 100, 2)},
-        },
-        'home_ownership_distribution': home_ownership_dict,
-        'own_home': {
-            'name': 'Own their own home',
-            'numerators': {'this': total_own_home},
-            'values':
-                {'this': round(
-                    total_own_home / total_households * 100, 2)},
-        }
-    }
-
-
-def get_education_profile(geo_code, geo_level, session):
-    edu_level_reached, pop_five_and_older = get_stat_data(
-        'education level passed', geo_level, geo_code, session,
-        recode=dict(EDUCATION_LEVEL_PASSED_RECODES),
-        key_order=EDUCATION_LEVEL_PASSED_RECODES.values())
-
-    total_primary = 0.0
-    for key, data in edu_level_reached.iteritems():
-        if 'Primary' == key:
-            total_primary += data['numerators']['this']
-
-    all_edu_level_by_sex, _ = get_stat_data(
-        ['education level passed', 'sex'], geo_level, geo_code, session,
-        recode={
-            'education level passed': dict(EDUCATION_LEVEL_PASSED_RECODES)},
-        key_order={
-            'education level passed': EDUCATION_LEVEL_PASSED_RECODES.values(),
-            'sex': ['Female', 'Male']},
-        percent_grouping=['sex'])
-
-    edu_level_by_sex = {
-        'Primary': all_edu_level_by_sex['Primary'],
-        'Lower Secondary': all_edu_level_by_sex['Lower Secondary'],
-        'Secondary': all_edu_level_by_sex['Secondary'],
-        'SLC': all_edu_level_by_sex['SLC'],
-        'metadata': all_edu_level_by_sex['metadata']
-    }
-
-    total_secondary_by_sex = 0.0
-    for data in edu_level_by_sex['Secondary'].itervalues():
-        if 'numerators' in data:
-            total_secondary_by_sex += data['numerators']['this']
-
-    literacy_by_sex, t_lit = get_stat_data(
-        ['literacy', 'sex'], geo_level, geo_code, session,
-        recode={'literacy': dict(LITERACY_RECODES)},
-        key_order={
-            'literacy': LITERACY_RECODES.values(),
-            'sex': ['Female', 'Male']},
-        percent_grouping=['sex'])
-
-    literacy_dist, _ = get_stat_data(
-        'literacy', geo_level, geo_code, session,
-        recode=dict(LITERACY_RECODES),
-        key_order=LITERACY_RECODES.values())
-
-    school_attendance_by_sex, pop_five_to_twenty_five = get_stat_data(
-        ['school attendance', 'sex'], geo_level, geo_code, session,
-        recode={'school attendance': dict(SCHOOL_ATTENDANCE_RECODES)},
-        key_order={
-            'school attendance': SCHOOL_ATTENDANCE_RECODES.values(),
-            'sex': ['Female', 'Male']},
-        percent_grouping=['sex'])
-
-    school_attendance_dist, _ = get_stat_data(
-        'school attendance', geo_level, geo_code, session,
-        recode=dict(SCHOOL_ATTENDANCE_RECODES),
-        key_order=SCHOOL_ATTENDANCE_RECODES.values())
-
-    education_stats = {
-        'aged_five_and_over': {
-            'name': 'People Aged 5 and Over',
-            'values': {'this': pop_five_and_older}
-        },
-        'aged_five_to_twenty_five': {
-            'name': 'People Aged 5 to 25',
-            'values': {'this': pop_five_to_twenty_five}
-        },
-        'education_level_passed_distribution': edu_level_reached,
-        'primary_level_reached': {
-            'name': 'Have passed the primary level',
-            'numerators': {'this': total_primary},
-            'values': {'this': round(total_primary / pop_five_and_older * 100,
-                                     2)}
-        },
-        'education_level_by_sex_distribution': edu_level_by_sex,
-        'primary_level_reached_by_sex': {
-            'name': 'Have passed the secondary level',
-            'numerators': {'this': total_secondary_by_sex},
-            'values': {
-                'this': round(
-                    total_secondary_by_sex / pop_five_and_older * 100,
-                    2)}
-        },
-        'literacy_by_sex_distribution': literacy_by_sex,
-        'literacy_distribution': literacy_dist,
-        'school_attendance_by_sex_distribution': school_attendance_by_sex,
-        'school_attendance_distribution': school_attendance_dist
-    }
-
-    return education_stats
-
 
 
 SEX_RECODES = OrderedDict([
@@ -412,17 +196,23 @@ def get_demographics_profile(geo_code, geo_level, session):
         key_order=AREA_RECODES.values(),
         table_fields=['area', 'sex'])
 
+    population_by_area_dist_data = sort_first_order_od(population_by_area_dist_data)
+
     population_by_sex_dist_data, _ = get_stat_data(
         'sex', geo_level, geo_code, session,
         recode=dict(SEX_RECODES),
         key_order=SEX_RECODES.values(),
         table_fields=['area', 'sex'])
 
+    population_by_sex_dist_data = sort_first_order_od(population_by_sex_dist_data)
+
     literacy_dist_data, _ = get_stat_data(
         'literacy', geo_level, geo_code, session,
         recode=dict(LITERACY_RECODES),
         key_order=LITERACY_RECODES.values(),
         table_fields=['area', 'literacy', 'sex'])
+
+    literacy_dist_data = sort_first_order_od(literacy_dist_data)
 
     literacy_by_sex, t_lit = get_stat_data(
         ['sex', 'literacy'], geo_level, geo_code, session,
@@ -467,15 +257,18 @@ def get_religion_profile(geo_code, geo_level, session):
         # key_order=RELIGION_RECODES.values(),
         table_fields=['area', 'religion', 'sex'])
 
+    religion_dist_data = sort_first_order_od(religion_dist_data)
+
     religion_by_sex, t_lit = get_stat_data(
-        ['sex', 'religion'], geo_level, geo_code, session,
+        ['religion', 'sex'], geo_level, geo_code, session,
         table_fields=['area', 'religion', 'sex'],
         # recode={'religion': dict(RELIGION_RECODES)},
         # key_order={'religion': RELIGION_RECODES.values()},
+        key_order={'sex': SEX_RECODES.values()},
         percent_grouping=['sex'])
 
     religion_by_area, t_lit = get_stat_data(
-        ['area', 'religion'], geo_level, geo_code, session,
+        ['religion', 'area'], geo_level, geo_code, session,
         table_fields=['area', 'religion', 'sex'],
         recode={'area': dict(AREA_RECODES)},
         key_order={'area': AREA_RECODES.values()},
@@ -555,6 +348,8 @@ def get_age_profile(geo_code, geo_level, session):
         table_fields=['area', 'age', 'sex'],
         recode=age_cat_recode)
 
+    age_dist_data = sort_first_order_od(age_dist_data)
+
     # age_dist_data, _ = get_stat_data(
     #     'age', geo_level, geo_code, session,
     #     # recode=dict(LITERACY_RECODES),
@@ -565,6 +360,7 @@ def get_age_profile(geo_code, geo_level, session):
         ['age', 'sex'], geo_level, geo_code, session,
         table_fields=['area', 'age', 'sex'],
         recode=age_recode_2,
+        key_order={'sex': SEX_RECODES.values()},
         percent_grouping=['sex'])
 
     age_by_area, t_lit = get_stat_data(
