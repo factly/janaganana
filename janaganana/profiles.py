@@ -139,6 +139,15 @@ def sort_first_order_od(ip):
     rv['metadata'] = metadata
     return rv
 
+def sort_second_order_od(ip , key):
+    metadata = ip['metadata']
+    del ip['metadata']
+    sorted_od = sorted(ip.values(), key=lambda x: x[key]['numerators']['this'], reverse=True)
+    rv = OrderedDict([(i['metadata']['name'], i) for i in sorted_od])
+    rv['metadata'] = metadata
+    return rv
+
+
 def get_census_profile(geo_code, geo_level, profile_name=None):
     session = get_session()
 
@@ -267,12 +276,16 @@ def get_religion_profile(geo_code, geo_level, session):
         key_order={'sex': SEX_RECODES.values()},
         percent_grouping=['sex'])
 
+    religion_by_sex = sort_second_order_od(religion_by_sex, 'Female')
+
     religion_by_area, t_lit = get_stat_data(
         ['religion', 'area'], geo_level, geo_code, session,
         table_fields=['area', 'religion', 'sex'],
         recode={'area': dict(AREA_RECODES)},
         key_order={'area': AREA_RECODES.values()},
         percent_grouping=['area'])
+
+    religion_by_area = sort_second_order_od(religion_by_area, 'Urban')
 
     total_population_by_area=10000000000
 
