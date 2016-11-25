@@ -11,96 +11,9 @@ import janaganana.tables  # noqa
 PROFILE_SECTIONS = (
     'demographics',
     'religion',
-    'age'
+    'age',
+    'education'
 )
-
-# Household recodes
-COOKING_FUEL_RECODES = OrderedDict([
-    ('WOOD', 'Wood'),
-    ('LPG', 'LPG'),
-    ('GUITHA', 'Guitha'),
-    ('BIOGAS', 'Biogas'),
-    ('KEROSENE', 'Kerosene'),
-    ('ELECTRICITY', 'Electricity'),
-    ('OTHERS', 'Others'),
-    ('NOT_STATED', 'Not Stated')
-])
-
-FOUNDATION_TYPE_RECODES = OrderedDict([
-    ('MUD_BONDED', 'Mud Bonded'),
-    ('WOODEN_PILLAR', 'Wooden Pillar'),
-    ('CEMENT_BONDED', 'Cement Bonded'),
-    ('RCC_WITH_PILLAR', 'RCC with Pillar'),
-    ('OTHERS', 'Others'),
-    ('NOT_STATED', 'Not Stated')
-])
-
-OUTER_WALL_TYPE_RECODES = OrderedDict([
-    ('MUD_BONDED', 'Mud Bonded'),
-    ('CEMENT_BONDED', 'Cement Bonded'),
-    ('BAMBOO', 'Bamboo'),
-    ('WOOD_PLANKS', 'Wood Planks'),
-    ('OTHERS', 'Others'),
-    ('NOT_STATED', 'Not Stated'),
-    ('UNBACKED_BRICK', 'Unbacked Brick')
-])
-
-ROOF_TYPE_RECODES = OrderedDict([
-    ('GALV_IRON', 'Galvanized Iron'),
-    ('TILE_SLATE', 'Slate'),
-    ('RCC', 'Reinforced Concrete'),
-    ('THATCH', 'Thatch'),
-    ('NOT_STATED', 'Not Stated'),
-    ('MUD', 'Mud'),
-    ('WOOD_PLANKS', 'Wood Planks'),
-    ('OTHERS', 'Others')
-])
-
-TOILET_TYPE_RECODES = OrderedDict([
-    ('FLUSH_TOILET', 'Flush'),
-    ('NO_TOILET', 'None'),
-    ('ORDINARY_TOILET', 'Ordinary'),
-    ('NOT_STATED', 'Not Stated')
-])
-
-DRINKING_WATER_RECODES = OrderedDict([
-    ('TAP_PIPED', 'Piped Tap'),
-    ('TUBEWELL', 'Tube Well'),
-    ('SPOUT_WATER', 'Spout Water'),
-    ('UNCOVERED_WELL', 'Uncovered Well'),
-    ('COVERED_WELL', 'Covered Well'),
-    ('OTHERS', 'Others'),
-    ('RIVER_STREAM', 'River or Stream'),
-    ('NOT_STATED', 'Not Stated')
-])
-
-LIGHTING_FUEL_RECODES = OrderedDict([
-    ('ELECTRICITY', 'Electricity'),
-    ('KEROSENE', 'Kerosene'),
-    ('SOLAR', 'Solar'),
-    ('OTHERS', 'Others'),
-    ('NOT_STATED', 'Not Stated'),
-    ('BIOGAS', 'Biogas')
-])
-
-HOME_OWNERSHIP_RECODES = OrderedDict([
-    ('OWNED', 'Owned'),
-    ('RENTED', 'Rented'),
-    ('OTHERS', 'Others'),
-    ('INSTITUTIONAL', 'Institutional')
-])
-
-# Demographic recodes
-DISABILITY_RECODES = OrderedDict([
-    ('PHYSICAL', 'Physical'),
-    ('BLINDNESS_LOW_VISION', 'Blind/Low Vision'),
-    ('DEAF_HEARING', 'Deaf'),
-    ('SPEECH_PROBLEM', 'Speech'),
-    ('MULTIPLE_DISABILITY', 'Multiple Disabilities'),
-    ('MENTAL_DISABILITY', 'Mental Disability'),
-    ('INTELLECTUAL_DISABILITY', 'Intellectual'),
-    ('DEAF_BLIND', 'Deaf and Blind')
-])
 
 # Education recodes
 EDUCATION_LEVEL_PASSED_RECODES = OrderedDict([
@@ -117,33 +30,25 @@ EDUCATION_LEVEL_PASSED_RECODES = OrderedDict([
     ('OTHERS', 'Others')
 ])
 
-LITERACY_RECODES = OrderedDict([
-    ('CAN_READ_WRITE', 'Can Read and Write'),
-    ('CANT_READ_WRITE', 'Not Literate'),
-    ('CAN_READ_ONLY', 'Can Read'),
-    ('NOT_STATED', 'Not Stated')
-])
-
-SCHOOL_ATTENDANCE_RECODES = OrderedDict([
-    ('SCHOOL_GOING', 'Attending'),
-    ('NOT_GOING', 'Not Attending'),
-    ('ATTENDENCE_NOT_STATED', 'Not Stated')
-])
+# def sort_first_order_od(ip):
+#     metadata = ip['metadata']
+#     del ip['metadata']
+#     sorted_od = sorted(ip.values(), key=lambda x: x['numerators']['this'], reverse=True)
+#     rv = OrderedDict([(i['name'], i) for i in sorted_od])
+#     rv['metadata'] = metadata
+#     return rv
 
 
-def sort_first_order_od(ip):
+def sort_stats_result(ip,key=None):
     metadata = ip['metadata']
     del ip['metadata']
-    sorted_od = sorted(ip.values(), key=lambda x: x['numerators']['this'], reverse=True)
-    rv = OrderedDict([(i['name'], i) for i in sorted_od])
-    rv['metadata'] = metadata
-    return rv
-
-def sort_second_order_od(ip , key):
-    metadata = ip['metadata']
-    del ip['metadata']
-    sorted_od = sorted(ip.values(), key=lambda x: x[key]['numerators']['this'], reverse=True)
-    rv = OrderedDict([(i['metadata']['name'], i) for i in sorted_od])
+    rv = None
+    if key:
+        sorted_od = sorted(ip.values(), key=lambda x: x[key]['numerators']['this'], reverse=True)
+        rv = OrderedDict([(i['metadata']['name'], i) for i in sorted_od])
+    else:
+        sorted_od = sorted(ip.values(), key=lambda x: x['numerators']['this'], reverse=True)
+        rv = OrderedDict([(i['name'], i) for i in sorted_od])
     rv['metadata'] = metadata
     return rv
 
@@ -205,7 +110,7 @@ def get_demographics_profile(geo_code, geo_level, session):
         key_order=AREA_RECODES.values(),
         table_fields=['area', 'sex'])
 
-    population_by_area_dist_data = sort_first_order_od(population_by_area_dist_data)
+    population_by_area_dist_data = sort_stats_result(population_by_area_dist_data)
 
     population_by_sex_dist_data, _ = get_stat_data(
         'sex', geo_level, geo_code, session,
@@ -213,7 +118,7 @@ def get_demographics_profile(geo_code, geo_level, session):
         key_order=SEX_RECODES.values(),
         table_fields=['area', 'sex'])
 
-    population_by_sex_dist_data = sort_first_order_od(population_by_sex_dist_data)
+    population_by_sex_dist_data = sort_stats_result(population_by_sex_dist_data)
 
     literacy_dist_data, _ = get_stat_data(
         'literacy', geo_level, geo_code, session,
@@ -221,7 +126,7 @@ def get_demographics_profile(geo_code, geo_level, session):
         key_order=LITERACY_RECODES.values(),
         table_fields=['area', 'literacy', 'sex'])
 
-    literacy_dist_data = sort_first_order_od(literacy_dist_data)
+    literacy_dist_data = sort_stats_result(literacy_dist_data)
 
     literacy_by_sex, t_lit = get_stat_data(
         ['sex', 'literacy'], geo_level, geo_code, session,
@@ -266,7 +171,7 @@ def get_religion_profile(geo_code, geo_level, session):
         # key_order=RELIGION_RECODES.values(),
         table_fields=['area', 'religion', 'sex'])
 
-    religion_dist_data = sort_first_order_od(religion_dist_data)
+    religion_dist_data = sort_stats_result(religion_dist_data)
 
     religion_by_sex, t_lit = get_stat_data(
         ['religion', 'sex'], geo_level, geo_code, session,
@@ -276,7 +181,7 @@ def get_religion_profile(geo_code, geo_level, session):
         key_order={'sex': SEX_RECODES.values()},
         percent_grouping=['sex'])
 
-    religion_by_sex = sort_second_order_od(religion_by_sex, 'Female')
+    religion_by_sex = sort_stats_result(religion_by_sex, 'Female')
 
     religion_by_area, t_lit = get_stat_data(
         ['religion', 'area'], geo_level, geo_code, session,
@@ -285,7 +190,7 @@ def get_religion_profile(geo_code, geo_level, session):
         key_order={'area': AREA_RECODES.values()},
         percent_grouping=['area'])
 
-    religion_by_area = sort_second_order_od(religion_by_area, 'Urban')
+    religion_by_area = sort_stats_result(religion_by_area, 'Urban')
 
     total_population_by_area=10000000000
 
@@ -361,7 +266,7 @@ def get_age_profile(geo_code, geo_level, session):
         table_fields=['area', 'age', 'sex'],
         recode=age_cat_recode)
 
-    age_dist_data = sort_first_order_od(age_dist_data)
+    age_dist_data = sort_stats_result(age_dist_data)
 
     # age_dist_data, _ = get_stat_data(
     #     'age', geo_level, geo_code, session,
@@ -389,6 +294,48 @@ def get_age_profile(geo_code, geo_level, session):
         'age_ratio': age_dist_data,
         'age_by_area_distribution': age_by_area,
         'age_by_sex_distribution': age_by_sex,
+        'disability_ratio': 123,
+        'total_population': {
+            "name": "People",
+            "values": {"this": t_lit}
+        }
+    }
+
+    return final_data
+
+def get_education_profile(geo_code, geo_level, session):
+
+    education_dist_data, _ = get_stat_data(
+        'education', geo_level, geo_code, session,
+        # recode=dict(education_RECODES),
+        # key_order=education_RECODES.values(),
+        table_fields=['area', 'education', 'sex'])
+
+    education_dist_data = sort_stats_result(education_dist_data)
+
+    education_by_sex, t_lit = get_stat_data(
+        ['education', 'sex'], geo_level, geo_code, session,
+        table_fields=['area', 'education', 'sex'],
+        # recode={'education': dict(education_RECODES)},
+        # key_order={'education': education_RECODES.values()},
+        key_order={'sex': SEX_RECODES.values()},
+        percent_grouping=['sex'])
+
+    education_by_sex = sort_stats_result(education_by_sex, 'Female')
+
+    education_by_area, t_lit = get_stat_data(
+        ['education', 'area'], geo_level, geo_code, session,
+        table_fields=['area', 'education', 'sex'],
+        recode={'area': dict(AREA_RECODES)},
+        key_order={'area': AREA_RECODES.values()},
+        percent_grouping=['area'])
+
+    education_by_area = sort_stats_result(education_by_area, 'Urban')
+
+    final_data = {
+        'education_ratio': education_dist_data,
+        'education_by_area_distribution': education_by_area,
+        'education_by_sex_distribution':education_by_sex,
         'disability_ratio': 123,
         'total_population': {
             "name": "People",
