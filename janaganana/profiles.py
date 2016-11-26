@@ -12,7 +12,8 @@ PROFILE_SECTIONS = (
     'demographics',
     'religion',
     'age',
-    'education'
+    'education',
+    'maritalstatus'
 )
 
 # Education recodes
@@ -29,14 +30,6 @@ EDUCATION_LEVEL_PASSED_RECODES = OrderedDict([
     ('NOT_STATED', 'Not Stated'),
     ('OTHERS', 'Others')
 ])
-
-# def sort_first_order_od(ip):
-#     metadata = ip['metadata']
-#     del ip['metadata']
-#     sorted_od = sorted(ip.values(), key=lambda x: x['numerators']['this'], reverse=True)
-#     rv = OrderedDict([(i['name'], i) for i in sorted_od])
-#     rv['metadata'] = metadata
-#     return rv
 
 
 def sort_stats_result(ip,key=None):
@@ -228,23 +221,8 @@ def get_age_profile(geo_code, geo_level, session):
         else:
             return '18 to 40'
 
-
-
     # age in 10 year groups
     def age_recode(f, x):
-        if x.endswith('+'):
-            age = int(x.replace('+', ''))
-        elif x == 'Age not stated':
-            return x
-        else:
-            age = int(x.split('-')[0])
-        if age >= 80:
-            return '80+'
-        bucket = 10 * (age / 10)
-        return '%d-%d' % (bucket, bucket + 9)
-
-    # age in 10 year groups
-    def age_recode_2(f, x):
 
         if f in ('sex', 'area'):
             return x
@@ -268,27 +246,20 @@ def get_age_profile(geo_code, geo_level, session):
 
     age_dist_data = sort_stats_result(age_dist_data)
 
-    # age_dist_data, _ = get_stat_data(
-    #     'age', geo_level, geo_code, session,
-    #     # recode=dict(LITERACY_RECODES),
-    #     # key_order=LITERACY_RECODES.values(),
-    #     table_fields=['area', 'age', 'sex'])
 
     age_by_sex, t_lit = get_stat_data(
         ['age', 'sex'], geo_level, geo_code, session,
         table_fields=['area', 'age', 'sex'],
-        recode=age_recode_2,
+        recode=age_recode,
         key_order={'sex': SEX_RECODES.values()},
         percent_grouping=['sex'])
 
     age_by_area, t_lit = get_stat_data(
         ['age', 'area'], geo_level, geo_code, session,
         table_fields=['area', 'age', 'sex'],
-        recode=age_recode_2,
+        recode=age_recode,
         key_order={'area': AREA_RECODES.values()},
         percent_grouping=['area'])
-
-    total_population_by_area=10000000000
 
     final_data = {
         'age_ratio': age_dist_data,
@@ -336,6 +307,46 @@ def get_education_profile(geo_code, geo_level, session):
         'education_ratio': education_dist_data,
         'education_by_area_distribution': education_by_area,
         'education_by_sex_distribution':education_by_sex,
+        'disability_ratio': 123,
+        'total_population': {
+            "name": "People",
+            "values": {"this": t_lit}
+        }
+    }
+
+    return final_data
+
+def get_maritalstatus_profile(geo_code, geo_level, session):
+    maritalstatus_dist_data, _ = get_stat_data(
+        'maritalstatus', geo_level, geo_code, session,
+        # recode=dict(education_RECODES),
+        # key_order=education_RECODES.values(),
+        table_fields=['area', 'maritalstatus', 'sex'])
+
+    maritalstatus_dist_data = sort_stats_result(maritalstatus_dist_data)
+
+    maritalstatus_by_sex, t_lit = get_stat_data(
+        ['maritalstatus', 'sex'], geo_level, geo_code, session,
+        table_fields=['area', 'maritalstatus', 'sex'],
+        recode={'sex': dict(SEX_RECODES)},
+        key_order={'sex': SEX_RECODES.values()},
+        percent_grouping=['sex'])
+
+    maritalstatus_by_sex = sort_stats_result(maritalstatus_by_sex, 'Female')
+
+    maritalstatus_by_area, t_lit = get_stat_data(
+        ['maritalstatus', 'area'], geo_level, geo_code, session,
+        table_fields=['area', 'maritalstatus', 'sex'],
+        recode={'area': dict(AREA_RECODES)},
+        key_order={'area': AREA_RECODES.values()},
+        percent_grouping=['area'])
+
+    maritalstatus_by_area = sort_stats_result(maritalstatus_by_area, 'Urban')
+
+    final_data = {
+        'maritalstatus_ratio': maritalstatus_dist_data,
+        'maritalstatus_by_area_distribution': maritalstatus_by_area,
+        'maritalstatus_by_sex_distribution': maritalstatus_by_sex,
         'disability_ratio': 123,
         'total_population': {
             "name": "People",

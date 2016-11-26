@@ -14,3 +14,5 @@ FieldTable(['religion', 'area', 'sex'], universe='Religion', table_per_level=Fal
 FieldTable(['age', 'area', 'sex'], universe='Age', table_per_level=False)
 
 FieldTable(['education', 'area', 'sex'], universe='Education', table_per_level=False)
+
+FieldTable(['maritalstatus', 'area', 'sex'], universe='Relation', table_per_level=False)

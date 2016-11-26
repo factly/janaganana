@@ -45,7 +45,7 @@ WAZIMAP['ga_tracking_id'] = ''
 WAZIMAP['twitter'] = '@mthipparthi'
 
 WAZIMAP['map_centre'] = [20.5937, 78.9629]
-WAZIMAP['map_zoom'] = 4
+WAZIMAP['map_zoom'] = 5
 
 # Custom Settings
 WAZIMAP['email'] = 'mahesh.thipparthi@gmail.com'
