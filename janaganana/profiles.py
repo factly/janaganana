@@ -1,5 +1,5 @@
 from collections import OrderedDict
-
+from wazimap.data.utils import LocationNotFound
 from wazimap.geo import geo_data
 from wazimap.data.tables import get_model_from_fields
 from wazimap.data.utils import get_session, calculate_median, merge_dicts, get_stat_data, get_objects_by_geo, group_remainder
@@ -11,9 +11,9 @@ import janaganana.tables  # noqa
 PROFILE_SECTIONS = (
     'demographics',
     'religion',
-    'age',
     'education',
-    'maritalstatus'
+    'maritalstatus',
+    'age',
 )
 
 # Education recodes
@@ -239,38 +239,42 @@ def get_age_profile(geo_code, geo_level, session):
         bucket = 10 * (age / 10)
         return '%d-%d' % (bucket, bucket + 9)
 
-    age_dist_data, _ = get_stat_data(
-        'age', geo_level, geo_code, session,
-        table_fields=['area', 'age', 'sex'],
-        recode=age_cat_recode)
+    try:
 
-    age_dist_data = sort_stats_result(age_dist_data)
+        age_dist_data, _ = get_stat_data(
+            'age', geo_level, geo_code, session,
+            table_fields=['area', 'age', 'sex'],
+            recode=age_cat_recode)
+
+        age_dist_data = sort_stats_result(age_dist_data)
 
 
-    age_by_sex, t_lit = get_stat_data(
-        ['age', 'sex'], geo_level, geo_code, session,
-        table_fields=['area', 'age', 'sex'],
-        recode=age_recode,
-        key_order={'sex': SEX_RECODES.values()},
-        percent_grouping=['sex'])
+        age_by_sex, t_lit = get_stat_data(
+            ['age', 'sex'], geo_level, geo_code, session,
+            table_fields=['area', 'age', 'sex'],
+            recode=age_recode,
+            key_order={'sex': SEX_RECODES.values()},
+            percent_grouping=['sex'])
 
-    age_by_area, t_lit = get_stat_data(
-        ['age', 'area'], geo_level, geo_code, session,
-        table_fields=['area', 'age', 'sex'],
-        recode=age_recode,
-        key_order={'area': AREA_RECODES.values()},
-        percent_grouping=['area'])
+        age_by_area, t_lit = get_stat_data(
+            ['age', 'area'], geo_level, geo_code, session,
+            table_fields=['area', 'age', 'sex'],
+            recode=age_recode,
+            key_order={'area': AREA_RECODES.values()},
+            percent_grouping=['area'])
 
-    final_data = {
-        'age_ratio': age_dist_data,
-        'age_by_area_distribution': age_by_area,
-        'age_by_sex_distribution': age_by_sex,
-        'disability_ratio': 123,
-        'total_population': {
-            "name": "People",
-            "values": {"this": t_lit}
+        final_data = {
+            'age_ratio': age_dist_data,
+            'age_by_area_distribution': age_by_area,
+            'age_by_sex_distribution': age_by_sex,
+            'disability_ratio': 123,
+            'total_population': {
+                "name": "People",
+                "values": {"this": t_lit}
+            }
         }
-    }
+    except LocationNotFound:
+        final_data = {}
 
     return final_data
 
