@@ -13,6 +13,7 @@ PROFILE_SECTIONS = (
     'religion',
     'education',
     'maritalstatus',
+    'workers',
     'age',
 )
 
@@ -332,8 +333,8 @@ def get_maritalstatus_profile(geo_code, geo_level, session):
     maritalstatus_by_sex, t_lit = get_stat_data(
         ['maritalstatus', 'sex'], geo_level, geo_code, session,
         table_fields=['area', 'maritalstatus', 'sex'],
-        recode={'sex': dict(SEX_RECODES)},
-        key_order={'sex': SEX_RECODES.values()},
+        # recode={'sex': dict(SEX_RECODES)},
+        # key_order={'sex': SEX_RECODES.values()},
         percent_grouping=['sex'])
 
     maritalstatus_by_sex = sort_stats_result(maritalstatus_by_sex, 'Female')
@@ -351,6 +352,45 @@ def get_maritalstatus_profile(geo_code, geo_level, session):
         'maritalstatus_ratio': maritalstatus_dist_data,
         'maritalstatus_by_area_distribution': maritalstatus_by_area,
         'maritalstatus_by_sex_distribution': maritalstatus_by_sex,
+        'disability_ratio': 123,
+        'total_population': {
+            "name": "People",
+            "values": {"this": t_lit}
+        }
+    }
+
+    return final_data
+
+
+def get_workers_profile(geo_code, geo_level, session):
+
+    workers_dist_data, _ = get_stat_data(
+        'workers', geo_level, geo_code, session,
+        table_fields=['area', 'workers', 'workerssex'])
+
+    workers_dist_data = sort_stats_result(workers_dist_data)
+
+    workers_by_sex, t_lit = get_stat_data(
+        ['workers', 'workerssex'], geo_level, geo_code, session,
+        table_fields=['area', 'workers', 'workerssex'],
+        key_order={'workerssex': SEX_RECODES.values()},
+        percent_grouping=['workerssex'])
+
+    workers_by_sex = sort_stats_result(workers_by_sex, 'Female')
+
+    workers_by_area, t_lit = get_stat_data(
+        ['workers', 'area'], geo_level, geo_code, session,
+        table_fields=['area', 'workers', 'workerssex'],
+        recode={'area': dict(AREA_RECODES)},
+        key_order={'area': AREA_RECODES.values()},
+        percent_grouping=['area'])
+
+    workers_by_area = sort_stats_result(workers_by_area, 'Urban')
+
+    final_data = {
+        'workers_ratio': workers_dist_data,
+        'workers_by_area_distribution': workers_by_area,
+        'workers_by_sex_distribution':workers_by_sex,
         'disability_ratio': 123,
         'total_population': {
             "name": "People",
