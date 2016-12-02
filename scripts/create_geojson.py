@@ -19,13 +19,13 @@ def format_output_json(feature , static_data, area):
     name_list.append(name)
     if name in static_data:
         feature.properties['code'] = static_data[name]['geo_code']
-        feature.properties['name'] = name
+        feature.properties['name'] = name.capitalize();
         feature.properties['geoid'] = static_data[name]['geo_level'] + "-" + str(static_data[name]['geo_code']);
         feature.properties['level'] = static_data[name]['geo_level']
     elif name2 in static_data:
         name = name2
         feature.properties['code'] = static_data[name]['geo_code']
-        feature.properties['name'] = name
+        feature.properties['name'] = name.capitalize();
         feature.properties['geoid'] = static_data[name]['geo_level'] + "-" + str(static_data[name]['geo_code']);
         feature.properties['level'] = static_data[name]['geo_level'] 
     else:
