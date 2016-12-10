@@ -7,23 +7,36 @@ import geojson
 from geojson import FeatureCollection
 
 name_list = []
-def format_output_json(feature , static_data, area):
-    name2 = ""
+def format_output_json(feature , area, static_data, wa_data):
+    varname2 = ""
+
     if area == "district":
         name = feature.properties.get('NAME_2').replace(' and ' , ' & ').lower()
-        name2 = feature.properties.get('VARNAME_2', None)
-        if name2:
-            name2 = name2.replace(' and ' , ' & ').lower()
+
+        # check if we need to apply any workaround for this name and
+        # replace it with the corrected name
+        if name in wa_data:
+            print 'workaround applied: ' + name + ' -> ' + wa_data[name]['corrected_name'];
+            name = wa_data[name]['corrected_name'];
+
+        varname2 = feature.properties.get('VARNAME_2', None)
+        if varname2:
+            varname2 = varname2.replace(' and ' , ' & ').lower()
+        else:
+            varname2 = name;
+            feature.properties['VARNAME_2'] = varname2;
     else:
         name = feature.properties.get('NAME_1').replace(' and ' , ' & ').lower()
+
     name_list.append(name)
+
     if name in static_data:
         feature.properties['code'] = static_data[name]['geo_code']
         feature.properties['name'] = name.capitalize();
         feature.properties['geoid'] = static_data[name]['geo_level'] + "-" + str(static_data[name]['geo_code']);
         feature.properties['level'] = static_data[name]['geo_level']
-    elif name2 in static_data:
-        name = name2
+    elif varname2 in static_data:
+        name = varname2
         feature.properties['code'] = static_data[name]['geo_code']
         feature.properties['name'] = name.capitalize();
         feature.properties['geoid'] = static_data[name]['geo_level'] + "-" + str(static_data[name]['geo_code']);
@@ -44,14 +57,31 @@ def get_static_data(area):
     return static_data
 
 
-def process_geojson_data(static_data, geo_json_file, area):
+# some of the state/district names have changed recently and these are handled
+# by means of workaround_data.csv
+# This file lists all of those entries whose names have changed.
+# Format is: wa_type, wa_name, corrected_name
+# type: country = 0, state = 1, district = 2
+#
+def get_workaround_data(area):
+    wa_data = {};
+    wa_type_def = {'country': 0, 'state': 1, 'district': 2};
+    with open("workaround_data.csv") as csv_file:
+        wa_csv = csv.DictReader(csv_file, delimiter=',', quotechar='"')
+        for wa in wa_csv:
+            if wa['wa_type']== str(wa_type_def[area]):
+                wa_data[wa['wa_name'].lower()] = wa;
+    return wa_data
+
+
+def process_geojson_data(geo_json_file, area, static_data, wa_data):
     fp_str = open(geo_json_file, 'r').read()
     geojson_obj = geojson.loads(fp_str)
 
     feature_list = []
 
     for feature in geojson_obj.features:
-        if format_output_json(feature, static_data, area):
+        if format_output_json(feature, area, static_data, wa_data):
             feature_list.append(feature)
 
     fc = FeatureCollection(feature_list)
@@ -61,13 +91,16 @@ def process_geojson_data(static_data, geo_json_file, area):
 
 def process(geo_json_file, area):
     static_data = get_static_data(area)
-    process_geojson_data(static_data, geo_json_file, area)
+    wa_data = get_workaround_data(area);
+
+    process_geojson_data(geo_json_file, area, static_data, wa_data)
 
     print static_data.keys()
     print "########################"
     print name_list
     print "########################"
     print set(static_data.keys()) - set(name_list)
+
 
 def main():
     args = len(sys.argv)
