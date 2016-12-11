@@ -41,7 +41,7 @@ WAZIMAP['geometry_data'] = {
     'district': 'geo/district.topojson',
 }
 
-WAZIMAP['ga_tracking_id'] = ''
+WAZIMAP['ga_tracking_id'] = 'UA-88773672-1'
 WAZIMAP['twitter'] = '@mthipparthi'
 
 WAZIMAP['map_centre'] = [20.5937, 78.9629]
