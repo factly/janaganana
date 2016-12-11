@@ -11,7 +11,7 @@ DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 # Localise this instance of Wazimap
-WAZIMAP['name'] = 'Jana Ganana'
+WAZIMAP['name'] = 'Counting India'
 # NB: this must be https if your site supports HTTPS.
 WAZIMAP['url'] = 'http://www.factly.in'
 WAZIMAP['country_code'] = 'IN'
