@@ -10,16 +10,16 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=maritalstatus.total_population stat_type='number' %}
             </div>
 
-            <div class="column-two-thirds" id="chart-pie-maritalstatus-maritalstatus_ratio" data-stat-type="percentage" data-chart-title="Marital Status distribution"></div>
+            <div class="column-two-thirds" id="chart-pie-maritalstatus-maritalstatus_ratio" data-stat-type="percentage" data-chart-title=""></div>
 
         </section>
 
         <section class="clearfix stat-row">
-            <div class="" id="chart-grouped_column-maritalstatus-maritalstatus_by_area_distribution" data-stat-type="scaled-percentage" data-chart-title="Marital Status classified by Area" data-qualifier="Universe: {{ maritalstatus.maritalstatus_by_area_distribution.metadata.universe }}"></div>
+            <div class="" id="chart-grouped_column-maritalstatus-maritalstatus_by_area_distribution" data-stat-type="scaled-percentage" data-chart-title="Marital Status by Area" data-qualifier="Universe: {{ maritalstatus.maritalstatus_by_area_distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
-            <div class="" id="chart-grouped_column-maritalstatus-maritalstatus_by_sex_distribution" data-stat-type="scaled-percentage" data-chart-title="Marital Status classified by Sex" data-qualifier="Universe: {{ maritalstatus.maritalstatus_by_sex_distribution.metadata.universe }}"></div>
+            <div class="" id="chart-grouped_column-maritalstatus-maritalstatus_by_sex_distribution" data-stat-type="scaled-percentage" data-chart-title="Marital Status by Gender" data-qualifier="Universe: {{ maritalstatus.maritalstatus_by_sex_distribution.metadata.universe }}"></div>
         </section>
 
     </div>

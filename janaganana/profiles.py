@@ -46,7 +46,6 @@ def sort_stats_result(ip,key=None):
     rv['metadata'] = metadata
     return rv
 
-
 def get_census_profile(geo_code, geo_level, profile_name=None):
     session = get_session()
 
@@ -90,11 +89,18 @@ RELIGION_RECODES = OrderedDict([
     ('HINDU', 'Hindu'),
     ('MUSLIM', 'Muslim'),
     ('CHRISTIAN', 'Christian'),
-    ('SIKH', 'Sikh'),
-    ('JAIN', 'Jain'),
-    ('BUDDHIST', 'Buddhist'),
-    ('OTHERS', 'Other')
+    ('SIKH', 'Sikh')
 ])
+
+# RELIGION_RECODES = OrderedDict([
+#     ('HINDU', 'Hindu'),
+#     ('MUSLIM', 'Muslim'),
+#     ('CHRISTIAN', 'Christian'),
+#     ('SIKH', 'Sikh'),
+#     ('JAIN', 'Jain'),
+#     ('BUDDHIST', 'Buddhist'),
+#     ('OTHERS', 'Other')
+# ])
 
 def get_demographics_profile(geo_code, geo_level, session):
 
@@ -132,8 +138,8 @@ def get_demographics_profile(geo_code, geo_level, session):
     literacy_by_area, t_lit = get_stat_data(
         ['area', 'literacy'], geo_level, geo_code, session,
         table_fields=['area', 'literacy', 'sex'],
-        recode={'area': dict(AREA_RECODES)},
-        key_order={'area': AREA_RECODES.values()},
+        recode={'literacy': dict(LITERACY_RECODES)},
+        key_order={'literacy': LITERACY_RECODES.values()},
         percent_grouping=['area'])
 
     final_data = {
@@ -157,12 +163,30 @@ def get_demographics_profile(geo_code, geo_level, session):
 
     return final_data
 
+
 def get_religion_profile(geo_code, geo_level, session):
+
+    def religion_category_recode(f, x):
+        if x in ('Hindu', 'Muslim', 'Christian', 'Sikh'):
+            return x
+        else:
+            return 'Others'
+
+    # age in 10 year groups
+    def religion_recode(f, x):
+
+        if f in ('sex', 'area'):
+            return x
+
+        if x in ('Hindu', 'Muslim', 'Christian', 'Sikh'):
+            return x
+        else:
+            return 'Others'
+
 
     religion_dist_data, _ = get_stat_data(
         'religion', geo_level, geo_code, session,
-        # recode=dict(RELIGION_RECODES),
-        # key_order=RELIGION_RECODES.values(),
+        recode=religion_category_recode,
         table_fields=['area', 'religion', 'sex'])
 
     religion_dist_data = sort_stats_result(religion_dist_data)
@@ -170,8 +194,7 @@ def get_religion_profile(geo_code, geo_level, session):
     religion_by_sex, t_lit = get_stat_data(
         ['religion', 'sex'], geo_level, geo_code, session,
         table_fields=['area', 'religion', 'sex'],
-        # recode={'religion': dict(RELIGION_RECODES)},
-        # key_order={'religion': RELIGION_RECODES.values()},
+        recode=religion_recode,
         key_order={'sex': SEX_RECODES.values()},
         percent_grouping=['sex'])
 
@@ -180,13 +203,11 @@ def get_religion_profile(geo_code, geo_level, session):
     religion_by_area, t_lit = get_stat_data(
         ['religion', 'area'], geo_level, geo_code, session,
         table_fields=['area', 'religion', 'sex'],
-        recode={'area': dict(AREA_RECODES)},
+        recode=religion_recode,
         key_order={'area': AREA_RECODES.values()},
         percent_grouping=['area'])
 
     religion_by_area = sort_stats_result(religion_by_area, 'Urban')
-
-    total_population_by_area=10000000000
 
     final_data = {
         'religion_ratio': religion_dist_data,
@@ -215,10 +236,10 @@ def get_age_profile(geo_code, geo_level, session):
 
         if age < 18:
             return 'Under 18'
-        elif age >= 65:
-            return '65 and over'
+        elif age >= 60:
+            return '60 and over'
         elif age >= 40:
-            return '40 and 65'
+            return '40 and 60'
         else:
             return '18 to 40'
 
@@ -231,7 +252,7 @@ def get_age_profile(geo_code, geo_level, session):
         if x.endswith('+'):
             age = int(x.replace('+', ''))
         elif x == 'Age not stated':
-            return x
+            age = 65  # when age is not stated it assumed that they are over 60
         else:
             age = int(x.split('-')[0])
 
@@ -281,9 +302,54 @@ def get_age_profile(geo_code, geo_level, session):
 
 def get_education_profile(geo_code, geo_level, session):
 
+    def get_education_category(key):
+        if key in ('Below Primary', 'Primary', 'Middle', 'Secondary Metric',\
+                 'Intermediate Puc', 'Graduate Above'):
+            return key
+        else:
+            return 'Others'
+
+    def education_category_recode(f, x):
+        return get_education_category(x)
+
+    # age in 10 year groups
+    def education_recode(f, x):
+
+        if f in ('sex', 'area'):
+            return x
+        return get_education_category(x)
+
+    def edu_sort_fun(x):
+        d = {'Below Primary': 1,
+             'Primary': 2,
+             'Middle':  3,
+             'Secondary Metric': 4,
+             'Intermediate Puc': 5,
+             'Graduate Above': 6,
+             'Others': 7}
+        key = x['metadata']['name']
+        if key:
+            return d[key]
+        else:
+            return 0
+
+    def sort_edu_stats_result(ip, key=None):
+        metadata = ip['metadata']
+        del ip['metadata']
+        rv = None
+        if key:
+            sorted_od = sorted(ip.values(), key=lambda x: x[key]['numerators']['this'], reverse=True)
+            sorted_od_fine = sorted(sorted_od, key=edu_sort_fun)
+            rv = OrderedDict([(i['metadata']['name'], i) for i in sorted_od_fine])
+        else:
+            sorted_od = sorted(ip.values(), key=lambda x: x['numerators']['this'], reverse=True)
+            rv = OrderedDict([(i['name'], i) for i in sorted_od])
+        rv['metadata'] = metadata
+        return rv
+
     education_dist_data, _ = get_stat_data(
         'education', geo_level, geo_code, session,
-        # recode=dict(education_RECODES),
+        recode=education_category_recode,
         # key_order=education_RECODES.values(),
         table_fields=['area', 'education', 'sex'])
 
@@ -292,21 +358,21 @@ def get_education_profile(geo_code, geo_level, session):
     education_by_sex, t_lit = get_stat_data(
         ['education', 'sex'], geo_level, geo_code, session,
         table_fields=['area', 'education', 'sex'],
-        # recode={'education': dict(education_RECODES)},
+        recode=education_recode,
         # key_order={'education': education_RECODES.values()},
         key_order={'sex': SEX_RECODES.values()},
         percent_grouping=['sex'])
 
-    education_by_sex = sort_stats_result(education_by_sex, 'Female')
+    education_by_sex = sort_edu_stats_result(education_by_sex, 'Female')
 
     education_by_area, t_lit = get_stat_data(
         ['education', 'area'], geo_level, geo_code, session,
         table_fields=['area', 'education', 'sex'],
-        recode={'area': dict(AREA_RECODES)},
+        recode=education_recode,
         key_order={'area': AREA_RECODES.values()},
         percent_grouping=['area'])
 
-    education_by_area = sort_stats_result(education_by_area, 'Urban')
+    education_by_area = sort_edu_stats_result(education_by_area, 'Urban')
 
     final_data = {
         'education_ratio': education_dist_data,
@@ -322,9 +388,26 @@ def get_education_profile(geo_code, geo_level, session):
     return final_data
 
 def get_maritalstatus_profile(geo_code, geo_level, session):
+
+    def get_maritalstatu(x):
+        if x in ('never married', 'currently married', 'widowed', 'separated', 'divorced'):
+            return x.capitalize()
+        else:
+            return 'Currently married'
+
+    def maritalstatus_category_recode(f, x):
+        return get_maritalstatu(x)
+
+    def maritalstatus_recode(f, x):
+
+        if f in ('sex', 'area'):
+            return x
+
+        return get_maritalstatu(x)
+
     maritalstatus_dist_data, _ = get_stat_data(
         'maritalstatus', geo_level, geo_code, session,
-        # recode=dict(education_RECODES),
+        recode=maritalstatus_category_recode,
         # key_order=education_RECODES.values(),
         table_fields=['area', 'maritalstatus', 'sex'])
 
@@ -333,7 +416,7 @@ def get_maritalstatus_profile(geo_code, geo_level, session):
     maritalstatus_by_sex, t_lit = get_stat_data(
         ['maritalstatus', 'sex'], geo_level, geo_code, session,
         table_fields=['area', 'maritalstatus', 'sex'],
-        # recode={'sex': dict(SEX_RECODES)},
+        recode=maritalstatus_recode,
         # key_order={'sex': SEX_RECODES.values()},
         percent_grouping=['sex'])
 
@@ -342,7 +425,7 @@ def get_maritalstatus_profile(geo_code, geo_level, session):
     maritalstatus_by_area, t_lit = get_stat_data(
         ['maritalstatus', 'area'], geo_level, geo_code, session,
         table_fields=['area', 'maritalstatus', 'sex'],
-        recode={'area': dict(AREA_RECODES)},
+        recode=maritalstatus_recode,
         key_order={'area': AREA_RECODES.values()},
         percent_grouping=['area'])
 
@@ -364,8 +447,26 @@ def get_maritalstatus_profile(geo_code, geo_level, session):
 
 def get_workers_profile(geo_code, geo_level, session):
 
+    def get_worker_status(x):
+        if x in ('Marginal workers available for work', 'Non-workers available for work'):
+            return 'Available for work'
+        elif x in ('Marginal workers worked 3 to 6 months', 'Marginal workers worked less than 3 months'):
+            return 'Marginal workers'
+        else:
+            return x
+
+    def worker_category_recode(f, x):
+        return get_worker_status(x)
+
+    def worker_recode(f, x):
+
+        if f in ('sex', 'area'):
+            return x
+        return get_worker_status(x)
+
     workers_dist_data, _ = get_stat_data(
         'workers', geo_level, geo_code, session,
+        recode=worker_category_recode,
         table_fields=['area', 'workers', 'workerssex'])
 
     workers_dist_data = sort_stats_result(workers_dist_data)
@@ -373,6 +474,7 @@ def get_workers_profile(geo_code, geo_level, session):
     workers_by_sex, t_lit = get_stat_data(
         ['workers', 'workerssex'], geo_level, geo_code, session,
         table_fields=['area', 'workers', 'workerssex'],
+        recode=worker_recode,
         key_order={'workerssex': SEX_RECODES.values()},
         percent_grouping=['workerssex'])
 
@@ -381,7 +483,7 @@ def get_workers_profile(geo_code, geo_level, session):
     workers_by_area, t_lit = get_stat_data(
         ['workers', 'area'], geo_level, geo_code, session,
         table_fields=['area', 'workers', 'workerssex'],
-        recode={'area': dict(AREA_RECODES)},
+        recode=worker_recode,
         key_order={'area': AREA_RECODES.values()},
         percent_grouping=['area'])
 

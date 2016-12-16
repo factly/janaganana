@@ -10,7 +10,7 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=religion.total_population stat_type='number' %}
             </div>
 
-            <div class="column-two-thirds" id="chart-pie-religion-religion_ratio" data-stat-type="percentage" data-chart-title="Religion"></div>
+            <div class="column-two-thirds" id="chart-pie-religion-religion_ratio" data-stat-type="percentage" data-chart-title=""></div>
 
         </section>
         <section class="clearfix stat-row">
@@ -18,7 +18,7 @@
         </section>
         <section class="clearfix stat-row">
 
-            <div class="" id="chart-grouped_column-religion-religion_by_sex_distribution" data-stat-type="scaled-percentage" data-chart-title="Religion by Sex" data-qualifier="Universe: {{ religion.religion_by_sex_distribution.metadata.universe }}"></div>
+            <div class="" id="chart-grouped_column-religion-religion_by_sex_distribution" data-stat-type="scaled-percentage" data-chart-title="Religion by Gender" data-qualifier="Universe: {{ religion.religion_by_sex_distribution.metadata.universe }}"></div>
         </section>
 
     </div>

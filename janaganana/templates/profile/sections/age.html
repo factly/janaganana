@@ -10,7 +10,7 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=age.total_population stat_type='number' %}
             </div>
 
-            <div class="column-two-thirds" id="chart-pie-age-age_ratio" data-stat-type="percentage" data-chart-title="age"></div>
+            <div class="column-two-thirds" id="chart-pie-age-age_ratio" data-stat-type="percentage" data-chart-title=""></div>
 
         </section>
         <section class="clearfix stat-row">
@@ -18,7 +18,7 @@
         </section>
         <section class="clearfix stat-row">
 
-            <div class="" id="chart-grouped_column-age-age_by_sex_distribution" data-stat-type="scaled-percentage" data-chart-title="Age by Sex" data-qualifier="Universe: {{ age.age_by_sex_distribution.metadata.universe }}"></div>
+            <div class="" id="chart-grouped_column-age-age_by_sex_distribution" data-stat-type="scaled-percentage" data-chart-title="Age by Gender" data-qualifier="Universe: {{ age.age_by_sex_distribution.metadata.universe }}"></div>
         </section>
 
     </div>

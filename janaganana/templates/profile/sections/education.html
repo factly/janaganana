@@ -10,7 +10,7 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=education.total_population stat_type='number' %}
             </div>
 
-            <div class="column-two-thirds" id="chart-pie-education-education_ratio" data-stat-type="percentage" data-chart-title="Education"></div>
+            <div class="column-two-thirds" id="chart-pie-education-education_ratio" data-stat-type="percentage" data-chart-title=""></div>
 
         </section>
         <section class="clearfix stat-row">
@@ -18,7 +18,7 @@
         </section>
         <section class="clearfix stat-row">
 
-            <div class="" id="chart-grouped_column-education-education_by_sex_distribution" data-stat-type="scaled-percentage" data-chart-title="Education by Sex" data-qualifier="Universe: {{ education.education_by_sex_distribution.metadata.universe }}"></div>
+            <div class="" id="chart-grouped_column-education-education_by_sex_distribution" data-stat-type="scaled-percentage" data-chart-title="Education by Gender" data-qualifier="Universe: {{ education.education_by_sex_distribution.metadata.universe }}"></div>
         </section>
 
     </div>
