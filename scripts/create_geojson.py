@@ -114,7 +114,7 @@ def process(geo_json_file, area):
 def main():
     args = len(sys.argv)
     if args < 2 :
-        print "create_geojson.py <india_state.geojson> <state/district>"
+        print "create_geojson.py <india_telangana.geojson> <state/district>"
         exit()
     else:
         if args == 2:

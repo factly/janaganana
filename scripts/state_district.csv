@@ -35,6 +35,7 @@ KERALA,32,2016,country,KERALA,state,IN
 TAMIL NADU,33,2016,country,TAMIL NADU,state,IN
 PUDUCHERRY,34,2016,country,PUDUCHERRY,state,IN
 ANDAMAN & NICOBAR ISLANDS,35,2016,country,ANDAMAN & NICOBAR ISLANDS,state,IN
+TELANGANA,36,2016,country,TELANGANA,state,IN
 Kupwara,1,2016,state,Kupwara,district,1
 Badgam,2,2016,state,Badgam,district,1
 Leh(Ladakh),3,2016,state,Leh(Ladakh),district,1
@@ -566,16 +567,16 @@ Ratnagiri,528,2016,state,Ratnagiri,district,27
 Sindhudurg,529,2016,state,Sindhudurg,district,27
 Kolhapur,530,2016,state,Kolhapur,district,27
 Sangli,531,2016,state,Sangli,district,27
-Adilabad,532,2016,state,Adilabad,district,28
-Nizamabad,533,2016,state,Nizamabad,district,28
-Karimnagar,534,2016,state,Karimnagar,district,28
-Medak,535,2016,state,Medak,district,28
-Hyderabad,536,2016,state,Hyderabad,district,28
-Rangareddy,537,2016,state,Rangareddy,district,28
-Mahbubnagar,538,2016,state,Mahbubnagar,district,28
-Nalgonda,539,2016,state,Nalgonda,district,28
-Warangal,540,2016,state,Warangal,district,28
-Khammam,541,2016,state,Khammam,district,28
+Adilabad,532,2016,state,Adilabad,district,36
+Nizamabad,533,2016,state,Nizamabad,district,36
+Karimnagar,534,2016,state,Karimnagar,district,36
+Medak,535,2016,state,Medak,district,36
+Hyderabad,536,2016,state,Hyderabad,district,36
+Rangareddy,537,2016,state,Rangareddy,district,36
+Mahbubnagar,538,2016,state,Mahbubnagar,district,36
+Nalgonda,539,2016,state,Nalgonda,district,36
+Warangal,540,2016,state,Warangal,district,36
+Khammam,541,2016,state,Khammam,district,36
 Srikakulam,542,2016,state,Srikakulam,district,28
 Vizianagaram,543,2016,state,Vizianagaram,district,28
 Visakhapatnam,544,2016,state,Visakhapatnam,district,28
