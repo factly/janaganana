@@ -78,10 +78,19 @@ def process_geojson_data(geo_json_file, area, static_data, wa_data):
     fp_str = open(geo_json_file, 'r').read()
     geojson_obj = geojson.loads(fp_str)
 
+    # use correct JK boundary data
+    jk = open('jk.geojson', 'r').read()
+    jk_geojson_obj = geojson.loads(jk)
+
+    for feature in jk_geojson_obj.features:
+        jk_feature = feature.geometry['coordinates'];
+
     feature_list = []
 
     for feature in geojson_obj.features:
         if format_output_json(feature, area, static_data, wa_data):
+            if feature.properties['code'] == "1":
+                feature.geometry['coordinates'] = jk_feature;
             feature_list.append(feature)
 
     fc = FeatureCollection(feature_list)
