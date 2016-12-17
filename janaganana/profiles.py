@@ -447,6 +447,14 @@ def get_maritalstatus_profile(geo_code, geo_level, session):
 
 def get_workers_profile(geo_code, geo_level, session):
 
+    # sum of different category of workers exceeds total population because of
+    # the way they are classified. Some of the classes get accounted twice causing
+    # it to exceed total population, so subtract the excess to get correct total
+    def adjust_workers_total(workers_data, total):
+        excess = workers_data['Available for work']['Male']['numerators']['this'] + \
+                 workers_data['Available for work']['Female']['numerators']['this'];
+        return total - excess;
+
     def get_worker_status(x):
         if x in ('Marginal workers available for work', 'Non-workers available for work'):
             return 'Available for work'
@@ -488,6 +496,8 @@ def get_workers_profile(geo_code, geo_level, session):
         percent_grouping=['area'])
 
     workers_by_area = sort_stats_result(workers_by_area, 'Urban')
+
+    t_lit = adjust_workers_total(workers_by_sex, t_lit);
 
     final_data = {
         'workers_ratio': workers_dist_data,
