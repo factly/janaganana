@@ -183,6 +183,31 @@ def get_religion_profile(geo_code, geo_level, session):
         else:
             return 'Others'
 
+    def religion_sort_fun(x):
+        d = {'Hindu': 1,
+             'Muslim': 2,
+             'Christian':  3,
+             'Sikh': 4,
+             'Others': 5}
+        key = x['metadata']['name']
+        if key:
+            return d[key]
+        else:
+            return 0
+
+    def sort_religion_stats_result(ip, key=None):
+        metadata = ip['metadata']
+        del ip['metadata']
+        rv = None
+        if key:
+            sorted_od = sorted(ip.values(), key=lambda x: x[key]['numerators']['this'], reverse=True)
+            sorted_od_fine = sorted(sorted_od, key=religion_sort_fun)
+            rv = OrderedDict([(i['metadata']['name'], i) for i in sorted_od_fine])
+        else:
+            sorted_od = sorted(ip.values(), key=lambda x: x['numerators']['this'], reverse=True)
+            rv = OrderedDict([(i['name'], i) for i in sorted_od])
+        rv['metadata'] = metadata
+        return rv
 
     religion_dist_data, _ = get_stat_data(
         'religion', geo_level, geo_code, session,
@@ -198,7 +223,7 @@ def get_religion_profile(geo_code, geo_level, session):
         key_order={'sex': SEX_RECODES.values()},
         percent_grouping=['sex'])
 
-    religion_by_sex = sort_stats_result(religion_by_sex, 'Female')
+    religion_by_sex = sort_religion_stats_result(religion_by_sex, 'Female')
 
     religion_by_area, t_lit = get_stat_data(
         ['religion', 'area'], geo_level, geo_code, session,
@@ -207,7 +232,7 @@ def get_religion_profile(geo_code, geo_level, session):
         key_order={'area': AREA_RECODES.values()},
         percent_grouping=['area'])
 
-    religion_by_area = sort_stats_result(religion_by_area, 'Urban')
+    religion_by_area = sort_religion_stats_result(religion_by_area, 'Urban')
 
     final_data = {
         'religion_ratio': religion_dist_data,
@@ -303,8 +328,7 @@ def get_age_profile(geo_code, geo_level, session):
 def get_education_profile(geo_code, geo_level, session):
 
     def get_education_category(key):
-        if key in ('Below Primary', 'Primary', 'Middle', 'Secondary Metric',\
-                 'Intermediate Puc', 'Graduate Above'):
+        if key in ('Below Primary', 'Primary', 'Middle', 'Secondary Matric','Intermediate Puc', 'Graduate Above'):
             return key
         else:
             return 'Others'
@@ -323,7 +347,7 @@ def get_education_profile(geo_code, geo_level, session):
         d = {'Below Primary': 1,
              'Primary': 2,
              'Middle':  3,
-             'Secondary Metric': 4,
+             'Secondary Matric': 4,
              'Intermediate Puc': 5,
              'Graduate Above': 6,
              'Others': 7}
