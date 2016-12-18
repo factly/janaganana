@@ -76,16 +76,6 @@ RELIGION_RECODES = OrderedDict([
     ('SIKH', 'Sikh')
 ])
 
-# RELIGION_RECODES = OrderedDict([
-#     ('HINDU', 'Hindu'),
-#     ('MUSLIM', 'Muslim'),
-#     ('CHRISTIAN', 'Christian'),
-#     ('SIKH', 'Sikh'),
-#     ('JAIN', 'Jain'),
-#     ('BUDDHIST', 'Buddhist'),
-#     ('OTHERS', 'Other')
-# ])
-
 def get_demographics_profile(geo_code, geo_level, session):
 
     population_by_area_dist_data, total_population_by_area = get_stat_data(
