@@ -1,13 +1,16 @@
 from fabric.api import *
 from fabric.contrib.files import *
-from fabric.context_managers import shell_env, prefix
+from fabric.context_managers import shell_env, prefix, env
 from fabric.colors import green
+import os
 
 root_dir = '/home/ubuntu'
 host = 'janaganana'
 code_dir = '%s/%s' % (root_dir, host)
 virtualenv_name = 'venv'
 virtualenv_dir = '%s/%s' % (root_dir, virtualenv_name)
+env.user = 'fadmin'
+env.password = os.environ.get('fab_pwd','ubuntu')
 
 def initial_config():
     """ Configure the remote host to run Census Reporter. """
@@ -89,10 +92,10 @@ def host_type():
 def restart():
     with prefix('source %s/bin/activate' % virtualenv_dir):
         with cd(code_dir):
-            sudo('python manage.py collectstatic -c --no-input')
-            sudo('service nginx restart')
-            sudo('find . -name \'*.pyc\' -delete', user='ubuntu')
-            sudo('gunicorn --worker-class gevent wazimap.wsgi:application -t 120 --bind localhost:8001 -c guni_config.py')
+            run('python manage.py collectstatic -c --no-input')
+            run('service nginx restart')
+            run('find . -name \'*.pyc\' -delete')
+            run('gunicorn --worker-class gevent wazimap.wsgi:application -t 120 --bind localhost:8001 -c guni_config.py')
             
             
         
