@@ -85,3 +85,14 @@ from fabric.api import run
 
 def host_type():
     run('uname -s')
+    
+def restart():
+    with prefix('source %s/bin/activate' % virtualenv_dir):
+        with cd(code_dir):
+            sudo('python manage.py collectstatic -c --no-input')
+            sudo('service nginx restart')
+            sudo('find . -name \'*.pyc\' -delete', user='ubuntu')
+            sudo('gunicorn --worker-class gevent wazimap.wsgi:application -t 120 --bind localhost:8001 -c guni_config.py')
+            
+            
+        
