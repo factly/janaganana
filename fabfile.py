@@ -4,9 +4,9 @@ from fabric.context_managers import shell_env, prefix
 from fabric.colors import green
 
 root_dir = '/home/ubuntu'
-host = 'countingindia.in'
-code_dir = '%s/%s_app' % (root_dir, host)
-virtualenv_name = '%s_venv' % host
+host = 'janaganana'
+code_dir = '%s/%s' % (root_dir, host)
+virtualenv_name = 'venv'
 virtualenv_dir = '%s/%s' % (root_dir, virtualenv_name)
 
 def initial_config():
