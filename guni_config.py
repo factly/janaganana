@@ -4,6 +4,6 @@ raw_env = [
    'DJANGO_DEBUG=False',
    'DJANGO_SETTINGS_MODULE=janaganana.settings',
 ]
-errorlog = '/tmp/gunicorn-error.log'
-accesslog = '/tmp/gunicorn-access.log'
+#errorlog = '/tmp/gunicorn-error.log'
+#accesslog = '/tmp/gunicorn-access.log'
 workers = 3

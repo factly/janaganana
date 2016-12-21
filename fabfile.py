@@ -92,10 +92,10 @@ def host_type():
 def restart():
     with prefix('source %s/bin/activate' % virtualenv_dir):
         with cd(code_dir):
-            run('python manage.py collectstatic -c --no-input')
-            run('service nginx restart')
-            run('find . -name \'*.pyc\' -delete')
-            run('gunicorn --worker-class gevent wazimap.wsgi:application -t 120 --bind localhost:8001 -c guni_config.py')
+            local('python manage.py collectstatic -c --no-input', shell='/bin/bash')
+            local('service nginx restart',shell='/bin/bash')
+            local('find . -name \'*.pyc\' -delete',shell='/bin/bash')
+            local('gunicorn --worker-class gevent wazimap.wsgi:application -t 120 --bind localhost:8001 -c guni_config.py',shell='/bin/bash')
             
             
         
