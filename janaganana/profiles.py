@@ -20,22 +20,6 @@ PROFILE_SECTIONS = (
     'age',
 )
 
-# Education recodes
-EDUCATION_LEVEL_PASSED_RECODES = OrderedDict([
-    ('PRIMARY_1_5', 'Primary'),
-    ('LOWER_SECONDARY_6_8', 'Lower Secondary'),
-    ('SECONDARY_9_10', 'Secondary'),
-    ('SLC_AND_EQUIVALENT', 'SLC'),
-    ('INTERMEDIATE', 'Intermed.'),
-    ('BEGINNER', 'Beginner'),
-    ('NON_FORMAL', 'Non-formal'),
-    ('GRADUATE', 'Graduate'),
-    ('POST_GRADUATE_AND_ABOVE', 'Post-graduate and Above'),
-    ('NOT_STATED', 'Not Stated'),
-    ('OTHERS', 'Others')
-])
-
-
 def sort_stats_result(ip,key=None):
     metadata = ip['metadata']
     del ip['metadata']
@@ -97,16 +81,6 @@ RELIGION_RECODES = OrderedDict([
     ('CHRISTIAN', 'Christian'),
     ('SIKH', 'Sikh')
 ])
-
-# RELIGION_RECODES = OrderedDict([
-#     ('HINDU', 'Hindu'),
-#     ('MUSLIM', 'Muslim'),
-#     ('CHRISTIAN', 'Christian'),
-#     ('SIKH', 'Sikh'),
-#     ('JAIN', 'Jain'),
-#     ('BUDDHIST', 'Buddhist'),
-#     ('OTHERS', 'Other')
-# ])
 
 def get_demographics_profile(geo_code, geo_level, session):
 
