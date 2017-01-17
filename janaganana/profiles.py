@@ -8,6 +8,9 @@ import logging
 # ensure tables are loaded
 import janaganana.tables  # noqa
 
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
 PROFILE_SECTIONS = (
     'demographics',
     'religion',
@@ -47,8 +50,10 @@ def sort_stats_result(ip,key=None):
     return rv
 
 def get_census_profile(geo_code, geo_level, profile_name=None):
-    session = get_session()
 
+    logger.info('Begin of transaction for {}: {}'.format(geo_level, geo_code))
+
+    session = get_session()
     try:
         geo_summary_levels = geo_data.get_summary_geo_info(geo_code, geo_level)
         data = {}
@@ -66,6 +71,7 @@ def get_census_profile(geo_code, geo_level, profile_name=None):
         return data
 
     finally:
+        logger.info('End of transaction for {}: {}'.format(geo_level, geo_code))
         session.close()
 
 
