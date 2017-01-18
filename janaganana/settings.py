@@ -5,7 +5,7 @@ from decouple import config
 DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
 TEMPLATE_DEBUG = DEBUG
 
-DJANGO_SETTINGS_MODULE = config('DJANGO_SETTINGS_MODULE')
+# DJANGO_SETTINGS_MODULE = config('DJANGO_SETTINGS_MODULE')
 
 # install this app before Wazimap
 INSTALLED_APPS = ['janaganana', 'django.contrib.sitemaps'] + INSTALLED_APPS
