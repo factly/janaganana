@@ -1,5 +1,11 @@
 # pull in the default wazimap settings
 from wazimap.settings import *  # noqa
+from decouple import config
+
+DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
+TEMPLATE_DEBUG = DEBUG
+
+DJANGO_SETTINGS_MODULE = config('DJANGO_SETTINGS_MODULE')
 
 # install this app before Wazimap
 INSTALLED_APPS = ['janaganana', 'django.contrib.sitemaps'] + INSTALLED_APPS
@@ -7,7 +13,7 @@ INSTALLED_APPS = ['janaganana', 'django.contrib.sitemaps'] + INSTALLED_APPS
 
 ROOT_URLCONF = 'janaganana.urls'
 
-DATABASE_URL = os.environ.get('DATABASE_URL', 'postgresql://factlyin:factlyin@localhost/factlyin')
+DATABASE_URL = config('DATABASE_URL', default='postgresql://factlyin:factlyin@localhost/factlyin')
 DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -55,6 +61,7 @@ WAZIMAP['email'] = 'mahesh.thipparthi@gmail.com'
 WAZIMAP['github'] = 'https://github.com/mthipparthi/janaganana'
 WAZIMAP['tagline'] = 'Make sense of Indian census data'
 
+SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
