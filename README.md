@@ -2,9 +2,9 @@
 
 Janaganana(http://countingindia.com/) is a Django application for exploring census and other similar data. It makes it easy to understand a place through the eyes of the data, and to explore data across a range of places. It is most suited for census data but can easily be used with other data that is similarly focused on places in a country.
 
-The Indian instance of [Wazimap](https://github.com/Code4SA/wazimap). Wazimap is a fork of the excellent `Censusreporter <https://censusreporter.org>` project which was funded by a
-`Knight News Challenge grant <http://www.niemanlab.org/2012/10/knight-funding-expands-ires-journalist-friendly-census-site/>`.
-You can also find `Censusreporter on GitHub <https://github.com/censusreporter/censusreporter>`.
+The Indian instance of [Wazimap](https://github.com/Code4SA/wazimap). Wazimap is a fork of the excellent Censusreporter (https://censusreporter.org) project which was funded by a
+Knight News Challenge grant (http://www.niemanlab.org/2012/10/knight-funding-expands-ires-journalist-friendly-census-site/).
+You can also find Censusreporter on GitHub (https://github.com/censusreporter/censusreporter).
 
 # Local development
 
