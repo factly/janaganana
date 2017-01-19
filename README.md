@@ -6,6 +6,15 @@ The Indian instance of [Wazimap](https://github.com/Code4SA/wazimap). Wazimap is
 Knight News Challenge grant (http://www.niemanlab.org/2012/10/knight-funding-expands-ires-journalist-friendly-census-site/).
 You can also find Censusreporter on GitHub (https://github.com/censusreporter/censusreporter).
 
+# Technology(Tools)
+
+1. Django Web Framework(1.9)
+2. memcache(chacing the results for a week).
+3. supervisor
+4. fabric
+5. Deployed on AWS(ubuntu) with RDS(Postgres)
+
+
 # Local development
 
 1. clone the repo : `` git clone https://github.com/mthipparthi/janaganana.git``
