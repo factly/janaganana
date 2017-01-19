@@ -33,7 +33,6 @@ createdb -O factlyin factlyin
 
 psql -U postgres
 grant all privileges on database factlyin to factlyin;
-
 ```
 
 Run migrations to keep Django happy:
