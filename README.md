@@ -13,6 +13,7 @@ You can also find Censusreporter on GitHub (https://github.com/censusreporter/ce
 3. supervisor
 4. fabric
 5. Deployed on AWS(ubuntu) with RDS(Postgres)
+6. Pandas- Extensively used to clean and transform the data.All jupyter IPython Notebooks can be found here(https://github.com/mthipparthi/janaganana-data)
 
 
 # Local development
