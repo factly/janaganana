@@ -9,7 +9,7 @@ You can also find Censusreporter on GitHub (https://github.com/censusreporter/ce
 # Technology(Tools)
 
 1. Django Web Framework(1.9)
-2. memcache(chacing the results for a week).
+2. memcache(Caching the results for a week).
 3. supervisor
 4. fabric
 5. Deployed on AWS(ubuntu) with RDS(Postgres)
