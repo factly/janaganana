@@ -96,3 +96,4 @@ static
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+guni_config.py

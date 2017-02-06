@@ -33,6 +33,7 @@ pathspec==0.3.4
 psycopg2==2.6.2
 pycrypto==2.6.1
 python-dateutil==2.5.3
+python-decouple==3.0
 python-memcached==1.58
 pytz==2016.7
 PyYAML==3.12
