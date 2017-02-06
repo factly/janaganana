@@ -1,20 +1,20 @@
-{% extends 'about.html' %}{% load partition staticfiles %}
+{% extends '_base.html' %}{% load partition staticfiles %}
 
-{% block content %}
-<article id="about">
-    <header>
-        <h1 class="article-header">About JanaGanana</h1>
-    </header>
-    <section>
- <p>Janaganana makes data on India more accessible and understandable. Janaganana is of great use to journalists, students, academics and others who are interested in using data to learn about each district, and soon every Taluk.
-This tool is a friendly and reliable resource for journalists who want to use data to tell stories or discover stories that are of public interest.
-Janaganana uses data from Census India, and other official sources, to create user-friendly data visualizations on key demographic issues.You can embed, access or download the data too. You can also compare any two areas side-by-side.
-Janaganana is a project of factly.in, a non-profit that is well known Data Journalism/Public Information portals in India.!
-<h2 class="column-full subhead">Shoulders of Giants</h2>
-        <p>Yes! Janaganana is based on <a href="https://kenya.wazimap.org/" target="_blank">Wazimap Kenya</a> which is based on <a href="http://censusreporter.org/" target="_blank">Census Reporter</a>.
-            <a href="http://nepalmap.org/" target="_blank">Nepalmap.org</a> also inpsired this project. You can build <a href="https://wazimap.readthedocs.org/en/latest/index.html" target="_blank">one</a> for your country.All of these tools are completely open source. You can build one for your country.
-            Janaganana code is licensed under the MIT License.</p>
+{% block head_title %}About - {{ block.super }}{% endblock %}
 
-    </section>
-</article>
+{% block content_container %}
+<main class="mdl-layout__content" style="flex: 1 0 auto; opacity: 0.7;">
+    <div class="content-container clearfix">
+        <article class="clearfix wrapper mdl-card mdl-shadow--2dp mdl-cell--12-col" id="about" style="margin: auto; max-width: 1600px;">
+            <div class="mdl-card__title" style="background-color: #303F9F;color: #C5CAE9; padding-left: 37px;">
+                <h2 class="mdl-card__title-text">About Counting India</h2>
+            </div>
+            <section class="mdl-card__supporting-text wrapper" style="color: rgba(0,0,0,87);">
+                <p>Counting India (CI) is an initiative of <a href="https://factly.in" target="_blank">Factly</a>. CI makes data related to the States/Districts in India more accessible and understandable. The primary source of data for CI is the Census of India 2011 and other official sources. In CI, one can compare any two States/Districts side by side.  One can also embed, access or download the data. </p>
+                <p>We envision that every person who is interested in using data in their sphere of work will value CI’s platform. CI will also be a reliable resource for policy makers, journalists and researchers to explore and discover stories of public interest in India. </p>
+                <p>CI code is licensed under the MIT License. CI has been modeled on tools like <a href="https://kenya.wazimap.org/" target="_blank">Wazimap Kenya</a>, <a href="http://censusreporter.org/" target="_blank">Census Reporter</a> and as inspired by <a href="http://nepalmap.org/" target="_blank">NepalMap</a>.</p>
+            </section>
+        </article>
+    </div>
+</main>
 {% endblock %}

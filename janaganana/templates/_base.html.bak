@@ -82,7 +82,7 @@
                   <!-- Navigation. We hide it in small screens. -->
                   <nav class="mdl-navigation mdl-layout--large-screen-only">
                     <!--<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about">About Us</a>-->
-                    <a class="mdl-navigation__link mdl-typography--text-uppercase" href="https://factly.in" target="_blank" style="color:rgb(255,255,255)!important;">Factly</a>
+                    <a class="mdl-navigation__link mdl-typography--text-uppercase" href="https://factly.in" target="_blank">Factly</a>
                     <button class="mdl-button mdl-js-button mdl-button--icon" onclick="window.location.href='https://facebook.com/factlydotin'">
                         <i class="fa fa-facebook" aria-hidden="true" style="font-size: 20px; opacity: 0.87;"></i>
                     </button>

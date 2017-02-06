@@ -1,96 +1,164 @@
-{% extends 'homepage.html' %}{% load humanize partition staticfiles %}
+{% extends '_base.html' %}{% load humanize partition staticfiles %}
 
-{% block head_title %}{{ WAZIMAP.name }}: {{WAZIMAP.tagline}}{% endblock %}
+{% block head_title %}{{ block.super }}: Making Census Data Easy to Use{% endblock %}
 {% block head_meta_description %}{{ WAZIMAP.name }} provides useful facts about places in {{ root_geo.name }}. Compare places using tables and maps, download data, and embed charts on your site!{% endblock %}
 {% block body_id %}homepage{% endblock %}
 
-{% block homepage_detail %}
-<div class="content-container clearfix">
-    <article id="explore" class="clearfix wrapper">
-        {% include "data/_blocks/_data_query_builder.html" %}
-    </article>
-</div>
+{% block head_css_extra %}
+<link rel="stylesheet" href="{% static 'css/vendor/leaflet-0.6.4.css' %}" />
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="{% static 'css/vendor/leaflet-0.6.4.ie.css' %}" />
+<![endif]-->
+<link href="{% static 'css/vendor/leaflet.label.css' %}" rel="stylesheet" />
+{% endblock %}
 
-<div class="content-container clearfix tan-stripe">
-    <article class="wrapper">
-        <section class="column-full clearfix">
-            <h1 class="article-header">Explore and understand India using data</h1>
-            <p>Whether you live in Kashmir or Kanyakumari, make sense of Census data.</p>
-            <div id="slippy-map"></div>
-        </section>
-        <section>
-            <div class="column-third callout with-icon">
-                <h3>
-                    <i class="fa fa-book"></i>
-                    Find facts
-                </h3>
-                <p>Data is broken down by category: Demographics, education.</p>
-            </div>
-            <div class="column-third callout with-icon">
-                <h3>
-                    <i class="fa fa-bar-chart-o"></i>
-                    Visualize
-                </h3>
-                <p>Our library of charts gives you insight into data from the places you search. Look for them on profile pages. You can also embed the charts</a> on your own site.</p>
-            </div>
-            <div class="column-third callout with-icon">
-                <h3>
-                    <i class="fa fa-refresh"></i>
-                    Get context
-                </h3>
-                <p>Pre-computed statistics are presented alongside each data point, so you can see how each place fits into a larger context.</p>
-            </div>
-        </section>
-    </article>
-</div>
+{% block content_container %}
+<main class="mdl-layout__content" style="flex: 1 0 auto;">
+    {% block place_finder %}
+    <div class="content-container clearfix homepage-hero">
+        <article id="profile" class="clearfix wrapper">
+            <section class="column-full clearfix">
+                <div id="geography-select-wrapper">
+                    <div class="logo-font counting-india-slogan" style="text-align: center;opacity: 0.8;">Explore India using data</div>
+                    <div class="logo-font counting-india-sub-slogan" style="text-align: center;opacity: 0.7;">explore. visualize. compare. understand.</div>
+                    
+                    <div class="homepage-search">
+                        <i class="material-icons">search</i>
+                        <input type="text" name="geography_select" id="geography-select" placeholder="search for a state or district in India ..." size="1">
+                    </div>
 
-<div class="content-container clearfix">
-    <article id="examples" class="clearfix wrapper">
-        <header class="column-full">
-            <h1 class="article-header">Using {{ WAZIMAP.name }}</h1>
-        </header>
-        <section class="card-container clearfix">
-            <h2 class="column-full subhead">Finding places</h2>
-            <span class="column-half card">
-                <img src="{% static 'img/examples/text_search.png' %}">
-                <span class="caption">Type in the name of the district. Then select the location you are interested in from the dropdown.</span>
-            </span>
-            <span class="column-half card">
-                <img src="{% static 'img/examples/map_search.png' %}">
-                <span class="caption">Alternatively, click on the map area you want to go to. The <span class="zoom-in">+</span> and <span class="zoom-out">-</span> buttons zoom in an out.</span>
-            </span>
-            <h2 class="column-full subhead">Exploring data</h2>
-            <span class="column-half card">
-                <img src="{% static 'img/examples/section_overview.png' %}">
-                <span class="caption">Statistics are broken down into categories. Find a key figure for a sub-category on the left.</span>
-            </span>
-            <span class="column-half card">
-                <img src="{% static 'img/examples/hover_over_graph.png' %}">
-                <span class="caption">Hover over graphs to see comparisons with the district and country averages.</span>
-            </span>
-        </section>
-    </article>
-</div>
+                    <div style="text-align: right;">
+                        <span class="or" style="float:none; text-align: center; padding-right: 15px;">or</span>
+                        <button style="width: 300px;" onclick="location.href='/profiles/{{ root_geo.geo_level }}-{{root_geo.geo_code }}/';" class="browse-india-button mdl-button counting-india-mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Browse India</button>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </div>
+    {% endblock %}
 
-<div class="content-container clearfix tan-stripe">
-    <article id="examples" class="clearfix wrapper">
-        <header class="column-full">
-            <h1 class="article-header">About {{ WAZIMAP.name }}</h1>
+    {% block homepage_detail %}
+    
+    <div class="content-container clearfix homepage-dataset" style="background-color: #9FA8DA;">
+        <article id="explore" class="clearfix wrapper">
+            {% include "data/_blocks/_data_query_builder.html" %}
+        </article>
+    </div>    
+    
+    <div class="content-container clearfix" style="background-color: #E8EAF6;">
+        <article class="wrapper">
+            <section class="clearfix">
+                <h1 class="article-header" style="opacity:0.87">Discover the story behind the data.</h1>
+                <p class="primary-explainer" style="opacity: 0.7; display:block">Counting India is <a href="https://factly.in" target="_blank">Factly’s</a> attempt to bridge the gap between the facts and the narrative. It is our attempt to process the data available and present it in a way you will understand. It is a journey that can take you as far as you want, from Kashmir to Kanyakumari with a special set of eyes. Eyes that will crunch the numbers, create personalized data visualization on key demographics and eyes that cannot lie.</p>
+                <div id="slippy-map"></div>
+            </section>
+            <section class="content-grid mdl-grid" style="padding-top: 0px; padding-bottom: 0px">
+                <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--6-col-tablet mdl-cell--12-col-phone">
+                  <div class="mdl-card__title" style="background-color: #3F51B5; color: #C5CAE9;">
+                    <i class="material-icons" style="padding-right: 20px;">library_books</i>
+                    <h2 class="mdl-card__title-text">Find facts</h2>
+                  </div>
+                  <div class="mdl-card__supporting-text" style="line-height: 28px;">
+                    Populations and financial figures are broken down by category: Elections, Demographics, Service Delivery, Economics and Education.
+                  </div>
+                </div>
+                <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--6-col-tablet mdl-cell--12-col-phone">
+                  <div class="mdl-card__title" style="background-color: #3F51B5; color: #C5CAE9;">
+                    <i class="material-icons" style="padding-right: 20px;">insert_chart</i>
+                    <h2 class="mdl-card__title-text">Visualize</h2>
+                  </div>
+                  <div class="mdl-card__supporting-text" style="line-height: 28px;">
+                    Our library of charts gives you insight into data from the places you research. Look for them on profile pages. You can even <a style = "color: #4CAF50;" href="{% url 'example_detail' 'embed-charts' %}">embed the charts</a> on your own site.
+                  </div>
+                </div>
+                <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--6-col-tablet mdl-cell--12-col-phone">
+                  <div class="mdl-card__title" style="background-color: #3F51B5; color: #C5CAE9;">
+                    <i class="material-icons" style="padding-right: 20px;">bubble_chart</i>
+                    <h2 class="mdl-card__title-text">Get context</h2>
+                  </div>
+                  <div class="mdl-card__supporting-text" style="line-height: 28px;">
+                    Pre-computed statistics are presented alongside each data point, so you can see how each place fits into a larger context.
+                  </div>
+                </div>
+            </section>
+        </article>
+    </div>
 
-         <p class="explainer">
-             <p>Janaganana makes data on India more accessible and understandable.
-            Janaganana is of great use to journalists, students, academics and others who are interested in using data to learn about each district, and soon every Taluk.
-This tool is a friendly and reliable resource for journalists who want to use data to tell stories or discover stories that are of public interest.
-Janaganana uses data from Census India, and other official sources, to create user-friendly data visualizations on key demographic issues.You can embed, access or download the data too. You can also compare any two areas side-by-side.
-Janaganana is a project of factly.in, a non-profit that is well known Data Journalism/Public Information portals in India.!
+    <div class="content-container clearfix">
+        <article id="examples" class="clearfix wrapper">
+            <h1 class="article-header" style="opacity: 0.8">Using {{ WAZIMAP.name }}</h1>
+            </header>
+            <section class="clearfix">
+                <h2 class="subhead" style="opacity: 0.7">Finding places</h2>
+                <div class="content-grid mdl-grid">
+                    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--12-col-phone" style="background-color: #E8EAF6;">
+                      <div class="mdl-card__title" style="background-color: #3F51B5; color: #C5CAE9; background: url(/static/img/examples/text_search.jpg) center / cover; height:366px">
+                        <h2 class="mdl-card__title-text"></h2>
+                      </div>
+                      <div class="mdl-card__supporting-text" style="line-height: 28px;">
+                        Type in the name or address of a place. Then select the location you are interested in from the dropdown.
+                      </div>
+                    </div>
+                    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--12-col-phone" style="background-color: #E8EAF6;">
+                      <div class="mdl-card__title" style="background-color: #3F51B5; color: #C5CAE9; background: url(/static/img/examples/map_search.jpg) center / cover; height:366px">
+                        <h2 class="mdl-card__title-text"></h2>
+                      </div>
+                      <div class="mdl-card__supporting-text" style="line-height: 28px;">
+                        Alternatively, click on the map area you want to go to. The <span class="zoom-in">+</span> and <span class="zoom-out">-</span> buttons zoom in an out.
+                      </div>
+                    </div>
+                </div>
 
-            <h2 class="column-full subhead">Shoulders of Giants</h2>
-        <p>Yes! Janaganana is based on <a href="https://kenya.wazimap.org/" target="_blank">Wazimap Kenya</a> which is based on <a href="http://censusreporter.org/" target="_blank">Census Reporter</a>.
-            <a href="http://nepalmap.org/" target="_blank">Nepalmap.org</a> also inpsired this project. You can build <a href="https://wazimap.readthedocs.org/en/latest/index.html" target="_blank">one</a> for your country.All of these tools are completely open source.
-            Janaganana code is licensed under the MIT License.</p>
+                <h2 class="subhead" style="opacity: 0.7">Exploring data</h2>
+                <div class="content-grid mdl-grid">
+                    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--12-col-phone" style="background-color: #E8EAF6;">
+                      <div class="mdl-card__title" style="background-color: #3F51B5; color: #C5CAE9; background: url(/static/img/examples/section_overview.jpg) center / cover; height:366px">
+                        <h2 class="mdl-card__title-text"></h2>
+                      </div>
+                      <div class="mdl-card__supporting-text" style="line-height: 28px;">
+                        Statistics are broken down into categories. Find a key figure for a sub-category on the left.
+                      </div>
+                    </div>
+                    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--12-col-phone" style="background-color: #E8EAF6;">
+                      <div class="mdl-card__title" style="background-color: #3F51B5; color: #C5CAE9; background: url(/static/img/examples/hover_over_graph.jpg) center / cover; height:366px">
+                        <h2 class="mdl-card__title-text"></h2>
+                      </div>
+                      <div class="mdl-card__supporting-text" style="line-height: 28px;">
+                        Hover over graphs to see comparisons with the district and country averages.
+                      </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </div>
 
+{% endblock %}
+</main>
+{% endblock %}
 
-        </header>
-    </article>
-</div>
+{% block body_javascript_extra %}
+{{ block.super }}
+
+{% block homepage_javascripb_libs %}
+<script src="{% static 'js/vendor/leaflet-0.6.4.js' %}"></script>
+<script src="{% static 'js/vendor/topojson.v1.min.js' %}"></script>
+<script src="{% static 'js/vendor/leaflet.label.js' %}"></script>
+<script src="{% static 'js/maps_static.js' %}"></script>
+<script src="{% static 'js/profile_map.js' %}"></script>
+{% endblock %}
+
+<script>
+// show 'use my current location' button
+if (Modernizr.geolocation) {
+    $('.geolocate-only').show();
+}
+// geoSelect already defined by widget.geo.select.js
+geoSelect.focus()
+
+var maps = new ProfileMaps();
+var centre = {% if WAZIMAP.map_centre %}{{ WAZIMAP.map_centre }}{% else %}null{% endif %};
+var zoom = {% if WAZIMAP.map_zoom %}{{ WAZIMAP.map_zoom }}{% else %}null{% endif %};
+maps.drawMapForHomepage('{{ geo_data.first_child_level }}', centre, zoom);
+</script>
+<script src="{% static 'js/data.query.builder.js' %}"></script>
 {% endblock %}

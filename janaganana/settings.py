@@ -42,7 +42,8 @@ WAZIMAP['geometry_data'] = {
 
 WAZIMAP['ga_tracking_id'] = 'UA-88773672-1'
 WAZIMAP['twitter'] = '@mthipparthi'
-
+WAZIMAP['cache_secs'] = 0
+WAZIMAP['embed_cache_secs'] = 0
 WAZIMAP['map_centre'] = [20.5937, 78.9629]
 WAZIMAP['map_zoom'] = 4
 

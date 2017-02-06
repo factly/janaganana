@@ -1,9 +1,13 @@
-a {
-	color: #e00015;
+a{
+    color: #388E3C!important;
 }
 
-a:hover {
-    color: #f85767;
+.bgcolor{
+    background-color: rgba(232,234,246,0.3);
+}
+
+#profile .bgcolor{
+    background-color: #fff;
 }
 
 #page-header,
@@ -29,8 +33,13 @@ a.action-button,
     border: 1px solid #00adef;
 }
 
-.tt-suggestion.tt-cursor { 
- background-color: #FF3348;
+.tt-suggestion.tt-cursor {
+    background-color: #9FA8DA;
+}
+
+/* Added by Shashi */
+.tt-dropdown-menu{
+    color: #000;
 }
 
 .action-links a {
@@ -47,4 +56,554 @@ a.action-button,
 
 body {
     background-color: #FFF;
+}
+
+.article-header{
+    margin: 0px;
+}
+
+/* Shashi's changes start here */
+
+#page-header-title .title img{
+    height: 50px;
+}
+
+#page-header-title{
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+.mdl-mega-footer__link-list .material-icons{
+    font-size: 18px;
+    vertical-align: middle;
+    padding-right: 10px;
+    color: #fff;
+}
+
+.mdl-mega-footer__link-list img{
+    width: 28px;
+}
+
+.counting-india-logo-image{
+    height: 60px;
+}
+
+.browse-india-button{
+    width: 100%;
+}
+
+.homepage-hero {
+    position: relative;
+    width: auto;
+    height: 800px;
+    background-color: #f3f3f3;
+    background: url(/static/img/homepage-hero.jpg) center 100% no-repeat;
+    background-size: cover;
+}    
+    
+.counting-india-slogan {
+    font-size: 50px;
+    padding-top: 80px;
+}
+
+.counting-india-sub-slogan {
+    font-size: 21px;
+    padding-top: 24px;
+}
+
+@media screen and (max-width: 900px) {
+
+    .homepage-hero {
+        position: relative;
+        width: auto;
+        height: 350px;
+        background-color: #f3f3f3;
+        background: url(/static/img/homepage-hero.jpg) center 130% no-repeat;
+        background-size: cover;
+    }    
+
+    .counting-india-slogan {
+        font-size: 20px;
+        margin: 0 16px;
+        padding-top: 24px;
+    }
+
+    .counting-india-sub-slogan {
+        font-size: 13px;
+        margin: 0 16px;
+        padding-top: 6px;
+    }    
+
+}
+
+/* Search Box on Header */
+
+.mdh-expandable-search {
+  margin: 0 50px;
+  align-items: center;
+  justify-content: center;
+}
+
+.mdh-expandable-search form {
+  /*max-width: 600px;*/
+}
+
+.mdh-expandable-search,
+.mdh-expandable-search form,
+.mdh-expandable-search input {
+  /* Cross browser flex-grow */
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.mdh-expandable-search,
+.mdh-expandable-search form {
+  /* Cross browser inline-flex */
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -moz-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+/* Position search icon */
+.mdh-expandable-search .material-icons {
+  position: relative;
+  right: -40px;
+  margin-left: -24px; /* Remove the blank space left behind by the icon being relatively positioned */
+}
+
+.mdh-expandable-search input {
+  outline: none;
+  border: none;
+  font-size: 16px;
+  color: #FFFFFF;
+  background-color: #78909C;
+  padding: 0px 35px 0px 70px;
+  height: 40px;
+  line-height: 40px; /* TODO: This was recommended for cross browser compatability of input height, check if its actually needed in modern browsers */
+  
+  border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px 5px 5px 5px;
+}
+
+.mdh-expandable-search input::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #FFFFFF;
+}
+.mdh-expandable-search input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #FFFFFF;
+   opacity:  1; /* Firefox gives the placeholder a reduced opacity so we have to increase it */
+}
+.mdh-expandable-search input::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #FFFFFF;
+   opacity:  1; /* Firefox gives the placeholder a reduced opacity so we have to increase it */
+}
+.mdh-expandable-search input:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #FFFFFF;
+}
+
+/* Search box on the Homepage */
+
+.homepage-search {
+  align-items: center;
+  justify-content: center;
+  padding-top: 25px; 
+  padding-bottom: 15px; 
+  width: 100%; 
+  margin-left: 0px; 
+  margin-right: 0px; 
+}
+
+.homepage-search,
+.homepage-search form,
+.homepage-search input {
+  /* Cross browser flex-grow */
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.homepage-search,
+.homepage-search form {
+  /* Cross browser inline-flex */
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -moz-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+/* Position search icon */
+.homepage-search .material-icons {
+  position: relative;
+  right: -40px;
+  margin-left: -24px; /* Remove the blank space left behind by the icon being relatively positioned */
+}
+
+.homepage-search input {
+  outline: none;
+  border: none;
+  font-size: 16px;
+  color: #000;
+  background-color: #C5CAE9;
+  padding: 0px 35px 0px 70px;
+  width: 100%; 
+  height: 50px; 
+  padding-left: 50px; 
+  opacity: 0.54; 
+  line-height: 50px; /* TODO: This was recommended for cross browser compatability of input height, check if its actually needed in modern browsers */
+  
+  border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px 5px 5px 5px;
+}
+
+.homepage-search input::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #000;
+}
+.homepage-search input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #000;
+   opacity:  1; /* Firefox gives the placeholder a reduced opacity so we have to increase it */
+}
+.homepage-search input::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #000;
+   opacity:  1; /* Firefox gives the placeholder a reduced opacity so we have to increase it */
+}
+.homepage-search input:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #000;
+}
+
+/* Search box for Datasets on the Homepage */
+
+.homepage-search-dataset {
+  align-items: center;
+  justify-content: center;
+  padding-top: 25px; 
+  padding-bottom: 15px; 
+  width: 100%; 
+  margin-left: 0px; 
+  margin-right: 0px; 
+}
+
+.homepage-search-dataset,
+.homepage-search-dataset form,
+.homepage-search-dataset input {
+  /* Cross browser flex-grow */
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.homepage-search-dataset,
+.homepage-search-dataset form {
+  /* Cross browser inline-flex */
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -moz-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+/* Position search icon */
+.homepage-search-dataset .material-icons {
+  position: relative;
+  right: -40px;
+  margin-left: -24px; /* Remove the blank space left behind by the icon being relatively positioned */
+}
+
+.homepage-search-dataset input {
+  outline: none;
+  border: none;
+  font-size: 16px;
+  color: #000;
+  background-color: #C5CAE9;
+  padding: 0px 35px 0px 70px;
+  width: 100%; 
+  height: 50px; 
+  padding-left: 50px; 
+  opacity: 0.54; 
+  line-height: 50px; /* TODO: This was recommended for cross browser compatability of input height, check if its actually needed in modern browsers */
+  
+  border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px 5px 5px 5px;
+}
+
+.homepage-search-dataset input::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #000;
+}
+.homepage-search-dataset input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #000;
+   opacity:  1; /* Firefox gives the placeholder a reduced opacity so we have to increase it */
+}
+.homepage-search-dataset input::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #000;
+   opacity:  1; /* Firefox gives the placeholder a reduced opacity so we have to increase it */
+}
+.homepage-search-dataset input:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #000;
+}
+
+/* Search box for Compare on the Profile Page */
+
+.profile-search-compare {
+  align-items: center;
+  justify-content: center;
+  padding-top: 15px; 
+  padding-bottom: 15px; 
+  width: 100%; 
+  margin-left: 0px; 
+  margin-right: 0px; 
+}
+
+.profile-search-compare,
+.profile-search-compare form,
+.profile-search-compare input {
+  /* Cross browser flex-grow */
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.profile-search-compare,
+.profile-search-compare form {
+  /* Cross browser inline-flex */
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -moz-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+/* Position search icon */
+.profile-search-compare .material-icons {
+  position: relative;
+  right: -40px;
+  margin-left: -24px; /* Remove the blank space left behind by the icon being relatively positioned */
+}
+
+.profile-search-compare input {
+  outline: none;
+  border: none;
+  font-size: 16px;
+  color: #000;
+  background-color: #C5CAE9;
+  padding: 0px 35px 0px 70px;
+  width: 100%; 
+  height: 50px; 
+  padding-left: 50px; 
+  opacity: 0.54; 
+  line-height: 50px; /* TODO: This was recommended for cross browser compatability of input height, check if its actually needed in modern browsers */
+  
+  border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px 5px 5px 5px;
+}
+
+.profile-search-compare .tt-dropdown-menu { 
+   position: relative!important;
+}
+
+.profile-search-compare input::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #000;
+}
+.profile-search-compare input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #000;
+   opacity:  1; /* Firefox gives the placeholder a reduced opacity so we have to increase it */
+}
+.profile-search-compare input::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #000;
+   opacity:  1; /* Firefox gives the placeholder a reduced opacity so we have to increase it */
+}
+.profile-search-compare input:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #000;
+}
+
+
+/* Slippy Map & other Profile Page */
+
+#profile .content-container {
+    padding-top: 155px;
+}
+
+#cover-profile{
+    padding-top: 75px;
+}
+
+#cover-map {
+    position: relative;
+    height: 42em;
+    margin-bottom: 2em;
+}
+
+#slippy-map {
+    position: absolute;
+    width: 100%;
+    height: 42em;
+    left: 0;
+    top: 0;
+}
+
+@media only screen and (max-width: 768px) {
+    #cover-map #slippy-map {
+        height: 200px;
+    }
+    
+    #cover-map {
+        margin-bottom: 0;
+    }
+    
+    #profile .content-container {
+        padding-top: .5em;
+    }
+    
+    #cover-profile{
+        padding-top: 15px;
+        margin-top: 185px;
+    }
+    
+    #homepage #geography-select {
+        font-size: 16px; 
+        padding: 0px 35px 0px 50px;
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    #cover-map #slippy-map {
+        height: 150px;
+    }
+    
+    #cover-map{
+        margin-bottom: 0px;
+    }
+    
+    #profile .content-container {
+        padding-top: .5em;
+    }
+    
+    #cover-profile{
+        padding-top: 15px;
+        margin-top: 135px;
+    }
+
+}
+
+@media (max-width: 768px) and (min-width: 480px){
+    .profile-card{
+        width: calc(100% - 16px)!important;
+    }
+}
+
+/*This is a workaround for the drawer menu icon which disappears once a while*/
+.mdl-layout__drawer-button .material-icons{
+    display: inline-block;
+}
+
+.section-second-row{
+    border-top: none; 
+    margin-bottom: 0px;
+}
+
+.profile-section{
+    margin-top: 10px;
+    background-color: rgba(232,234,246,0.3);
+    max-width: 1600px; 
+    margin: auto;
+    margin-top: 10px;
+}
+
+.profile-section .mdl-card__title {
+    background-color: #3F51B5; 
+    color: #C5CAE9;
+}
+
+.profile-section .mdl-card__title-text {
+    padding-left: 10px;
+}
+
+.section-secondary-heading{
+    margin-bottom: 0px; 
+    margin-top: 0px; color: #000; 
+    background-color: #E8EAF6; 
+    opacity: 0.7; 
+    font-size: 20px; 
+    padding-left: 15px;
+}
+
+.profile-section .mdl-card__supporting-text .section-container{
+    margin-left:0px; 
+    border-top: none; 
+    border-bottom: none; 
+    background-color: transparent;
+}
+
+/* Hide header, footer and other not needed elements in comparision */
+
+.profile-head2head-frame #cover-map{
+    height: 35em;
+    padding-bottom: 0px !important;
+}
+
+.profile-head2head-frame #profile-section{
+    height: 35em;
+    padding-bottom: 0px !important;
+}
+
+.profile-head2head-frame .main-content{
+    padding-top: 0px !important;
+}
+
+.profile-head2head-frame .compare-place{
+    display: none;
+}
+
+.profile-head2head-frame .mdl-layout__header, .profile-head2head-frame .mdl-mega-footer{
+  display: none;
+}
+
+/* Hide Search box on Homepage */
+#homepage .mdh-expandable-search {
+    visibility: hidden;
+}
+
+/*This is the CSS in the table page*/
+header.section-contents h1{
+    border: none;
+    background-color: #9FA8DA;
+    opacity: 0.9;
+}
+
+.hidden-ci{
+    display: none;
+}
+
+#table .main-content{
+  padding: 0;
+}
+
+.data-view #header-container h1 {
+    padding-right: 370px;
+    font-weight: 500;
+    font-size: 30px;
+    opacity: 0.87;
+    margin-top: 0px;
+}
+
+tr:hover td, tr.highlight td, .grid .highlight, .grid .hover {
+    background-color: #C5CAE9;
+}
+
+.g_HeadStatic {text-transform: uppercase;}
+
+.bar-group h4{font-size: 13px;}
+
+.hovercard h3{
+    font-size: 20px;
 }
