@@ -1,0 +1,25 @@
+<article id="age" class="clearfix">
+    <header class="section-contents">
+        <h1>Age</h1>
+    </header>
+    <div class="section-container">
+
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#age">Age <i class="fa fa-link"></i></a></h2>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=age.total_population stat_type='number' %}
+            </div>
+
+            <div class="column-two-thirds" id="chart-pie-age-age_ratio" data-stat-type="percentage" data-chart-title=""></div>
+
+        </section>
+        <section class="clearfix stat-row">
+            <div class="" id="chart-grouped_column-age-age_by_area_distribution" data-stat-type="scaled-percentage" data-chart-title="Age by Area" data-qualifier="Universe: {{ age.age_by_area_distribution.metadata.universe }}"></div>
+        </section>
+        <section class="clearfix stat-row">
+
+            <div class="" id="chart-grouped_column-age-age_by_sex_distribution" data-stat-type="scaled-percentage" data-chart-title="Age by Gender" data-qualifier="Universe: {{ age.age_by_sex_distribution.metadata.universe }}"></div>
+        </section>
+
+    </div>
+</article>

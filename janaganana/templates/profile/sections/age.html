@@ -1,25 +1,27 @@
-<article id="age" class="clearfix">
-    <header class="section-contents">
-        <h1>Age</h1>
-    </header>
-    <div class="section-container">
+<article id="age" class="clearfix wrapper mdl-card mdl-shadow--2dp mdl-cell--12-col profile-section">
+    <div class="mdl-card__title">
+        <i class="material-icons"><i class="material-icons">perm_contact_calendar</i></i>
+        <h2 class="mdl-card__title-text">Age</h2>
+    </div>
+    <div class="mdl-card__supporting-text wrapper" >
+        <div class="section-container">     
+            <section class="clearfix stat-row mdl-grid">
+                <div class="mdl-cell--4-col">
+                    {% include 'profile/_blocks/_stat_list.html' with stat=age.total_population stat_type='number' %}
+                </div>
 
-        <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#age">Age <i class="fa fa-link"></i></a></h2>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=age.total_population stat_type='number' %}
-            </div>
+                <div class="mdl-cell--8-col" id="chart-pie-age-age_ratio" data-stat-type="percentage" data-chart-title=""></div>
 
-            <div class="column-two-thirds" id="chart-pie-age-age_ratio" data-stat-type="percentage" data-chart-title=""></div>
-
-        </section>
-        <section class="clearfix stat-row">
-            <div class="" id="chart-grouped_column-age-age_by_area_distribution" data-stat-type="scaled-percentage" data-chart-title="Age by Area" data-qualifier="Universe: {{ age.age_by_area_distribution.metadata.universe }}"></div>
-        </section>
-        <section class="clearfix stat-row">
-
-            <div class="" id="chart-grouped_column-age-age_by_sex_distribution" data-stat-type="scaled-percentage" data-chart-title="Age by Gender" data-qualifier="Universe: {{ age.age_by_sex_distribution.metadata.universe }}"></div>
-        </section>
-
+            </section>
+            <h2 class="section-secondary-heading">Age by Area</h2>
+            <section class="clearfix stat-row mdl-grid section-second-row">
+                <div class="mdl-cell--12-col" id="chart-grouped_column-age-age_by_area_distribution" data-stat-type="scaled-percentage"></div>
+            </section>
+            <h2 class="section-secondary-heading">Age by Gender</h2>
+            <section class="clearfix stat-row mdl-grid section-second-row">
+                <div class="mdl-cell--12-col" id="chart-grouped_column-age-age_by_sex_distribution" data-stat-type="scaled-percentage"></div>
+            </section>
+        </div>
     </div>
 </article>
+

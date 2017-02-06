@@ -1,25 +1,25 @@
-<article id="workers" class="clearfix">
-    <header class="section-contents">
-        <h1>Data on Workers</h1>
-    </header>
-    <div class="section-container">
+<article id="workers" class="clearfix wrapper mdl-card mdl-shadow--2dp mdl-cell--12-col profile-section">
+    <div class="mdl-card__title">
+        <i class="material-icons">work</i>
+        <h2 class="mdl-card__title-text">Data on Workers</h2>
+    </div>
+    <div class="mdl-card__supporting-text wrapper" >
+        <div class="section-container">
 
-        <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#workers">Workers <i class="fa fa-link"></i></a></h2>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=workers.total_population stat_type='number' %}
-            </div>
-
-            <div class="column-two-thirds" id="chart-pie-workers-workers_ratio" data-stat-type="percentage" data-chart-title=""></div>
-
-        </section>
-        <section class="clearfix stat-row">
-            <div class="" id="chart-grouped_column-workers-workers_by_area_distribution" data-stat-type="scaled-percentage" data-chart-title="Workers by Area" data-qualifier="Universe: {{ workers.workers_by_area_distribution.metadata.universe }}"></div>
-        </section>
-        <section class="clearfix stat-row">
-
-            <div class="" id="chart-grouped_column-workers-workers_by_sex_distribution" data-stat-type="scaled-percentage" data-chart-title="Workers by Gender" data-qualifier="Universe: {{ workers.workers_by_sex_distribution.metadata.universe }}"></div>
-        </section>
-
+            <section class="clearfix stat-row mdl-grid">
+                <div class="mdl-cell--4-col">
+                    {% include 'profile/_blocks/_stat_list.html' with stat=workers.total_population stat_type='number' %}
+                </div>
+                <div class="mdl-cell--8-col" id="chart-pie-workers-workers_ratio" data-stat-type="percentage" data-chart-title=""></div>
+            </section>
+            <h2 class="section-secondary-heading">Workers by Area</h2>
+            <section class="clearfix stat-row mdl-grid section-second-row">
+                <div class="mdl-cell--12-col" id="chart-grouped_column-workers-workers_by_area_distribution" data-stat-type="scaled-percentage" data-chart-title="" data-qualifier="Universe: {{ workers.workers_by_area_distribution.metadata.universe }}"></div>
+            </section>
+            <h2 class="section-secondary-heading">Workers by Gender</h2>
+            <section class="clearfix stat-row mdl-grid section-second-row">
+                <div class="mdl-cell--12-col" id="chart-grouped_column-workers-workers_by_sex_distribution" data-stat-type="scaled-percentage"></div>
+            </section>
+        </div>
     </div>
 </article>

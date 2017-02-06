@@ -1,26 +1,24 @@
-<article id="maritalstatus" class="clearfix">
-    <header class="section-contents">
-        <h1>Marital Status</h1>
-    </header>
-    <div class="section-container">
-
-        <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#maritalstatus">Marital Status <i class="fa fa-link"></i></a></h2>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=maritalstatus.total_population stat_type='number' %}
-            </div>
-
-            <div class="column-two-thirds" id="chart-pie-maritalstatus-maritalstatus_ratio" data-stat-type="percentage" data-chart-title=""></div>
-
-        </section>
-
-        <section class="clearfix stat-row">
-            <div class="" id="chart-grouped_column-maritalstatus-maritalstatus_by_area_distribution" data-stat-type="scaled-percentage" data-chart-title="Marital Status by Area" data-qualifier="Universe: {{ maritalstatus.maritalstatus_by_area_distribution.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <div class="" id="chart-grouped_column-maritalstatus-maritalstatus_by_sex_distribution" data-stat-type="scaled-percentage" data-chart-title="Marital Status by Gender" data-qualifier="Universe: {{ maritalstatus.maritalstatus_by_sex_distribution.metadata.universe }}"></div>
-        </section>
-
+<article id="maritalstatus" class="clearfix wrapper mdl-card mdl-shadow--2dp mdl-cell--12-col profile-section">
+    <div class="mdl-card__title">
+        <i class="material-icons">supervisor_account</i>
+        <h2 class="mdl-card__title-text">Marital Status</h2>
+    </div>
+    <div class="mdl-card__supporting-text wrapper" >
+        <div class="section-container">
+            <section class="clearfix stat-row mdl-grid">
+                <div class="mdl-cell--4-col">
+                    {% include 'profile/_blocks/_stat_list.html' with stat=maritalstatus.total_population stat_type='number' %}
+                </div>
+                <div class="mdl-cell--8-col" id="chart-pie-maritalstatus-maritalstatus_ratio" data-stat-type="percentage"></div>
+            </section>
+            <h2 class="section-secondary-heading">Marital Status by Area</h2>
+            <section class="clearfix stat-row mdl-grid section-second-row">
+                <div class="mdl-cell--12-col" id="chart-grouped_column-maritalstatus-maritalstatus_by_area_distribution" data-stat-type="scaled-percentage"></div>
+            </section>
+            <h2 class="section-secondary-heading">Marital Status by Gender</h2>
+            <section class="clearfix stat-row mdl-grid section-second-row">
+                <div class="mdl-cell--12-col" id="chart-grouped_column-maritalstatus-maritalstatus_by_sex_distribution" data-stat-type="scaled-percentage"></div>
+            </section>
+        </div>
     </div>
 </article>
