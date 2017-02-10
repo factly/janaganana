@@ -6,10 +6,6 @@ a{
     background-color: rgba(232,234,246,0.3);
 }
 
-#profile .bgcolor{
-    background-color: #fff;
-}
-
 #page-header,
 .box-header {
   background-color: #e00015;
@@ -512,20 +508,24 @@ body {
 }
 
 .profile-section{
-    margin-top: 10px;
-    background-color: rgba(232,234,246,0.3);
-    max-width: 1600px; 
+    max-width: 1120px; 
     margin: auto;
     margin-top: 10px;
 }
 
 .profile-section .mdl-card__title {
-    background-color: #3F51B5; 
-    color: #C5CAE9;
+    background-color: #E8EAF6; 
 }
 
 .profile-section .mdl-card__title-text {
     padding-left: 10px;
+    color: #000;
+    opacity: 0.8;
+}
+
+.profile-section .mdl-card__title .material-icons {
+    color: #000;
+    opacity: 0.8;
 }
 
 .section-secondary-heading{
@@ -607,3 +607,13 @@ tr:hover td, tr.highlight td, .grid .highlight, .grid .hover {
 .hovercard h3{
     font-size: 20px;
 }
+
+.stat .primary{
+    color: #000;
+    opacity: 0.7;
+}
+
+.leaflet-bottom{
+  visibility: hidden;
+}
+

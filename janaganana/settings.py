@@ -55,7 +55,7 @@ WAZIMAP['embed_cache_secs'] = 0
 WAZIMAP['map_centre'] = [20.5937, 78.9629]
 WAZIMAP['map_zoom'] = 4
 
-WAZIMAP['cache_secs'] = 7 * 24 * 60 * 60
+#WAZIMAP['cache_secs'] = 7 * 24 * 60 * 60
 
 # Custom Settings
 WAZIMAP['email'] = 'mahesh.thipparthi@gmail.com'

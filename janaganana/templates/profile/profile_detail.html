@@ -25,10 +25,10 @@
 {% block header_content %}
     <div id="cover-map" class="clearfix">
         <div id="slippy-map"></div>
-        <div id="cover-profile" class="wrapper" style="margin-left: 0px; margin-right: 0px;">
+        <div id="cover-profile" class="wrapper" style="margin:auto;">
             <div class="clearfix mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--6-col-tablet mdl-cell--12-col-phone profile-card">
                 <header id="header-box" style="margin: 0; ">
-                    <div class="mdl-card__title" style="background-color: #3F51B5; color: #C5CAE9;">
+                    <div class="mdl-card__title" style="background-color: #3F51B5; color: #fff;">
                         <h2 class="mdl-card__title-text mdl-typography--text-uppercase">{{ geography.this.short_name }}</h2>
                     </div>
                     <div style="background-color: #E8EAF6">
@@ -44,7 +44,7 @@
                     </div>    
                 </header>
 
-                <div style="padding-left: 10px; padding-right: 10px; opacity:0.7">
+                <div style="padding-left: 10px; padding-right: 10px;">
                     <div class="stat">
                         <span class="primary">
                             {% block profile_header_population %}
@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 {% if geography.this.square_kms %}
-                <div style="padding-left: 10px; padding-right: 10px; opacity:0.7">
+                <div style="padding-left: 10px; padding-right: 10px;">
                     <div class="stat">
                         <span class="secondary">
                             <span class="value">{% if geography.this.square_kms < 1.0 %}{{ geography.this.square_kms|floatformat:"3" }}{% else %}{{ geography.this.square_kms|floatformat:"1" }}{% endif %}</span>
@@ -80,7 +80,7 @@
                 {% endif %}
 
                 {% block profile_header_tail %}
-                <div style="padding-left: 10px; padding-right: 10px; opacity:0.7">
+                <div style="padding-left: 10px; padding-right: 10px;">
                     <p class="caption"><strong>Census data:</strong> 2011</p>
                 </div>
                 {% endblock %}
@@ -101,9 +101,9 @@
     {% endcomment %}
 
     {% block profile_preamble %}
-    <div style="background-color:#9FA8DA; opacity: 0.8" class="mdl-cell--hide-phone mdl-cell--hide-tablet compare-place">   
+    <div style="background-color:#9FA8DA;" class="mdl-cell--hide-phone mdl-cell--hide-tablet compare-place">   
         <section class="clearfix wrapper" style="margin-bottom: 0px; padding-top: 25px; padding-bottom: 25px; ">
-            <h2 style="margin-top: 0px; margin-bottom: 0px; font-size: 1.5em;">Compare this place with another</h2>
+            <h2 style="margin-top: 0px; margin-bottom: 0px; font-size: 1.5em; opacity: 0.8">Compare this place with another</h2>
             <div class="profile-search-compare">
                 <i class="material-icons">search</i>
                 <input type="text" name="place_select" id="compare-place-select" placeholder="start typing a state or district name to compare with ..." autocomplete="off">

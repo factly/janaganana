@@ -1,0 +1,11 @@
+raw_env = [
+   'DATABASE_URL=postgresql://factlyin:factlyin@countingindia.c6i5anbwejsk.ap-south-1.rds.amazonaws.com/factlyin_db',
+   'DJANGO_SECRET_KEY=345826e4-de82-462b-96c3-2fbbc0eb30f3',
+   'DJANGO_DEBUG=False',
+   'DJANGO_SETTINGS_MODULE=janaganana.settings',
+]
+#'DATABASE_URL=postgresql://factlyin:factlyin@countingindia.c6i5anbwejsk.ap-south-1.rds.amazonaws.com/factlyin_db'
+#'DATABASE_URL=postgresql://factlyin:factlyin@localhost/factlyin',
+#errorlog = '/tmp/gunicorn-error.log'
+#accesslog = '/tmp/gunicorn-access.log'
+workers = 3
