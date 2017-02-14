@@ -20,7 +20,7 @@ DATABASES['default']['ATOMIC_REQUESTS'] = True
 # Localise this instance of Wazimap
 WAZIMAP['name'] = 'Counting India'
 # NB: this must be https if your site supports HTTPS.
-WAZIMAP['url'] = 'http://www.factly.in'
+WAZIMAP['url'] = 'http://www.countingindia.com'
 WAZIMAP['country_code'] = 'IN'
 WAZIMAP['profile_builder'] = 'janaganana.profiles.get_census_profile'
 
@@ -49,7 +49,7 @@ WAZIMAP['geometry_data'] = {
 }
 
 WAZIMAP['ga_tracking_id'] = 'UA-88773672-1'
-WAZIMAP['twitter'] = '@mthipparthi'
+WAZIMAP['twitter'] = '@factlydotin'
 WAZIMAP['cache_secs'] = 0
 WAZIMAP['embed_cache_secs'] = 0
 WAZIMAP['map_centre'] = [20.5937, 78.9629]
@@ -58,8 +58,8 @@ WAZIMAP['map_zoom'] = 4
 #WAZIMAP['cache_secs'] = 7 * 24 * 60 * 60
 
 # Custom Settings
-WAZIMAP['email'] = 'mahesh.thipparthi@gmail.com'
-WAZIMAP['github'] = 'https://github.com/mthipparthi/janaganana'
+WAZIMAP['email'] = 'ci@factly.in'
+WAZIMAP['github'] = 'https://github.com/factly/janaganana'
 WAZIMAP['tagline'] = 'Make sense of Indian census data'
 
 SECRET_KEY = config('DJANGO_SECRET_KEY')
