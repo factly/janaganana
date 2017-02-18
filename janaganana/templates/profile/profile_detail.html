@@ -1,4 +1,5 @@
 {% extends 'profile/_base_profile.html' %}{% load humanize lookup staticfiles %}
+{% load india_format %}
 
 {% block head_title %}{{ geography.this.short_name }} - {{ block.super }}{% endblock %}
 
@@ -48,7 +49,7 @@
                     <div class="stat">
                         <span class="primary">
                             {% block profile_header_population %}
-                            <span class="value">{{ demographics.total_population.values.this|floatformat:"0" }}</span>
+                            <span class="value">{{ demographics.total_population.values.this| india_format }}</span>
                             <span class="name">Population</span>
                             {% endblock %}
                         </span>
