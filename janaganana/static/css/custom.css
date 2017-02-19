@@ -25,6 +25,12 @@ a.action-button,
     background-color: #e00015;
 }
 
+#cover-profile{
+    margin-left:100px;
+    margin-top: 90px;
+    width: 400px;
+}
+
 #cover-profile article {
     border: 1px solid #00adef;
 }
@@ -428,10 +434,6 @@ body {
     padding-top: 155px;
 }
 
-#cover-profile{
-    padding-top: 75px;
-}
-
 #cover-map {
     position: relative;
     height: 42em;
@@ -444,6 +446,14 @@ body {
     height: 42em;
     left: 0;
     top: 0;
+}
+
+@media only screen and (max-width: 1140px) {
+    #cover-profile {
+        margin-left: 0px;
+        margin-left: 8px;
+        /* margin-right: 8px; */
+    }
 }
 
 @media only screen and (max-width: 768px) {
@@ -460,8 +470,9 @@ body {
     }
     
     #cover-profile{
-        padding-top: 15px;
-        margin-top: 185px;
+        margin-top: 210px;
+        margin-right: 8px;
+        width: auto;
     }
     
     #homepage #geography-select {
@@ -483,18 +494,7 @@ body {
     #profile .content-container {
         padding-top: .5em;
     }
-    
-    #cover-profile{
-        padding-top: 15px;
-        margin-top: 135px;
-    }
 
-}
-
-@media (max-width: 768px) and (min-width: 480px){
-    .profile-card{
-        width: calc(100% - 16px)!important;
-    }
 }
 
 /*This is a workaround for the drawer menu icon which disappears once a while*/
@@ -505,6 +505,10 @@ body {
 .section-second-row{
     border-top: none; 
     margin-bottom: 0px;
+}
+
+.profile-card{
+  width: auto;
 }
 
 .profile-section{
@@ -589,7 +593,7 @@ header.section-contents h1{
 }
 
 .data-view #header-container h1 {
-    padding-right: 370px;
+    padding-right: 0px;
     font-weight: 500;
     font-size: 30px;
     opacity: 0.87;
@@ -613,7 +617,33 @@ tr:hover td, tr.highlight td, .grid .highlight, .grid .hover {
     opacity: 0.7;
 }
 
-.leaflet-bottom{
-  visibility: hidden;
+.leaflet-container a {
+    color: #0078A8!important;
 }
+
+@media only screen and (max-width: 480px) {
+  #homepage .mdh-expandable-search {
+      visibility: visible;
+  }
+
+  .leaflet-bottom{
+      visibility: hidden;
+  }
+
+  #slippy-map{
+    display: none;
+  }
+
+  #cover-profile{
+    padding-top: 15px;
+    padding-right: 8px;
+    padding-left: 8px;
+    margin: auto;
+    margin-top: 0px;
+  }
+
+}
+
+
+
 
