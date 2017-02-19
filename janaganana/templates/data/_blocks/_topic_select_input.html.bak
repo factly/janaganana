@@ -1,9 +1,0 @@
-<div style="background-color: #C5CAE9; opacity: 0.8">
-<section class="wrapper clearfix hidden-ci header-container" id="query-topic-picker">
-    <h1>Find a table</h1>
-    <div class="typeahead-container">
-        <input name="topic_select" id="topic-select" type="text" placeholder="Search by table or column name..." autocomplete="off">
-        <p class="explain"><a href="#" id="cancel-search">Cancel search</a></p>
-    </div>
-</section>
-</div>
