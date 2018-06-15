@@ -1,4 +1,4 @@
-# Janaganana(CountingIndia)
+# Janaganana(CountingIndia :in:)
 
 Janaganana(http://countingindia.com/) is a Django application for exploring census and other similar data. It makes it easy to understand a place through the eyes of the data, and to explore data across a range of places. It is most suited for census data but can easily be used with other data that is similarly focused on places in a country.
 
@@ -15,8 +15,7 @@ You can also find Censusreporter on GitHub (https://github.com/censusreporter/ce
 5. Deployed on AWS(ubuntu) with RDS(Postgres)
 6. Pandas- Extensively used to clean and transform the data.All jupyter IPython Notebooks can be found here(https://github.com/mthipparthi/janaganana-data)
 
-#CI On Docker(Yes CI is on Docker :smile:)  ( :star2: :star2: :star2: :star2:)
-=============
+# CI On Docker(Yes CI is on Docker :smile:)  ( :star2: :star2: :star2: :star2:)
 
 1. Follwoing instuctions to install Docker  - https://docs.docker.com/install/
 2. Start docker daemon if not running
