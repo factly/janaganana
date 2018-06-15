@@ -1,0 +1,35 @@
+version: '2'
+networks:
+  ci-net:
+    external: true
+services:
+  ci-db:
+    image: postgres:latest
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: factlyin
+      POSTGRES_USER: factlyin
+      POSTGRES_PASSWORD: factlyin
+    ports:
+      - 5432:5432
+    networks:
+      - ci-net
+  ci-app:
+    build:
+      context: .
+    # command: /bin/sh -c "./db_install.sh && python /usr/src/app/manage.py runserver 0.0.0.0:8000"
+    command: /bin/sh -c "python check_db.py --service-name ci-db --ip ci-db --port 5432 && ./db_install.sh && python /usr/src/app/manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DJANGO_SECRET_KEY=secret-key-1234567890
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - 8000:8000
+    networks:
+      - ci-net
+    depends_on:
+      - ci-db
+volumes:
+  pgdata:
