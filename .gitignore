@@ -90,6 +90,7 @@ ENV/
 
 data/pandas-refrence
 .idea
+.vscode
 
 static
 # Elastic Beanstalk Files

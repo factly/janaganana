@@ -15,6 +15,19 @@ You can also find Censusreporter on GitHub (https://github.com/censusreporter/ce
 5. Deployed on AWS(ubuntu) with RDS(Postgres)
 6. Pandas- Extensively used to clean and transform the data.All jupyter IPython Notebooks can be found here(https://github.com/mthipparthi/janaganana-data)
 
+#CI On Docker(Yes CI is on Docker :smile:)  ( :star2: :star2: :star2: :star2:)
+=============
+
+1. Follwoing instuctions to install Docker  - https://docs.docker.com/install/
+2. Start docker daemon if not running
+3. docker-compose build
+4. docker network create ci-net
+5. docker-compose up
+6. find ip address of docker machine if http://localhost:8000/ not working (docker-machine ip default) 
+and use that ip - http://192.168.99.100:8000/
+7. Application is up :)
+
+
 
 # Local development
 

@@ -13,7 +13,8 @@ INSTALLED_APPS = ['janaganana', 'django.contrib.sitemaps'] + INSTALLED_APPS
 
 ROOT_URLCONF = 'janaganana.urls'
 
-DATABASE_URL = config('DATABASE_URL', default='postgresql://factlyin:factlyin@localhost/factlyin')
+DATABASE_URL = config(
+    'DATABASE_URL', default='postgresql://factlyin:factlyin@ci-db/factlyin')
 DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
