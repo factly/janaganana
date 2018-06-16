@@ -1,15 +1,21 @@
+/* Styling for links across the website */
 a{
     color: #388E3C!important;
 }
 
-.bgcolor{
-    background-color: rgba(232,234,246,0.3);
+.toggle-set a, .tool-group a, .aside-block a, #change-table{
+    color: #014948!important;
 }
 
-#page-header,
+.box-header a{
+    color: #fff!important;
+}
+
+
+/*#page-header,
 .box-header {
   background-color: #e00015;
-}
+}*/
 
 #menu a.button,
 a.action-button,
@@ -75,6 +81,10 @@ body {
     padding-top: 0px;
 }
 
+.mdl-mega-footer{
+    background-color: #222222;
+}
+
 .mdl-mega-footer__link-list .material-icons{
     font-size: 18px;
     vertical-align: middle;
@@ -111,6 +121,10 @@ body {
 .counting-india-sub-slogan {
     font-size: 21px;
     padding-top: 24px;
+}
+
+.item-chosen-title{
+    margin-top: 0px;
 }
 
 @media screen and (max-width: 900px) {

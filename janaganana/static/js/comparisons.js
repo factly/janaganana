@@ -18,7 +18,7 @@ This expects to have Underscore, D3 and jQuery.
 
 function Comparison(options) {
 
-    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'http://api.censusreporter.org';
+    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'http://api.censusreporter.org'; 
 
     var comparison = {
         tableSearchAPI: '/api/1.0/table',
@@ -44,7 +44,7 @@ function Comparison(options) {
         comparison.headerContainer = d3.select(options.displayHeader);
         comparison.dataContainer = d3.select(options.dataContainer);
         comparison.aside = d3.select('aside');
-
+        
         // add the "change table" widget and listener
         comparison.makeTopicSelectWidget();
 
@@ -128,7 +128,7 @@ function Comparison(options) {
 
     // BEGIN THE MAP-SPECIFIC THINGS
     comparison.makeMapDisplay = function() {
-        var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'http://api.censusreporter.org';
+        var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'http://api.censusreporter.org'; 
 
         // some extra setup for map view
         // for triggering overflow-y: visible on table search
@@ -150,7 +150,7 @@ function Comparison(options) {
         } else {
             comparison.chosenColumn = comparison.columnKeys[0];
         }
-
+        
         var allowMapDrag = (browserWidth > 480) ? true : false;
         var mapDataLoaded = function(features) {
             comparison.geoFeatures = features;
@@ -179,7 +179,7 @@ function Comparison(options) {
               subdomains: 'abc',
               maxZoom: 17
             }).addTo(comparison.map);
-
+                
             comparison.showChoropleth();
 
             comparison.sumlevSelector.fadeIn();
@@ -188,7 +188,7 @@ function Comparison(options) {
         };
 
         comparison.loadMapData(mapDataLoaded);
-
+        
         comparison.changeMapControls();
         comparison.addGeographyCompareTools();
         if (!!comparison.denominatorColumn) {
@@ -437,9 +437,7 @@ function Comparison(options) {
                 pctLabel += '<span class="context">&plusmn;' + valFmt(thisPctMOE, 'percentage') + '</span>';
                 pctLabel += closeParen + '</span>';
             }
-            if (thisValue === null) {
-                valLabel = '<span class="inline-stat">N/A</span>';
-            } else if (!!thisValue) {
+            if (!!thisValue) {
                 var openParen = (thisIsPct) ? '(' : '',
                     closeParen = (thisIsPct) ? ')' : '';
                 valLabel = '<span class="inline-stat">' + openParen + valFmt(thisValue, comparison.statType);
@@ -470,11 +468,11 @@ function Comparison(options) {
         var viewGeoData = _.filter(comparison.geoFeatures, function(g) {
             var thisSumlev = g.properties.geoid.split('-')[0];
             return thisSumlev == comparison.chosenSumlev;
-        });
+        })
 
         var values = d3.values(viewGeoData).map(function(d) {
             return d.properties.data[comparison.valueType][comparison.chosenColumn];
-        }).filter(function(d) { return d !== null; });
+        });
 
 
         // create the legend
@@ -494,11 +492,11 @@ function Comparison(options) {
             comparison.legendContainer.selectAll('li')
                     .data(colors)
                 .enter().append('li')
-                    .style('background-color', function(d) { if (d) { return d; }})
-                    .classed('empty', function(d) { return (d === null); })
+                    .style('background-color', function(d) { if (d) { return d }})
+                    .classed('empty', function(d) { return (d == null) })
                 .append('span')
                     .classed('quantile-label', true);
-        };
+        }
         buildLegend(quintileColors);
 
         // add the actual label values
@@ -511,16 +509,16 @@ function Comparison(options) {
         if (comparison.valueType != 'percentage') {
             precision = (max <= 1) ? 2 : (max <= 10) ? 1 : 0;
         }
-
+        
         labelData.unshift(min);
         labelData.push(max);
-
+        
         var legendLabels = d3.select("#map-legend")
             .selectAll("span")
             .data(labelData)
             .text(function(d){
-                if (typeof(d) != 'undefined' && d != null) {
-                    if (comparison.valueType == 'percentage' || comparison.statType == 'percentage') {
+                if (typeof(d) != 'undefined') {
+                    if (comparison.valueType == 'percentage') {
                         return roundNumber(d, precision) + '%';
                     } else {
                         var prefix = (comparison.statType == 'dollar') ? '$' : '';
@@ -530,9 +528,10 @@ function Comparison(options) {
             });
 
         var styleFeature = function(feature) {
-            var val = feature.properties.data[comparison.valueType][comparison.chosenColumn];
             return {
-                fillColor: val === null ? 'white' : comparison.colors[comparison.quantize(val)],
+                fillColor: comparison.colors[
+                    comparison.quantize(feature.properties.data[comparison.valueType][comparison.chosenColumn])
+                ],
                 weight: 1.0,
                 opacity: 1.0,
                 color: '#fff',
@@ -637,10 +636,7 @@ function Comparison(options) {
                     gridRowCol = '';
 
                 // add raw numbers
-                if (thisValue === null) {
-                    gridRowCol += '<span class="value null">N/A</span>';
-                    gridRowCol += '<span class="context null">N/A</span>';
-                } else if (thisValue >= 0) {
+                if (thisValue >= 0) {
                     gridRowCol += '<span class="value number">' + valFmt(thisValue, thisFmt) + '</span>';
                     gridRowCol += '<span class="context number">&plusmn;' + valFmt(thisValueMOE, thisFmt) + '</span>';
                 }
@@ -821,7 +817,6 @@ function Comparison(options) {
             var chartPoints = chart.selectAll('.chart-point')
                     .data(d3.values(v.geographies))
                 .enter().append('li')
-                    .filter(function(d) { return d[comparison.valueType] !== null; })
                     .classed('chart-point', true)
                     .style('left', function(d) {
                         return roundNumber(v.xScale(d[comparison.valueType]), 1)+'%';
@@ -863,7 +858,7 @@ function Comparison(options) {
     comparison.makeDistributionLabels = function(points) {
         var chartPointLabels = points.append('span')
                 .classed('hovercard', true);
-
+                
         chartPointLabels.append('a')
                 .classed('label-title', true)
                 .attr('href', function(d) { return '/profiles/' + d.geoID + '/'; })
@@ -1091,7 +1086,7 @@ function Comparison(options) {
 
         d3.select('#comparison-add').remove();
         comparison.geoSelectContainer = comparison.aside.append('div')
-            .attr('class', 'aside-block search hidden')
+            .attr('class', 'aside-block search hidden-ci')
             .attr('id', 'comparison-add');
 
         comparison.geoSelectContainer.append('a')
@@ -1137,7 +1132,7 @@ function Comparison(options) {
             displayKey: 'full_name',
             source: comparison.geoSelectEngine.ttAdapter(),
             templates: {
-                header: '<h2>Geographies</h2>',
+                header: '<h2 style="background-color: #5C6BC0">Geographies</h2>',
                 suggestion: Handlebars.compile(
                     '<p class="result-name">{{full_name}}<span class="result-type">{{geo_level}}</span></p>'
                 )
@@ -1204,7 +1199,7 @@ function Comparison(options) {
             displayKey: 'full_name',
             source: comparison.geoSelectEngine.ttAdapter(),
             templates: {
-                header: '<h2>Geographies</h2>',
+                header: '<h2 style="background-color: #5C6BC0">Geographies</h2>',
                 suggestion: Handlebars.compile(
                     '<p class="result-name">{{full_name}}<span class="result-type">{{sumlev_name}}</span></p>'
                 )
@@ -1235,7 +1230,7 @@ function Comparison(options) {
         if (!!comparison.primaryGeoID && !_.isEmpty(sumlevMap[comparison.thisSumlev].ancestors)) {
             var parentGeoAPI = comparison.rootGeoAPI + comparison.primaryGeoID + '/parents',
                 parentOptionsContainer = comparison.aside.append('div')
-                    .attr('class', 'aside-block hidden')
+                    .attr('class', 'aside-block hidden-ci')
                     .attr('id', 'comparison-parents');
 
             $.getJSON(parentGeoAPI)
@@ -1580,10 +1575,6 @@ function Comparison(options) {
     }
 
     comparison.getStatType = function() {
-        if (comparison.table.stat_type == 'percentage') {
-            return 'percentage';
-        }
-
         var title = comparison.table.title.toLowerCase();
 
         if (title.indexOf('dollars') !== -1 && title.indexOf('percent') == -1) {
@@ -1711,7 +1702,7 @@ function Comparison(options) {
             ga('send', 'event', category, action, label);
         }
     }
-
+    
     comparison.addNumbertoggles = function(redrawFunction) {
         d3.select('#number-toggles').remove();
         var toggleText = (comparison.valueType == 'estimate') ? 'Switch to percentages' : 'Switch to totals',
@@ -1732,8 +1723,9 @@ function Comparison(options) {
     comparison.loadMapData = function(cb) {
         GeometryLoader.loadGeometryForComparison(comparison, cb);
     }
-
+    
     // ready, set, go
     comparison.init(options);
     return comparison;
 }
+
