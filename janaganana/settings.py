@@ -49,7 +49,7 @@ WAZIMAP['geometry_data'] = {
     'district': 'geo/district.topojson',
 }
 
-WAZIMAP['ga_tracking_id'] = 'UA-88773672-1'
+WAZIMAP['ga_tracking_id'] = 'UA-91398887-1'
 WAZIMAP['twitter'] = '@factlydotin'
 WAZIMAP['cache_secs'] = 0
 WAZIMAP['embed_cache_secs'] = 0
