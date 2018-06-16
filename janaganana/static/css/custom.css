@@ -448,6 +448,15 @@ body {
     top: 0;
 }
 
+.data-view #slippy-map {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+
 @media only screen and (max-width: 1140px) {
     #cover-profile {
         margin-left: 0px;
@@ -457,8 +466,16 @@ body {
 }
 
 @media only screen and (max-width: 768px) {
-    #cover-map #slippy-map {
+    #slippy-map {
         height: 200px;
+    }
+
+    .data-view #slippy-map {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
     }
     
     #cover-map {
@@ -480,21 +497,6 @@ body {
         padding: 0px 35px 0px 50px;
         width: 100%;
     }
-}
-
-@media only screen and (max-width: 480px) {
-    #cover-map #slippy-map {
-        height: 150px;
-    }
-    
-    #cover-map{
-        margin-bottom: 0px;
-    }
-    
-    #profile .content-container {
-        padding-top: .5em;
-    }
-
 }
 
 /*This is a workaround for the drawer menu icon which disappears once a while*/
@@ -622,25 +624,41 @@ tr:hover td, tr.highlight td, .grid .highlight, .grid .hover {
 }
 
 @media only screen and (max-width: 480px) {
-  #homepage .mdh-expandable-search {
-      visibility: visible;
-  }
+    #cover-map{
+        margin-bottom: 0px;
+    }
 
-  .leaflet-bottom{
-      visibility: hidden;
-  }
+    #profile .content-container {
+        padding-top: .5em;
+    }
 
-  #slippy-map{
-    display: none;
-  }
+    #homepage .mdh-expandable-search {
+        visibility: visible;
+    }
 
-  #cover-profile{
-    padding-top: 15px;
-    padding-right: 8px;
-    padding-left: 8px;
-    margin: auto;
-    margin-top: 0px;
-  }
+    .leaflet-bottom{
+        visibility: hidden;
+    }
+
+    #slippy-map{
+        display: none;
+    }
+
+    .data-view #slippy-map {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+    }
+
+    #cover-profile{
+        padding-top: 15px;
+        padding-right: 8px;
+        padding-left: 8px;
+        margin: auto;
+        margin-top: 0px;
+    }
 
 }
 
