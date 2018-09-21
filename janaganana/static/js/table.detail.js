@@ -203,7 +203,7 @@ function Table(options) {
             displayKey: 'full_name',
             source: table.placeSelectEngine.ttAdapter(),
             templates: {
-                header: '<h2 style="background-color: #5C6BC0">Geographies</h2>',
+                header: '<h2>Geographies</h2>',
                 suggestion: Handlebars.compile(
                     '<p class="result-name">{{full_name}}<span class="result-type">{{sumlev_name}}</span></p>'
                 )
@@ -247,7 +247,7 @@ function Table(options) {
             displayKey: 'full_name',
             source: table.placeSelectEngine.ttAdapter(),
             templates: {
-                header: '<h2 style="background-color: #5C6BC0">Geographies</h2>',
+                header: '<h2>Geographies</h2>',
                 suggestion: Handlebars.compile(
                     '<p class="result-name">{{full_name}}<span class="result-type">{{sumlev_name}}</span></p>'
                 )
@@ -295,4 +295,3 @@ function Table(options) {
     table.init(options);
     return table;
 }
-

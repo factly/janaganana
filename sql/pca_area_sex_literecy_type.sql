@@ -25,6 +25,7 @@ SET default_with_oids = false;
 CREATE TABLE area_literacy_sex (
     geo_level character varying(15) NOT NULL,
     geo_code character varying(10) NOT NULL,
+    geo_version character varying(100) DEFAULT '2011'::character varying NOT NULL,
     area character varying(10) NOT NULL,
     literacy character varying(20) NOT NULL,
     sex character varying(10) NOT NULL,
@@ -5455,7 +5456,7 @@ IN,country,Rural,Female,Illiterate,204535333
 --
 
 ALTER TABLE ONLY area_literacy_sex
-    ADD CONSTRAINT area_literacy_sex_pkey PRIMARY KEY (geo_level, geo_code, area, literacy, sex);
+    ADD CONSTRAINT area_literacy_sex_pkey PRIMARY KEY (geo_level, geo_code, geo_version, area, literacy, sex);
 
 
 --

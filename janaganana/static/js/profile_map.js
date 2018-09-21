@@ -31,7 +31,7 @@ var ProfileMaps = function() {
         this.drawAllFeatures();
     };
 
-    this.drawMapForHomepage = function(geo_level, centre, zoom) {
+    this.drawMapForHomepage = function(geo_level, geo_version, centre, zoom) {
         // draw a homepage map, but only for big displays
         if (browserWidth < 768 || $('#slippy-map').length === 0) return;
 
@@ -42,7 +42,7 @@ var ProfileMaps = function() {
             self.map.setView(centre, zoom);
         }
 
-        GeometryLoader.loadGeometryForLevel(geo_level, function(features) {
+        GeometryLoader.loadGeometryForLevel(geo_level, geo_version, function(features) {
             var layer = self.drawFeatures(features);
             if (!centre) {
                 self.map.fitBounds(layer.getBounds());
@@ -82,14 +82,12 @@ var ProfileMaps = function() {
     this.drawAllFeatures = function() {
         var geo_level = this.geo.this.geo_level;
         var geo_code = this.geo.this.geo_code;
+        var geo_version = this.geo.this.version;
         var osm_area_id = this.geo.this.osm_area_id;
         var child_level = this.geo.this.child_level;
 
-	if (geo_code == 550 || geo_code == 552)
-	    console.log("level: ", geo_level, "code: ", geo_code);
-
         // load all map shapes for this level
-        GeometryLoader.loadGeometryForLevel(geo_level, function(features) {
+        GeometryLoader.loadGeometryForLevel(geo_level, geo_version, function(features) {
             // split into this geo, and everything else
             var groups = _.partition(features.features, function(f) {
                 return f.properties.code == geo_code;
@@ -108,7 +106,7 @@ var ProfileMaps = function() {
 
         // load shapes at the child level, if any
         if (child_level) {
-            GeometryLoader.loadGeometryForLevel(child_level, function(features) {
+            GeometryLoader.loadGeometryForLevel(child_level, geo_version, function(features) {
                 self.drawFeatures(features);
             });
         }
@@ -123,9 +121,6 @@ var ProfileMaps = function() {
 
         if (browserWidth > 768) {
             var z;
-
-	    /* disable zoom calculation till we identify the root cause */
-	    /*
             for(z = 16; z > 2; z--) {
                 var swPix = this.map.project(objBounds.getSouthWest(), z),
                     nePix = this.map.project(objBounds.getNorthEast(), z),
@@ -135,17 +130,7 @@ var ProfileMaps = function() {
                     break;
                 }
             }
-	    */
-	    
-	    if (feature.properties.level === "country")
-		z = 4;
-	    else if (feature.properties.level === "state")
-		z = 6;
-	    else if (feature.properties.level === "district")
-		z = 9;
-	    else
-		z = 4;
-	    
+
             this.map.setView(layer.getBounds().getCenter(), z);
             this.map.panBy([-270, 0], {animate: false});
         } else {
@@ -154,14 +139,11 @@ var ProfileMaps = function() {
     };
 
     this.drawFeatures = function(features) {
-	function capitalize(str) {
-	    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-	}
         // draw all others
         return L.geoJson(features, {
             style: this.layerStyle,
             onEachFeature: function(feature, layer) {
-                layer.bindLabel(capitalize(feature.properties.name), {direction: 'auto'});
+                layer.bindLabel(feature.properties.name, {direction: 'auto'});
 
                 layer.on('mouseover', function() {
                     layer.setStyle(self.hoverStyle);
