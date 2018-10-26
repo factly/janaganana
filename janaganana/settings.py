@@ -9,29 +9,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
 TEMPLATE_DEBUG = DEBUG
 
-SECRET_KEY = 'wt08^t@ugzs4sw*qn=c*=$d+jgkqkkp4$0z98j-k5s!o2um$(n'
+SECRET_KEY  = config('SECRET_KEY')
 
 # DJANGO_SETTINGS_MODULE = config('DJANGO_SETTINGS_MODULE')
 
 # install this app before Wazimap
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'census',
-    'wazimap',
-    'django.contrib.humanize',
-    'django.contrib.sitemaps',
-    'sass_processor',
-    'leaflet',
-    'jsonify',
-]
-
-INSTALLED_APPS = ['janaganana'] + INSTALLED_APPS
-# INSTALLED_APPS = ['janaganana', 'pipeline'] + INSTALLED_APPS
+INSTALLED_APPS = ['janaganana', 'django.contrib.sitemaps','django.contrib.auth'] + INSTALLED_APPS
 
 ROOT_URLCONF = 'janaganana.urls'
 
