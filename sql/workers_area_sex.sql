@@ -25,6 +25,7 @@ SET default_with_oids = false;
 CREATE TABLE area_workers_workerssex (
     geo_level character varying(15) NOT NULL,
     geo_code character varying(10) NOT NULL,
+    geo_version character varying(100) DEFAULT '2011'::character varying NOT NULL,
     area character varying(10) NOT NULL,
     workerssex character varying(10) NOT NULL,
     workers character varying(50) NOT NULL,
@@ -16271,7 +16272,7 @@ IN,country,Urban,Female,Non-workers available for work,13155932
 --
 
 ALTER TABLE ONLY area_workers_workerssex
-    ADD CONSTRAINT area_workers_workerssex_pkey PRIMARY KEY (geo_level, geo_code, area, workers, workerssex);
+    ADD CONSTRAINT area_workers_workerssex_pkey PRIMARY KEY (geo_level, geo_code, geo_version, area, workers, workerssex);
 
 
 --

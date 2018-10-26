@@ -1,0 +1,183 @@
+#homepage #slippy-map {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+    #homepage #slippy-map {
+        display: block;
+        width: 100%;
+        height: 35em;
+        position: relative;
+    }
+}
+
+#homepage #explore-topic-place-picker,
+#homepage #explore-topic-place-picker-parent {
+  display: none;
+}
+
+#examples span.zoom-in, #examples span.zoom-out {
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    width: 23px;
+    height: 23px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    box-shadow: 0 1px 7px rgba(0,0,0,0.65);
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+#page-header-title .title img {
+    margin: 0 3px 0 0;
+    vertical-align: bottom;
+    height: 25px;
+}
+#page-header-title .header-buttons {
+    float: right;
+}
+#page-header-title .fa-twitter {
+  margin-right: 5px;
+}
+.mma-logo {
+    height: 21px;
+    padding: 2px;
+    background-color: white;
+    vertical-align: baseline;
+}
+#page-header-title .mma-logo {
+    margin: 5px 3px 0px 0px;
+}
+#page-header-title .tool-group {
+  margin-left: 5px;
+}
+.box-header img {
+    vertical-align: middle;
+}
+#page-footer ul.ul-icon-list {
+    margin-bottom: 30px;
+}
+
+#how-to .content-container {
+    padding: 2.5em 0;
+}
+
+#how-to h1.article-header {
+    font-size: 3em;
+    margin-bottom: .25em;
+}
+
+.chart .action-links a {
+    text-decoration: none;
+}
+
+.data-drawer .tool-group {
+    float: right;
+    margin-right: 0px;
+}
+
+.data-drawer h3.chart-title {
+    margin-top: 6px;
+}
+
+.tool-group a i {
+    margin-left: 4px;
+}
+
+header.section-contents h1 a {
+    float: none;
+    display: block;
+}
+
+.hovercard .context,
+.grid .context {
+    display: none;
+}
+.grid .value {
+    padding-right: 0em;
+}
+
+#about img {
+  margin: 0px 0px 20px 20px;
+}
+
+@media only screen and (max-width: 768px) {
+    #share-this-page {
+        display: none;
+    }
+
+    #how-to h1.article-header {
+        font-size: 2.5em;
+    }
+
+    #how-to .content-container {
+        padding: 2em 0 1em;
+    }
+
+    #how-to .content-container:first-child {
+        padding-top: 1em;
+    }
+
+    #landing-slippy-map {
+        display: none;
+        visibility: hidden;
+    }
+
+    #cover-map {
+        margin: 0px;
+    }
+
+    #profile .content-container {
+        margin: 0px;
+    }
+
+    #profile .explain {
+        padding: 0 1.5em;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    #how-to h1.article-header {
+        font-size: 2.2em;
+    }
+}
+
+.profile-head2head-view #page-header-title {
+  width: 100%;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+}
+
+.head2head-wrapper {
+  background-color: #e0e4d4;
+}
+
+.profile-head2head-view #uvTab {
+  display: none;
+}
+
+.profile-head2head-view iframe {
+  float: left;
+  width: 50%;
+  height: 10000px;
+
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+
+  overflow-y: hidden;
+}
+
+.profile-head2head-view .frame-right {
+  left: 50%;
+
+  border-left: 5px solid #f7f8f3;
+}
+
+.profile-head2head-frame #page-header,
+.profile-head2head-frame #page-footer,
+.profile-head2head-frame #compare-place-picker,
+.profile-head2head-frame #uvTab {
+  display: none;
+}

@@ -25,6 +25,7 @@ SET default_with_oids = false;
 CREATE TABLE ruralpopulation (
     geo_level character varying(15) NOT NULL,
     geo_code character varying(10) NOT NULL,
+    geo_version character varying(100) DEFAULT '2011'::character varying NOT NULL,
     villages integer NOT NULL,
     "rural population" character varying(10) NOT NULL,
     total integer NOT NULL
@@ -1398,7 +1399,7 @@ IN,country,597608,Female,405967794
 --
 
 ALTER TABLE ONLY ruralpopulation
-    ADD CONSTRAINT ruralpopulation_pkey PRIMARY KEY (geo_level, geo_code, villages, "rural population");
+    ADD CONSTRAINT ruralpopulation_pkey PRIMARY KEY (geo_level, geo_code, geo_version, villages, "rural population");
 
 
 --

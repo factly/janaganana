@@ -25,6 +25,7 @@ SET default_with_oids = false;
 CREATE TABLE area_maritalstatus_sex (
     geo_level character varying(15) NOT NULL,
     geo_code character varying(10) NOT NULL,
+    geo_version character varying(100) DEFAULT '2011'::character varying NOT NULL,
     area character varying(10) NOT NULL,
     sex character varying(10) NOT NULL,
     maritalstatus character varying(50) NOT NULL,
@@ -16271,7 +16272,7 @@ IN,country,Urban,Female,unspecified,0
 --
 
 ALTER TABLE ONLY area_maritalstatus_sex
-    ADD CONSTRAINT area_maritalstatus_sex_pkey PRIMARY KEY (geo_level, geo_code, area, maritalstatus, sex);
+    ADD CONSTRAINT area_maritalstatus_sex_pkey PRIMARY KEY (geo_level, geo_code, geo_version, area, maritalstatus, sex);
 
 
 --

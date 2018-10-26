@@ -1,20 +1,24 @@
 # pull in the default wazimap settings
 from wazimap.settings import *  # noqa
+import os
 from decouple import config
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
 TEMPLATE_DEBUG = DEBUG
 
+SECRET_KEY  = config('SECRET_KEY')
+
 # DJANGO_SETTINGS_MODULE = config('DJANGO_SETTINGS_MODULE')
 
 # install this app before Wazimap
-INSTALLED_APPS = ['janaganana', 'django.contrib.sitemaps'] + INSTALLED_APPS
-# INSTALLED_APPS = ['janaganana', 'pipeline'] + INSTALLED_APPS
+INSTALLED_APPS = ['janaganana', 'django.contrib.sitemaps','django.contrib.auth'] + INSTALLED_APPS
 
 ROOT_URLCONF = 'janaganana.urls'
 
-DATABASE_URL = config(
-    'DATABASE_URL', default='postgresql://factlyin:factlyin@ci-db/factlyin')
+DATABASE_URL = config('DATABASE_URL', default='postgresql://factlyin:factlyin@/factlyin')
 DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -42,12 +46,14 @@ WAZIMAP['levels'] = {
     }
 }
 
+WAZIMAP['default_geo_version'] = '2011'
 WAZIMAP['comparative_levels'] = ['country', 'state', 'district']
-WAZIMAP['geometry_data'] = {
-    'country':  'geo/country.topojson',
-    'state':    'geo/state.topojson',
-    'district': 'geo/district.topojson',
-}
+
+WAZIMAP['geometry_data'] = {'2011': {
+  'country':  'geo/country.topojson',
+  'state':    'geo/state.topojson',
+  'district': 'geo/district.topojson',
+}}
 
 WAZIMAP['ga_tracking_id'] = 'UA-91398887-1'
 WAZIMAP['twitter'] = '@factlydotin'
@@ -63,18 +69,22 @@ WAZIMAP['email'] = 'ci@factly.in'
 WAZIMAP['github'] = 'https://github.com/factly/janaganana'
 WAZIMAP['tagline'] = 'Make sense of Indian census data'
 
-SECRET_KEY = config('DJANGO_SECRET_KEY')
+WSGI_APPLICATION = 'janaganana.wsgi.application'
+
+#SECRET_KEY = config('DJANGO_SECRET_KEY')
+
+# STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static-root')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     # 'pipeline.finders.PipelineFinder',
-)
-
-# STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
-
-STATICFILES_DIRS = (
-    os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static'),
 )
 
 MIDDLEWARE_CLASSES = [

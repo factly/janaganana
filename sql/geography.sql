@@ -11,6 +11,7 @@ SET client_min_messages = warning;
 
 
 SET search_path = public, pg_catalog;
+DROP INDEX IF EXISTS public.wazimap_geography_version_01953818_like;
 DROP INDEX IF EXISTS public.wazimap_geography_name_36b79089_like;
 DROP INDEX IF EXISTS public.wazimap_geography_2fc6351a;
 DROP INDEX IF EXISTS public.wazimap_geography_84cdc76c;
@@ -40,7 +41,8 @@ CREATE TABLE wazimap_geography (
     square_kms double precision,
     parent_level character varying(15),
     parent_code character varying(10),
-    long_name character varying(100)
+    long_name character varying(100),
+    version character varying(100) DEFAULT '2011'::character varying NOT NULL
 );
 
 
@@ -759,7 +761,7 @@ SELECT pg_catalog.setval('wazimap_geography_id_seq', 1, false);
 --
 
 ALTER TABLE ONLY wazimap_geography
-    ADD CONSTRAINT wazimap_geography_geo_level_9a5128d2_uniq UNIQUE (geo_level, geo_code);
+    ADD CONSTRAINT wazimap_geography_geo_level_9a5128d2_uniq UNIQUE (geo_level, geo_code , version);
 
 
 --
@@ -770,7 +772,13 @@ ALTER TABLE ONLY wazimap_geography
     ADD CONSTRAINT wazimap_geography_pkey PRIMARY KEY (id);
 
 --
--- Name: wazimap_geography_2fc6351a; Type: INDEX; Schema: public; Owner: factlyin; Tablespace:
+-- Name: wazimap_geography_2af72f10; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX wazimap_geography_2af72f10 ON wazimap_geography USING btree (version);
+
+--
+-- Name: wazimap_geography_2fc6351a; Type: INDEX; Schema: public; Owner: wazimap; Tablespace:
 --
 
 CREATE INDEX wazimap_geography_2fc6351a ON wazimap_geography USING btree (long_name);
@@ -799,4 +807,3 @@ CREATE INDEX wazimap_geography_name_36b79089_like ON wazimap_geography USING btr
 --
 -- PostgreSQL database dump complete
 --
-
