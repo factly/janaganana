@@ -12,9 +12,18 @@ import janaganana.tables  # noqa
 logger = logging.getLogger(__name__)
 
 PROFILE_SECTIONS = (
+    'unemployment',
+    'nonworker',
+    'parity',
+    'decadal',
+    'languages',
+    'households',
+    'disability',
     'demographics',
     'religion',
     'education',
+  
+    
     'maritalstatus',
     'workers',
     'age',
@@ -63,10 +72,27 @@ SEX_RECODES = OrderedDict([
     ('FEMALE', 'Female'),
     ('MALE', 'Male')
 ])
+CENSUS_RECODES = OrderedDict([
+    ('1901', '1901'),
+    ('1911', '1911'),
+     ('1921', '1921'),
+     ('1931', '1931'),
+     ('1941', '1941'),
+     ('1951', '1951'),
+     ('1961', '1961'),
+     ('1971', '1971'),
+     ('1981', '1981'),
+      ('1991', '1991'),
+      ('2001', '2001'),
+      ('2011', '2011')
+    
+])
 
 AREA_RECODES = OrderedDict([
-    ('RURAL', 'Rural'),
-    ('URBAN', 'Urban')
+     ('RURAL', 'Rural'),
+     ('URBAN', 'Urban')
+   
+   
 ])
 
 
@@ -81,6 +107,569 @@ RELIGION_RECODES = OrderedDict([
     ('CHRISTIAN', 'Christian'),
     ('SIKH', 'Sikh')
 ])
+
+def get_unemployment_profile(geo_code, geo_level, session):
+
+    def get_unemployment_category(key):
+        if key in ('Other literate', 'Illiterate', 'Below matric/secondary', 'Matric/secondary but below graduate','Diploma not equal to degree', 'Graduate and above','Technical degree or post-graduate degree'):
+            return key
+        else:
+            return 'Others'
+
+    def unemployment_category_recode(f, x):
+        return get_unemployment_category(x)
+
+    # age in 10 year groups
+    def unemployment_recode(f, x):
+
+        if f in ('sex_vis', 'area'):
+            return x
+        return get_unemployment_category(x)
+
+    def une_sort_fun(x):
+        d = {'Illiterate': 1,
+             'Below matric/secondary': 2,
+             'Matric/secondary but below graduate':  3,
+             'Diploma not equal to degree': 4,
+             'Graduate and above': 5,
+             'Technical degree or post-graduate degree': 6,
+             'Other literate': 7,
+             'Others': 8 }
+        key = x['metadata']['name']
+        if key:
+            return d[key]
+        else:
+            return 0
+
+    def sort_une_stats_result(ip, key=None):
+        metadata = ip['metadata']
+        del ip['metadata']
+        rv = None
+        if key:
+            sorted_od = sorted(ip.values(), key=lambda x: x[key]['numerators']['this'], reverse=True)
+            sorted_od_fine = sorted(sorted_od, key=une_sort_fun)
+            rv = OrderedDict([(i['metadata']['name'], i) for i in sorted_od_fine])
+        else:
+            sorted_od = sorted(ip.values(), key=lambda x: x['numerators']['this'], reverse=True)
+            rv = OrderedDict([(i['name'], i) for i in sorted_od])
+        rv['metadata'] = metadata
+        return rv
+
+    unemployment_dist_data, _ = get_stat_data(
+        'education_level', geo_level, geo_code, session,
+        recode=unemployment_category_recode,
+        # key_order=unemployment_RECODES.values(),
+        table_fields=['area', 'education_level', 'sex_vis'])
+
+    unemployment_dist_data = sort_stats_result(unemployment_dist_data)
+
+    unemployment_by_sex, t_lit = get_stat_data(
+        ['education_level', 'sex_vis'], geo_level, geo_code, session,
+        table_fields=['area', 'education_level', 'sex_vis'],
+        recode=unemployment_recode,
+        # key_order={'unemployment': unemployment_RECODES.values()},
+        key_order={'sex_vis': SEX_RECODES.values()},
+        percent_grouping=['education_level'])
+
+    unemployment_by_sex = sort_une_stats_result(unemployment_by_sex, 'Female')
+
+    unemployment_by_area, t_lit = get_stat_data(
+        ['education_level', 'area'], geo_level, geo_code, session,
+        table_fields=['area', 'education_level', 'sex_vis'],
+        recode=unemployment_recode,
+        key_order={'area': AREA_RECODES.values()},
+        percent_grouping=['area'])
+
+    unemployment_by_area = sort_une_stats_result(unemployment_by_area, 'Urban')
+
+    final_data = {
+        'unemployment_ratio': unemployment_dist_data,
+        'unemployment_by_area_distribution': unemployment_by_area,
+        'unemployment_by_sex_distribution':unemployment_by_sex,
+        'disability_ratio': 123,
+        'total_population': {
+            "name": "Unemployed People",
+            "values": {"this": t_lit}
+        }
+    }
+
+    return final_data
+
+
+
+
+
+
+def get_nonworker_profile(geo_code, geo_level, session):
+
+    def get_nonworker_category(key):
+        if key in ('Students', 'Household duties', 'Dependents', 'Pensioners','Rentiers', 'Beggars/Vagrants etc'):
+            return key
+        else:
+            return 'Others'
+
+    def nonworker_category_recode(f, x):
+        return get_nonworker_category(x)
+
+    # age in 10 year groups
+    def nonworker_recode(f, x):
+
+        if f in ('sex', 'area','age_group'):
+            return x
+        return get_nonworker_category(x)
+
+    def non_sort_fun(x):
+        d = {'Students': 1,
+             'Household duties': 2,
+             'Dependents':  3,
+             'Pensioners': 4,
+             'Rentiers': 5,
+             'Beggars/Vagrants etc': 6,
+             'Others': 7}
+        key = x['metadata']['name']
+        if key:
+            return d[key]
+        else:
+            return 0
+
+    def sort_non_stats_result(ip, key=None):
+        metadata = ip['metadata']
+        del ip['metadata']
+        rv = None
+        if key:
+            sorted_od = sorted(ip.values(), key=lambda x: x[key]['numerators']['this'], reverse=True)
+            sorted_od_fine = sorted(sorted_od, key=non_sort_fun)
+            rv = OrderedDict([(i['metadata']['name'], i) for i in sorted_od_fine])
+        else:
+            sorted_od = sorted(ip.values(), key=lambda x: x['numerators']['this'], reverse=True)
+            rv = OrderedDict([(i['name'], i) for i in sorted_od])
+        rv['metadata'] = metadata
+        return rv
+
+    nonworker_dist_data, _ = get_stat_data(
+        'nonworkertype_vis', geo_level, geo_code, session,
+        recode=nonworker_category_recode,
+        # key_order=nonworker_RECODES.values(),
+        table_fields=['area', 'nonworkertype_vis', 'sex','age_group'])
+
+    nonworker_dist_data = sort_stats_result(nonworker_dist_data)
+
+    nonworker_by_sex, t_lit = get_stat_data(
+        ['nonworkertype_vis', 'sex'], geo_level, geo_code, session,
+        table_fields=['area', 'nonworkertype_vis', 'sex','age_group'],
+        recode=nonworker_recode,
+        # key_order={'nonworker': nonworker_RECODES.values()},
+        key_order={'sex': SEX_RECODES.values()},
+        percent_grouping=['sex'])
+
+    nonworker_by_sex = sort_non_stats_result(nonworker_by_sex, 'Female')
+
+    nonworker_by_area, t_lit = get_stat_data(
+        ['nonworkertype_vis', 'area'], geo_level, geo_code, session,
+        table_fields=['area', 'nonworkertype_vis', 'sex','age_group'],
+        recode=nonworker_recode,
+        key_order={'area': AREA_RECODES.values()},
+        percent_grouping=['area'])
+
+    nonworker_by_area = sort_non_stats_result(nonworker_by_area, 'Urban')
+
+    final_data = {
+        'nonworker_ratio': nonworker_dist_data,
+        'nonworker_by_area_distribution': nonworker_by_area,
+        'nonworker_by_sex_distribution':nonworker_by_sex,
+        'disability_ratio': 123,
+        'total_population': {
+            "name": "People",
+            "values": {"this": t_lit}
+        }
+    }
+
+    return final_data
+
+
+
+
+
+
+def get_parity_profile(geo_code, geo_level, session):
+
+    def get_parity_category(key):
+        if key in ('Women with parity 0', 'Women with parity 1', 'Women with parity 2', 'Women with parity 3','Women with parity 4','Women with parity 5','Women with parity 6'):
+            return key
+        else:
+            return 'Women with parity 7+'
+
+    def parity_category_recode(f, x):
+        return get_parity_category(x)
+
+    # age in 10 year groups
+    def parity_recode(f, x):
+
+        if f in ('area','age'):
+            return x
+        return get_parity_category(x)
+
+    def edu_sort_fun(x):
+        d = {'Women with parity 0': 1,
+             'Women with parity 1': 2,
+             'Women with parity 2':  3,
+             'Women with parity 3': 4,
+             'Women with parity 4': 5,
+             'Women with parity 5': 6,
+             'Women with parity 6': 7,
+             'Women with parity 7+': 8,
+             }
+        key = x['metadata']['name']
+        if key:
+            return d[key]
+        else:
+            return 0
+
+    def sort_edu_stats_result(ip, key=None):
+        metadata = ip['metadata']
+        del ip['metadata']
+        rv = None
+        if key:
+            sorted_od = sorted(ip.values(), key=lambda x: x[key]['numerators']['this'], reverse=True)
+            sorted_od_fine = sorted(sorted_od, key=edu_sort_fun)
+            rv = OrderedDict([(i['metadata']['name'], i) for i in sorted_od_fine])
+        else:
+            sorted_od = sorted(ip.values(), key=lambda x: x['numerators']['this'], reverse=True)
+            rv = OrderedDict([(i['name'], i) for i in sorted_od])
+        rv['metadata'] = metadata
+        return rv
+
+    parity_dist_data, _ = get_stat_data(
+        'parity_vis', geo_level, geo_code, session,
+        recode=parity_category_recode,
+        # key_order=parity_RECODES.values(),
+        table_fields = ['area','age','parity_vis'])
+
+    parity_dist_data = sort_stats_result(parity_dist_data)
+
+    
+
+    parity_by_area, t_lit = get_stat_data(
+        ['parity_vis', 'area'], geo_level, geo_code, session,
+        table_fields=['area','age','parity_vis'],
+        recode=parity_recode,
+        key_order={'area': AREA_RECODES.values()},
+        percent_grouping=['area'])
+
+    parity_by_area = sort_edu_stats_result(parity_by_area, 'Urban')
+
+    final_data = {
+        'parity_ratio': parity_dist_data,
+        'parity_by_area_distribution': parity_by_area,
+        
+        'disability_ratio': 123,
+        'total_population': {
+            "name": "TOTAL WOMEN",
+            "values": {"this": t_lit}
+        }
+    }
+
+    return final_data
+
+
+def get_decadal_profile(geo_code, geo_level, session):
+
+    def get_decadal_category(key):
+        if key in ('1901', '1911','1921','1931','1941','1951','1961','1971','1981','1991','2001','2011'):
+            return key
+        else:
+            return 'Others'
+
+    
+
+    # age in 10 year groups
+    def decadal_recode(f, x):
+
+        if f in ('sex_vis'):
+            return x
+        return get_decadal_category(x)
+
+    def edu_sort_fun(x):
+        d = {'1901':1,
+             '1911':2,
+             '1921':3,
+             '1931':4,
+             '1941':5,
+             '1951':6,
+             '1961':7,
+             '1971':8,
+             '1981':9,
+             '1991':10,
+             '2001':11,
+             '2011':12,
+              'Others': 13
+             }
+        key = x['metadata']['name']
+        if key:
+            return d[key]
+        else:
+            return 0
+
+    def sort_edu_stats_result(ip, key=None):
+        metadata = ip['metadata']
+        del ip['metadata']
+        rv = None
+        if key:
+            sorted_od = sorted(ip.values(), key=lambda x: x[key]['numerators']['this'], reverse=True)
+            sorted_od_fine = sorted(sorted_od, key=edu_sort_fun)
+            rv = OrderedDict([(i['metadata']['name'], i) for i in sorted_od_fine])
+        else:
+            sorted_od = sorted(ip.values(), key=lambda x: x['numerators']['this'], reverse=True)
+            rv = OrderedDict([(i['name'], i) for i in sorted_od])
+        rv['metadata'] = metadata
+        return rv
+
+   
+
+    
+
+    decadal_by_decade, t_lit = get_stat_data(
+        ['census_year','sex_vis'], geo_level, geo_code, session,
+        table_fields=[ 'census_year','sex_vis'],
+        recode=decadal_recode,
+        # key_order={'decadal': decadal_RECODES.values()},
+        key_order={'sex_vis': SEX_RECODES.values()},
+        percent_grouping=['census_year'])
+
+    decadal_by_decade = sort_edu_stats_result(decadal_by_decade, 'Female')
+
+    
+
+    final_data = {
+        
+       
+        'decadal_by_decade_distribution':decadal_by_decade,
+        'disability_ratio': 123,
+        
+        
+    }
+
+    return final_data
+
+
+
+
+
+def get_languages_profile(geo_code, geo_level, session):
+
+    def get_languages_category(key):
+        if key in ('HINDI ','TAMIL ','MARATHI ','URDU','BENGALI ','TELUGU ','GUJARATI','MALAYALAM','KANNADA','PUNJABI ','ODIA ','KASHMIRI ','ASSAMESE','SINDHI','KONKANI','MAITHILI ','NEPALI ','MANIPURI ','TULU ','DOGRI ','LUSHAI/MIZO ',' OTHERS','BHILI/BHILODI ','SANTALI ','KHASI ','ENGLISH  ','KHANDESHI','KURUKH/ORAON ','GARO ','HO','GONDI','AO','MUNDARI ','NISSI/DAFLA ','HALABI,BODO ','LAHNDA ','TIBETAN ','ANGAMI ','LOTHA ','BHOTIA ','MUNDA,KARBI/MIKIR ','ADI ','TRIPURI ','KABUI ','COORGI/KODAGU ','KONYAK ','TANGKHUL ','KHARIA  ','SANGTAM ','HMAR,KUI ','CHANG','ARABIC/ARBI ','THADO ','KUKI','KISAN ','SANSKRIT ','DIMASA ','LAKHER','YIMCHUNGRE','MIRI/MISHING','CHAKRU/CHOKRI ','ZELIANG ','PAITE','BISHNUPURIYA','KORKU ','PHOM ','RENGMA ','PAWI ','AFGHANI/KABULI/PASHTO ','CHAKHESANG ','KHEZHA ','MAO','KHIEMNUNGAN','SAVARA','LADAKHI ','SEMA','NOCTE ','WANCHO','ZEMI ','KOYA ','MISHMI ','RABHA ','LEPCHA ','KODA/KORA ','KORWA ','VAIPHEI ','MONPA ','TANGSA','TAMANG ','KINNAURI ','LAHAULI ','HALAM ','LIANGMEI ','ZOU ','KOLAMI ','SHERPA ','DEORI ','NICOBARESE ','GANGTE ','KONDA','KHOND/KONDH ','SHINA','BHUMIJ ','LIMBU ','BALTI ','MALTO ','KOCH ','LALUNG ','KOM','MOGH ','GADABA ','POCHURY','ANAL ','RAI ','PARJI ','MARING ','MARAM,JUANG ','JATAPU '):
+            return key
+        else:
+            return 'Others'
+
+    def languages_category_recode(f, x):
+        return get_languages_category(x)
+
+    # age in 10 year groups
+    def languages_recode(f, x):
+
+        if f in ('sex', 'area'):
+             return x
+        return get_languages_category(x)
+
+    
+
+    languages_dist_data, t_lit = get_stat_data(
+        'mother_tongue_vis', geo_level, geo_code, session,
+        recode=languages_category_recode,
+        table_fields=['area', 'mother_tongue_vis', 'sex'])
+
+    languages_dist_data = sort_stats_result(languages_dist_data)
+
+    
+
+    final_data = {
+        'languages_ratio': languages_dist_data,
+        
+        'disability_ratio': 123,
+        'total_population': {
+            "name": "People",
+            "values": {"this": t_lit}
+        }
+    }
+
+    return final_data
+
+
+
+
+
+def get_households_profile(geo_code, geo_level, session):
+
+    def households_category_recode(f, x):
+        if x in ('Households with size 1', 'Households with size 2', 'Households with size 3', 'Households with size 4','Households with size 5','Households with size 6'):
+            return x
+        else:
+            return 'Households with size 7+'
+
+    # age in 10 year groups
+    def households_recode(f, x):
+
+        if f in ('area'):
+            return x
+
+        if x in ('Households with size 1', 'Households with size 2', 'Households with size 3', 'Households with size 4','Households with size 5','Households with size 6'):
+            return x
+        else:
+            return 'Households with size 7+'
+
+    def households_sort_fun(x):
+        d = {'Households with size 1': 1,
+             'Households with size 2': 2,
+             'Households with size 3': 3,
+             'Households with size 4': 4,
+             'Households with size 5': 5,
+             'Households with size 6': 6,
+             'Households with size 7+': 7}
+        key = x['metadata']['name']
+        if key:
+            return d[key]
+        else:
+            return 0
+
+    def sort_households_stats_result(ip, key=None):
+        metadata = ip['metadata']
+        del ip['metadata']
+        rv = None
+        if key:
+            sorted_od = sorted(ip.values(), key=lambda x: x[key]['numerators']['this'], reverse=True)
+            sorted_od_fine = sorted(sorted_od, key=households_sort_fun)
+            rv = OrderedDict([(i['metadata']['name'], i) for i in sorted_od_fine])
+        else:
+            sorted_od = sorted(ip.values(), key=lambda x: x['numerators']['this'], reverse=True)
+            rv = OrderedDict([(i['name'], i) for i in sorted_od])
+        rv['metadata'] = metadata
+        return rv
+
+    households_dist_data, _ = get_stat_data(
+        'household_size_vis', geo_level, geo_code, session,
+        recode=households_category_recode,
+        table_fields=['area', 'household_size_vis'])
+
+    households_dist_data = sort_stats_result(households_dist_data)
+
+    
+
+    households_by_area, t_lit = get_stat_data(
+        ['household_size_vis', 'area'], geo_level, geo_code, session,
+        table_fields=['area', 'household_size_vis'],
+        recode=households_recode,
+        key_order={'area': AREA_RECODES.values()},
+        percent_grouping=['area'])
+
+    households_by_area = sort_households_stats_result(households_by_area, 'Urban')
+
+    final_data = {
+        'households_ratio': households_dist_data,
+        'households_by_area_distribution': households_by_area,
+       
+        'disability_ratio': 123,
+        'total_population': {
+            "name": "Households",
+            "values": {"this": t_lit}
+        }
+    }
+
+    return final_data
+
+
+def get_disability_profile(geo_code, geo_level, session):
+
+    def get_disability_category(key):
+        if key in ('Hearing', 'Movement', 'Seeing', 'Multiple Disability','Speech', 'Mental Retardation','Mental Illness','Other Disability'):
+            return key
+        else:
+            return 'Others'
+
+    def disability_category_recode(f, x):
+        return get_disability_category(x)
+
+    # age in 10 year groups
+    def disability_recode(f, x):
+
+        if f in ('sex', 'area'):
+             return x
+        return get_disability_category(x)
+
+    def dis_sort_fun(x):
+        d = {'Hearing': 1,
+             'Movement': 2,
+             'Seeing':  3,
+             'Multiple Disability': 4,
+             'Speech': 5,
+             'Mental Retardation': 6,
+             'Mental Illness': 7,
+             'Other Disability': 8}
+        key = x['metadata']['name']
+        if key:
+            return d[key]
+        else:
+            return 0
+
+    def sort_dis_stats_result(ip, key=None):
+        metadata = ip['metadata']
+        del ip['metadata']
+        rv = None
+        if key:
+            sorted_od = sorted(ip.values(), key=lambda x: x[key]['numerators']['this'], reverse=True)
+            sorted_od_fine = sorted(sorted_od, key=dis_sort_fun)
+            rv = OrderedDict([(i['metadata']['name'], i) for i in sorted_od_fine])
+        else:
+            sorted_od = sorted(ip.values(), key=lambda x: x['numerators']['this'], reverse=True)
+            rv = OrderedDict([(i['name'], i) for i in sorted_od])
+        rv['metadata'] = metadata
+        return rv
+
+    disability_dist_data, _ = get_stat_data(
+        'disability', geo_level, geo_code, session,
+        recode=disability_category_recode,
+        # key_order=disability_RECODES.values(),
+        table_fields=['area', 'disability', 'sex'])
+
+    disability_dist_data = sort_stats_result(disability_dist_data)
+
+    disability_by_sex, t_lit = get_stat_data(
+        ['disability', 'sex'], geo_level, geo_code, session,
+        table_fields=['area', 'disability', 'sex'],
+        recode=disability_recode,
+        # key_order={'disability': disability_RECODES.values()},
+        key_order={'sex': SEX_RECODES.values()},
+        percent_grouping=['sex'])
+
+    disability_by_sex = sort_dis_stats_result(disability_by_sex, 'Female')
+
+    disability_by_area, t_lit = get_stat_data(
+        ['disability', 'area'], geo_level, geo_code, session,
+        table_fields=['area', 'disability', 'sex'],
+        recode=disability_recode,
+        key_order={'area': AREA_RECODES.values()},
+        percent_grouping=['area'])
+
+    disability_by_area = sort_dis_stats_result(disability_by_area, 'Urban')
+
+    final_data = {
+        'disability1_ratio': disability_dist_data,
+        'disability_by_area_distribution': disability_by_area,
+        'disability_by_sex_distribution':disability_by_sex,
+        'disability_ratio': 123,
+        'total_population': {
+            "name": "People",
+            "values": {"this": t_lit}
+        }
+    }
+
+    return final_data
+
+
+
+
+
 
 def get_demographics_profile(geo_code, geo_level, session):
 
@@ -390,6 +979,8 @@ def get_education_profile(geo_code, geo_level, session):
     }
 
     return final_data
+
+
 
 def get_maritalstatus_profile(geo_code, geo_level, session):
 

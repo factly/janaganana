@@ -1,0 +1,22 @@
+﻿<article id="parity" class="clearfix wrapper mdl-card mdl-shadow--2dp mdl-cell--12-col profile-section">
+    <div class="mdl-card__title">
+        <i class="material-icons">school</i>
+        <h2 class="mdl-card__title-text">Parity</h2>
+    </div>
+    <div class="mdl-card__supporting-text wrapper" >
+        <div class="section-container">
+            <section class="clearfix stat-row mdl-grid">
+                <div class="mdl-cell--4-col">
+                    {% include 'profile/_blocks/_stat_list.html' with stat=parity.total_population stat_type='number' %}
+                </div>
+                <div class="mdl-cell--10-col" id="chart-pie-parity-parity_ratio" data-stat-type="percentage"></div>
+            </section>
+            <h2 class="section-secondary-heading">Parity by Area</h2>
+            <section class="clearfix stat-row mdl-grid section-second-row">
+                <div class="mdl-cell--12-col" id="chart-grouped_column-parity-parity_by_area_distribution" data-stat-type="scaled-percentage"></div>
+            </section>
+           
+        </div>
+    </div>
+</article> 
+
