@@ -116,9 +116,19 @@
     {% endblock %}
 
 
-    {% block profile_detail %}
+    {% block profile_detail %} 
+    {% include 'profile/sections/unemployment.html' %}
+
+    {% include 'profile/sections/nonworker.html' %}
+   {% include 'profile/sections/decadal.html' %}
+    {% include 'profile/sections/parity.html' %}
+
+    {% include 'profile/sections/languages.html' %}
+
+    {% include 'profile/sections/disability.html' %}
     {% include 'profile/sections/demographics.html'%}
     {% include 'profile/sections/religion.html' %}
+    {% include 'profile/sections/households.html' %}
     {% include 'profile/sections/education.html' %}
     {% include 'profile/sections/maritalstatus.html' %}
     {% include 'profile/sections/workers.html' %}
@@ -280,3 +290,4 @@ if (!!parentLinkContainer) {
 
 </script>
 {% endblock %}
+
