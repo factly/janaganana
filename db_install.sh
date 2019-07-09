@@ -65,4 +65,5 @@ cat ./sql/area_st_household_size.sql | psql "postgresql://factlyin:factlyin@ci-d
 cat ./sql/area_village_town_comparison.sql | psql "postgresql://factlyin:factlyin@ci-db/factlyin"
 cat ./sql/area_village_town_measures.sql | psql "postgresql://factlyin:factlyin@ci-db/factlyin"
 cat ./sql/census_year_measure.sql | psql "postgresql://factlyin:factlyin@ci-db/factlyin"
+cat ./sql/area_education_level_sex_vis.sql | psql "postgresql://factlyin:factlyin@ci-db/factlyin"
 cat ./sql/telangana_data_split.sql | psql "postgresql://factlyin:factlyin@ci-db/factlyin"
