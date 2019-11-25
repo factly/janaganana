@@ -6,7 +6,7 @@ cement==2.8.2
 colorama==0.3.7
 Cython==0.24.1
 dj-database-url==0.4.1
-Django==1.9.10
+Django==1.11.23
 django-cors-headers==1.2.2
 django-pipeline==1.6.9
 docker-py==1.7.2
