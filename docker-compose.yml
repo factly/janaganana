@@ -19,7 +19,7 @@ services:
     build:
       context: .
     # command: /bin/sh -c "./db_install.sh && python /usr/src/app/manage.py runserver 0.0.0.0:8000"
-    command: /bin/sh -c "python check_db.py --service-name ci-db --ip ci-db --port 5432 && ./db_install.sh && python /usr/src/app/manage.py runserver 0.0.0.0:8000"
+    command: /bin/sh -c "python check_db.py --service-name ci-db --ip ci-db --port 5432 && bash ./db_install.sh && python /usr/src/app/manage.py runserver 0.0.0.0:8000"
     environment:
       - DJANGO_SECRET_KEY=secret-key-1234567890
     working_dir: /usr/src/app
