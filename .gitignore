@@ -92,7 +92,6 @@ data/pandas-refrence
 .idea
 .vscode
 
-static
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
