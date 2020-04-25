@@ -50,7 +50,7 @@ WAZIMAP['geometry_data'] = {
 }
 
 WAZIMAP['ga_tracking_id'] = 'UA-91398887-1'
-WAZIMAP['twitter'] = '@factlydotin'
+WAZIMAP['twitter'] = '@factlyindia'
 WAZIMAP['cache_secs'] = 0
 WAZIMAP['embed_cache_secs'] = 0
 WAZIMAP['map_centre'] = [20.5937, 78.9629]
