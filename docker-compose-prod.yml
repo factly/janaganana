@@ -24,11 +24,22 @@ services:
     volumes:
       - .:/usr/src/app
     ports:
-      - 8000:8000
+      - 8000
     networks:
       - ci-net
     depends_on:
       - ci-db
+  nginx:
+    image: nginx:1.19.0-alpine
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    restart: always
+    depends_on:
+      - ci-app
+    networks:
+      - ci-net
 
 volumes:
   pgdata:
