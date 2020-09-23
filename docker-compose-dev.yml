@@ -24,36 +24,11 @@ services:
     volumes:
       - .:/usr/src/app
     ports:
-      - 8000
+      - 8000:8000
     networks:
       - ci-net
     depends_on:
       - ci-db
-  
-  nginx:
-    image: nginx:1.19.0-alpine
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./nginx:/etc/nginx/conf.d
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    restart: always
-    depends_on:
-      - ci-app
-    networks:
-      - ci-net
-  
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    depends_on:
-      - ci-app
-    networks:
-      - ci-net
 
 volumes:
   pgdata:
