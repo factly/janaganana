@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# wait for 5 seconds for postgres to startup
+sleep 5;
+
 for i in `cat ./sql/sql_files_list.txt`
 do
 	echo $i
