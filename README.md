@@ -4,15 +4,15 @@ Janaganana is a Django application for exploring census and other similar data. 
 
 Janaganana has been modeled on tools like [Wazimap Kenya](https://kenya.wazimap.org/), [Census Reporter](http://censusreporter.org/) and as inspired by [NepalMap](http://nepalmap.org/).
 
-## Counting India
+## [Counting India](https://countingindia.com)
 
-Counting India (CI) is an initiative of [Factly](https://factly.in/). CI makes data related to the States/Districts in India more accessible and understandable. The primary source of data for CI is the Census of India 2011 and other official sources. In CI, one can compare any two States/Districts side by side. One can also embed, access or download the data.
+[Counting India (CI)](https://countingindia.com) is an initiative of [Factly](https://factly.in/). CI makes data related to the States/Districts in India more accessible and understandable. The primary source of data for CI is the Census of India 2011 and other official sources. In CI, one can compare any two States/Districts side by side. One can also embed, access or download the data.
 
 We envision that every person who is interested in using data in their sphere of work will value CI’s platform. CI will also be a reliable resource for policy makers, journalists and researchers to explore and discover stories of public interest in India.
 
 Currently we are on a Beta version of CI and are actively working on fixing the defects for our first stable version. Please [email us](mailto:ci@factly.in) with any findings or defects that you would like to bring to our notice.
 
-CI code is licensed under the MIT License. Anyone could host their own instance of CI by following the installation guide. Credit to [Factly](https://factly.in), [Janganana](https://github.com/factly/janangana) would be highly appreciated and please inform us about how you are using it.
+CI code is licensed under the MIT License. Anyone could host their own instance of CI by following the [installation guide](https://github.com/factly/janaganana#local-installation-for-counting-india). Credit to [Factly](https://factly.in), [Janganana](https://github.com/factly/janangana) would be highly appreciated and please inform us about how you are using it.
 
 ## Technology stack
 
@@ -41,7 +41,7 @@ CI code is licensed under the MIT License. Anyone could host their own instance 
 
 ## Production Installation for Counting India
 
-Following set-up is a quick installation for Counting India in production which includes [Nginx proxy ](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) and a [free Let'sEncrypt SSL](https://letsencrypt.org/) certificate using [Certbot]([Certbot](https://certbot.eff.org/). The steps also includes automatic renewal of the certificates!!
+Following set-up is a quick installation for Counting India in production which includes [Nginx proxy ](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) and a [free Let'sEncrypt SSL](https://letsencrypt.org/) certificate using [Certbot](https://certbot.eff.org/). The steps also includes automatic renewal of the certificates!!
 
 ### Pre-requisites
 
