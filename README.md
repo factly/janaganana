@@ -77,7 +77,7 @@ Following set-up is a quick installation for Counting India in production which 
   docker-compose down
   ```
 
-## Running the application
+### Running the application
 
 - Make sure Docker is running and execute the following command to run the application
   
