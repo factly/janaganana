@@ -1,4 +1,5 @@
 from django.conf.urls import url, patterns
+from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from wazimap.urls import urlpatterns
 
@@ -11,4 +12,7 @@ sitemaps = {
 site_url = url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},
     name='django.contrib.sitemaps.views.sitemap')
 
-urlpatterns.append(site_url)
+urlpatterns.extend([
+    site_url,
+    url('admin/', admin.site.urls)
+])
