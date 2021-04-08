@@ -16,10 +16,13 @@ services:
   ci-app:
     build:
       context: .
-    command: /bin/sh -c "python check_db.py --service-name ci-db --ip ci-db --port 5432 && python /usr/src/app/manage.py makemigrations && python /usr/src/app/manage.py migrate && bash ./db_install.sh && python /usr/src/app/manage.py runserver 0.0.0.0:8000"
+    command: /bin/sh -c "python check_db.py --service-name ci-db --ip ci-db --port 5432 && python /usr/src/app/manage.py makemigrations && python /usr/src/app/manage.py migrate && bash ./db_install.sh && python /usr/src/app/manage.py initadmin && python /usr/src/app/manage.py runserver 0.0.0.0:8000"
     environment:
       - DJANGO_SECRET_KEY=secret-key-1234567890
       - WAIT_HOSTS=postgres:5432
+      - ADMIN_USERNAME=admin
+      - ADMIN_EMAIL=admin@admin.co
+      - ADMIN_PASSWORD=admin
     working_dir: /usr/src/app
     volumes:
       - .:/usr/src/app
