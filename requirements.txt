@@ -42,7 +42,7 @@ semantic-version==2.5.0
 Shapely==1.5.17
 six==1.8.0
 SQLAlchemy==1.1.2
-supervisor==3.3.1
+supervisor==3.3.3
 texttable==0.8.6
 unicodecsv==0.14.1
 uritemplate==3.0.0
